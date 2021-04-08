@@ -1,0 +1,59 @@
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>注册信息</title>
+    <link href="../css/register.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<body>
+<div class="login_box">
+    <div class="login_l_img"><img src="../images/login-img.png"/></div>
+    <div class="login">
+        <div class="login_logo"><img src="../images/login_logo.png"/></div>
+        <div class="login_name">
+            <p>用户信息注册</p>
+        </div>
+        <form action="auth/login" method="post" name="form">
+            <div class="input-group input-group-lg">
+                <span class="input-group-addon">学号</span>
+                <input type="text" id="username" class="form-control" placeholder="请输入学号...">
+            </div>
+            <br>
+            <div class="input-group input-group-lg">
+                <span class="input-group-addon">密码</span>
+                <input type="password" id="password" class="form-control" placeholder="请输入密码...">
+            </div>
+            <br>
+            <div class="input-group input-group-lg">
+                <span class="input-group-addon">邮箱</span>
+                <input type="text" id="userEmail" class="form-control" placeholder="请输入邮箱...">
+            </div>
+            <br>
+            &nbsp;&nbsp;<span style="font-size: 18px">角色</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="radio" name="userRoleId" value="2" ><span style="font-size: 18px">学生</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="radio" name="userRoleId" value="1"><span style="font-size: 18px">教师</span>
+            <br>
+            <br>
+            <div class="input-group input-group-lg">
+                <span class="input-group-addon">手机</span>
+                <input type="text" id="userPhone" class="form-control" placeholder="请输入手机号...">
+            </div>
+            <br>
+            <button type="button" id="register" class="btn btn-primary btn-lg btn-block">注册</button>
+
+        </form>
+    </div>
+</div>
+<div style="text-align:center;">
+</div>
+</body>
+</body>
+</html>
