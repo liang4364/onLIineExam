@@ -5,6 +5,8 @@ import lombok.Getter;
 @Getter
 public enum Result2Enum {
 
+    UNKNOWN_EXCEPTION("100", "未知异常"),
+
     ARGUMENT_FORMAT_ERROR("Invalid_argument_format","参数格式错误"),
 
     REQUIRED_FIELDS_ERROR("Invalid_required_field", "必填字段为空"),
@@ -16,6 +18,8 @@ public enum Result2Enum {
     AUTHORIZATION_PWD_ERROR("Invalid_username_pwd", "用户名或密码错误"),
 
     ARGUMENT_FORMAT_INVALID("Argument_format_invalid","参数不合法！"),
+
+
     ;
 
     private String code;

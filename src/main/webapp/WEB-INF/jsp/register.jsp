@@ -20,6 +20,11 @@
     <script type="text/javascript" src="static/js/md5.js"></script>
     <script type="text/javascript">
         $(function () {
+            $("body").keydown(function (event) {
+                if (event.keyCode == 13) {
+                    $("#register").click();
+                }
+            });
             //获取正则表达式对象
             $('#register').click(function () {
                 var usernameRegExp=/^1\d{9}$/;

@@ -64,7 +64,6 @@
         })
     </script>
 </head>
-
 <body>
 <div class="login_box">
     <div class="login_l_img"><img src="static/images/login-img.png"/></div>

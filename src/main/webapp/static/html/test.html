@@ -1,59 +1,75 @@
-
+<!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Cache-Control" content="no-cache">
-    <meta http-equiv="Expires" content="0">
-    <title>注册信息</title>
-    <link href="../css/register.css" rel="stylesheet" type="text/css"/>
-    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
-    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <meta charset="utf-8">
+    <title>日历控件</title>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcss.com/moment.js/2.22.0/moment-with-locales.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript">
+
+        $(function () {
+            var picker1 = $('#datetimepicker1').datetimepicker({
+                format: 'YYYY-MM-DD',
+                locale: moment.locale('zh-cn'),
+                //minDate: '2016-7-1'
+            });
+            var picker2 = $('#datetimepicker2').datetimepicker({
+                format: 'YYYY-MM-DD HH:mm:ss',
+                locale: moment.locale('zh-cn')
+            });
+            //动态设置最小值
+            picker1.on('dp.change', function (e) {
+                picker2.data('DateTimePicker').minDate(e.date);
+            });
+            //动态设置最大值
+            picker2.on('dp.change', function (e) {
+                picker1.data('DateTimePicker').maxDate(e.date);
+            });
+        });
+    </script>
 
 </head>
 <body>
-<body>
-<div class="login_box">
-    <div class="login_l_img"><img src="../images/login-img.png"/></div>
-    <div class="login">
-        <div class="login_logo"><img src="../images/login_logo.png"/></div>
-        <div class="login_name">
-            <p>用户信息注册</p>
+<form id="formSearch" class="form-horizontal">
+    <div class="form-group" style="margin-top:15px">
+        <label class="control-label col-sm-1" for="type">试题类型</label>
+        <div class="col-sm-2">
+            <input type="text" class="form-control"  placeholder="请输入试题类型..." id="type">
         </div>
-        <form action="auth/login" method="post" name="form">
-            <div class="input-group input-group-lg">
-                <span class="input-group-addon">学号</span>
-                <input type="text" id="username" class="form-control" placeholder="请输入学号...">
+        <label class="control-label col-sm-1" for="score">分数</label>
+        <div class="col-sm-2">
+            <input type="text" class="form-control" placeholder="请输入分数..." id="score">
+        </div>
+        <label class="control-label col-sm-1">时间范围</label>
+            <div class='col-sm-2'>
+                <div class="form-group">
+                    <div class='input-group date' id='datetimepicker1'>
+                        <input type='text' class="form-control" />
+                        <span class="input-group-addon">
+                             <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                </div>
             </div>
-            <br>
-            <div class="input-group input-group-lg">
-                <span class="input-group-addon">密码</span>
-                <input type="password" id="password" class="form-control" placeholder="请输入密码...">
+            <div class='col-sm-2'>
+                <div class="form-group">
+                    <div class='input-group date' id='datetimepicker2'>
+                        <input type='text' class="form-control" />
+                        <span class="input-group-addon">
+                              <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                </div>
             </div>
-            <br>
-            <div class="input-group input-group-lg">
-                <span class="input-group-addon">邮箱</span>
-                <input type="text" id="userEmail" class="form-control" placeholder="请输入邮箱...">
-            </div>
-            <br>
-            &nbsp;&nbsp;<span style="font-size: 18px">角色</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="radio" name="userRoleId" value="2" ><span style="font-size: 18px">学生</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="radio" name="userRoleId" value="1"><span style="font-size: 18px">教师</span>
-            <br>
-            <br>
-            <div class="input-group input-group-lg">
-                <span class="input-group-addon">手机</span>
-                <input type="text" id="userPhone" class="form-control" placeholder="请输入手机号...">
-            </div>
-            <br>
-            <button type="button" id="register" class="btn btn-primary btn-lg btn-block">注册</button>
-
-        </form>
+        <div class="col-sm-1" style="text-align:right;">
+            <button type="button" style="margin-left:50px" id="btn_query" class="btn btn-primary">查询</button>
+        </div>
     </div>
-</div>
-<div style="text-align:center;">
-</div>
-</body>
+</form>
+
 </body>
 </html>

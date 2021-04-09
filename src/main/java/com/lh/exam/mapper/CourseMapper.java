@@ -14,4 +14,10 @@ public interface CourseMapper extends BaseMapper<CourseEntity> {
 
     @Insert("insert into course (id,course_name,course_describe,course_logo) values(#{id},#{courseName},#{courseDescribe},#{courseLogo})")
     void insertData(CourseEntity courseEntity);
+
+    @Select("select course_name from course where id = #{courseId}")
+    String getCourseName(String courseId);
+
+    @Select("select id from course where course_name = #{courseName}")
+    String getCourseId(String courseName);
 }

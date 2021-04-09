@@ -1,4 +1,5 @@
-<%--
+<%@ page import="java.util.List" %>
+<%@ page import="com.lh.exam.model.dto.ExamScoreDto" %><%--
   Created by IntelliJ IDEA.
   User: liangheng
   Date: 2021/3/23
@@ -11,10 +12,150 @@
 <head>
     <meta charset="utf-8">
     <title>在线考试系统首页</title>
-    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
-    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcss.com/moment.js/2.22.0/moment-with-locales.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+
     <link href="static/css/list.css" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript">
+        $(function () {
+            var picker1 = $('#datetimepicker1').datetimepicker({
+                format: 'YYYY-MM-DD',
+                locale: moment.locale('zh-cn'),
+                //minDate: '2016-7-1'
+            });
+            var picker2 = $('#datetimepicker2').datetimepicker({
+                format: 'YYYY-MM-DD',
+                locale: moment.locale('zh-cn')
+            });
+            //动态设置最小值
+            picker1.on('dp.change', function (e) {
+                picker2.data('DateTimePicker').minDate(e.date);
+            });
+            //动态设置最大值
+            picker2.on('dp.change', function (e) {
+                picker1.data('DateTimePicker').maxDate(e.date);
+            });
+            $('#detail').click(function () {
+                $('#homePage').attr("style","display:none");
+                $('#detailPage').attr("style","display:block");
+                $('#foot').attr("style","display:none")
+                $('#detailLi').attr("class","active");
+                $('#homeLi').attr("class",'');
+                $('#examDetail').html('');
+                let json = {
+                    'username' : '${username}'
+                };
+                $.ajax({
+                    data: json,
+                    dataType: "json",
+                    url: "getExamDetail",
+                    success: function (res) {
+                        if (res.code == "ok") {
+                            $.each(res.data,function (index,element) {
+                                if(element.score <= 60){
+                                    $('#examDetail').append("<tr class='danger'>\n" +
+                                        "                <td>"+element.userName+"</td>\n" +
+                                        "                <td>"+element.courseName+"</td>\n" +
+                                        "                <td>"+element.score+"</td>\n" +
+                                        "                <td>"+element.createTime+"</td>\n" +
+                                        "                <td>\n" +
+                                        "                    <button class=\"btn btn-primary\" type='button'>查看</button>\n" +
+                                        "                </td>\n" +
+                                        "</tr>")
+                                }else if(element.score > 60 && element.score <80){
+                                    $('#examDetail').append("<tr class='warning'>\n" +
+                                        "                <td>"+element.userName+"</td>\n" +
+                                        "                <td>"+element.courseName+"</td>\n" +
+                                        "                <td>"+element.score+"</td>\n" +
+                                        "                <td>"+element.createTime+"</td>\n" +
+                                        "                <td>\n" +
+                                        "                    <button class=\"btn btn-primary\" type='button'>查看</button>\n" +
+                                        "                </td>\n" +
+                                        "</tr>")
+                                }else if(element.score >80){
+                                    $('#examDetail').append("<tr class='success'>\n" +
+                                        "                <td>"+element.userName+"</td>\n" +
+                                        "                <td>"+element.courseName+"</td>\n" +
+                                        "                <td>"+element.score+"</td>\n" +
+                                        "                <td>"+element.createTime+"</td>\n" +
+                                        "                <td>\n" +
+                                        "                    <button class=\"btn btn-primary\" type='button'>查看</button>\n" +
+                                        "                </td>\n" +
+                                        "</tr>")
+                                }
+
+                            })
+                        }
+                    },
+                    type: "post"
+                })
+            });
+            $('#home').click(function () {
+                $('#foot').attr("style","height: 100%; margin: -120px -120px 0px; padding-top: 80px;");
+                $('#detailPage').attr("style","display:none");
+                $('#homePage').attr("style","display:block");
+                $('#homeLi').attr("class","active");
+                $('#detailLi').attr("class",'');
+            });
+            $('#query').click(function () {
+                let json = {
+                    "username":'${username}',
+                    "type":$('#type').val(),
+                    "score":$('#grade').val(),
+                    "beginTime":$('#beginTime').val(),
+                    "endTime":$('#endTime').val()
+                };
+                $.ajax({
+                    data: json,
+                    dataType: "json",
+                    url: "queryByFilter",
+                    success: function (res) {
+                        if (res.code == "ok") {
+                            $.each(res.data,function (index,element) {
+                                if(element.score <= 60){
+                                    $('#examDetail').append("<tr class='danger'>\n" +
+                                        "                <td>"+element.userName+"</td>\n" +
+                                        "                <td>"+element.courseName+"</td>\n" +
+                                        "                <td>"+element.score+"</td>\n" +
+                                        "                <td>"+element.createTime+"</td>\n" +
+                                        "                <td>\n" +
+                                        "                    <button class=\"btn btn-primary\" type='button'>查看</button>\n" +
+                                        "                </td>\n" +
+                                        "</tr>")
+                                }else if(element.score > 60 && element.score <80){
+                                    $('#examDetail').append("<tr class='warning'>\n" +
+                                        "                <td>"+element.userName+"</td>\n" +
+                                        "                <td>"+element.courseName+"</td>\n" +
+                                        "                <td>"+element.score+"</td>\n" +
+                                        "                <td>"+element.createTime+"</td>\n" +
+                                        "                <td>\n" +
+                                        "                    <button class=\"btn btn-primary\" type='button'>查看</button>\n" +
+                                        "                </td>\n" +
+                                        "</tr>")
+                                }else if(element.score >80){
+                                    $('#examDetail').append("<tr class='success'>\n" +
+                                        "                <td>"+element.userName+"</td>\n" +
+                                        "                <td>"+element.courseName+"</td>\n" +
+                                        "                <td>"+element.score+"</td>\n" +
+                                        "                <td>"+element.createTime+"</td>\n" +
+                                        "                <td>\n" +
+                                        "                    <button class=\"btn btn-primary\" type='button'>查看</button>\n" +
+                                        "                </td>\n" +
+                                        "</tr>")
+                                }
+
+                            })
+                        }
+                    },
+                    type: "post"
+                })
+            })
+        })
+    </script>
 </head>
 <body>
 
@@ -31,9 +172,8 @@
                         <div>
                             <!--向左对齐-->
                             <ul class="nav navbar-nav navbar-left">
-                                <li class="active"><a href="${pageContext.request.contextPath}/list"
-                                                      style="font-size: 20px"><span
-                                        class="glyphicon glyphicon-home" style="font-size: 20px"></span>首页</a>
+                                <li id="homeLi"><a style="font-size: 20px;cursor: pointer" id="home">
+                                    <span class="glyphicon glyphicon-home" style="font-size: 20px;"></span>首页</a>
                                 </li>
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"
@@ -49,14 +189,14 @@
                                         <li><a href="#">Web前端</a></li>
                                     </ul>
                                 </li>
-                                <li><a href="#" style="font-size: 20px"><span class="glyphicon glyphicon-align-center" style="font-size: 20px"></span>考试详情</a>
+                                <li id="detailLi"><a id="detail" style="font-size: 20px;cursor: pointer"><span class="glyphicon glyphicon-align-center" style="font-size: 20px"></span>考试详情</a>
                                 </li>
                             </ul>
                             <!--向右对齐-->
                             <ul class="nav navbar-nav navbar-right">
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                         <div class="content-box" style="position: absolute;right: 100px">
+                                        <div class="content-box" style="position: absolute;right: 100px">
 						<span class="action ant-dropdown-link user-dropdown-menu ant-dropdown-trigger">
 							<span class="avatar ant-avatar ant-avatar-sm ant-avatar-circle ant-avatar-image">
 								<img src="https://i.loli.net/2019/11/02/rCHKVJd4jTovzW9.jpg" class="img-circle"
@@ -64,7 +204,7 @@
 							</span>
 							<span style="font-size: 22px;color:white;position: absolute;right:-20px;top: 5px">${username}</span>
 						</span>
-                         </div>
+                                        </div>
                                     </a>
                                     <ul class="dropdown-menu" style="position: absolute;top: 55px">
                                         <li><a href="#">账户设置</a></li>
@@ -78,11 +218,11 @@
                 </nav>
             </div>
         </div>
-        <!--主体部分-->
-        <div class="ant-layout-content" style="height: 100%; margin: -120px -120px 0px; padding-top: 80px;">
+        <!--首页主体部分-->
+        <div class="ant-layout-content" style="height: 100%; margin: -120px -120px 0px; padding-top: 120px;" id="homePage">
             <!--考生须知部分-->
             < class="jumbotron">
-            <div class="container" align="center" style="padding: 85px 60px 0px; color: white">
+            <div class="container" align="center" style="padding: 30px 60px 0px; color: white">
                 <h2 align="center">在线考试须知！</h2>
                 <p1>1．考生应认真核实准考证各项信息是否准确，如有问题，应在考试之前向监考老师确认。</p1>
                 <br/>
@@ -120,9 +260,70 @@
                 </a>
             </div>
         </div>
+        <br>
+        <br>
+        <br>
+        <div style="display: none" id="detailPage">
+            <div class="panel panel-default" style="height:1000px;margin-top: -10px">
+                <div class="panel-heading">查询条件</div>
+                <div class="panel-body">
+                    <form id="formSearch" class="form-horizontal">
+                        <div class="form-group" style="margin-top:15px">
+                            <label class="control-label col-sm-1" for="type">试题类型</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control"  placeholder="请输入试题类型..." id="type">
+                            </div>
+                            <label class="control-label col-sm-1" for="grade">分数</label>
+                            <div class="col-sm-1">
+                                <input type="text" class="form-control" placeholder="请输入分数..." id="grade">
+                            </div>
+                            <label class="control-label col-sm-1">时间范围</label>
+                                <div class='col-sm-2'>
+                                    <div class="form-group">
+                                        <div class='input-group date' id='datetimepicker1'>
+                                            <input type='text' class="form-control" id="beginTime" />
+                                            <span class="input-group-addon">
+                                                 <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class='col-sm-2'>
+                                    <div class="form-group">
+                                        <div class='input-group date' id='datetimepicker2'>
+                                            <input type='text' class="form-control" id="endTime" />
+                                            <span class="input-group-addon">
+                                                  <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            <div class="col-sm-1" style="text-align:right;">
+                                <button type="button" style="margin-left:50px" id="query" class="btn btn-primary">查询</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <br>
+                <table class="table">
+                    <thead>
+                    <tr class="info" style="font-size: 15px" >
+                        <th>用户名</th>
+                        <th>试题类型</th>
+                        <th>分数</th>
+                        <th>创建时间</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="examDetail">
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
         <!--页脚部分-->
         <div class="ant-layout-footer" align="center"
-             style="height: 100%; margin: -120px -120px 0px; padding-top: 220px;">
+             style="height: 100%; margin: -120px -120px 0px; padding-top: 80px;" id="foot">
             <div data-v-feae73ec="" class="footer">
                 <div data-v-feae73ec="" class="links">
                     <a data-v-feae73ec="" href="#" style="color: #444444">关于我</a>
