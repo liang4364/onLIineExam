@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ExamScoreDto {
+    String id;
     String userName;
     String courseName;
     int score;

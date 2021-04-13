@@ -63,7 +63,7 @@
                                         "                <td>"+element.score+"</td>\n" +
                                         "                <td>"+element.createTime+"</td>\n" +
                                         "                <td>\n" +
-                                        "                    <button class=\"btn btn-primary\" type='button'>查看</button>\n" +
+                                        "                    <button class=\"btn btn-primary\" type='button' onclick=\"lookDetail(\'"+element.id+"\',\'"+element.courseName+"')\">查看</button>\n" +
                                         "                </td>\n" +
                                         "</tr>")
                                 }else if(element.score > 60 && element.score <80){
@@ -73,7 +73,7 @@
                                         "                <td>"+element.score+"</td>\n" +
                                         "                <td>"+element.createTime+"</td>\n" +
                                         "                <td>\n" +
-                                        "                    <button class=\"btn btn-primary\" type='button'>查看</button>\n" +
+                                        "                    <button class=\"btn btn-primary\" type='button' onclick=\"lookDetail(\'"+element.id+"\',\'"+element.courseName+"')\">查看</button>\n" +
                                         "                </td>\n" +
                                         "</tr>")
                                 }else if(element.score >80){
@@ -83,7 +83,7 @@
                                         "                <td>"+element.score+"</td>\n" +
                                         "                <td>"+element.createTime+"</td>\n" +
                                         "                <td>\n" +
-                                        "                    <button class=\"btn btn-primary\" type='button'>查看</button>\n" +
+                                        "                    <button class=\"btn btn-primary\" type='button' onclick=\"lookDetail(\'"+element.id+"\',\'"+element.courseName+"')\">查看</button>\n" +
                                         "                </td>\n" +
                                         "</tr>")
                                 }
@@ -102,6 +102,7 @@
                 $('#detailLi').attr("class",'');
             });
             $('#query').click(function () {
+                $('#examDetail').html('');
                 let json = {
                     "username":'${username}',
                     "type":$('#type').val(),
@@ -123,7 +124,7 @@
                                         "                <td>"+element.score+"</td>\n" +
                                         "                <td>"+element.createTime+"</td>\n" +
                                         "                <td>\n" +
-                                        "                    <button class=\"btn btn-primary\" type='button'>查看</button>\n" +
+                                        "                    <button class=\"btn btn-primary\" type='button' onclick=\"lookDetail(\'"+element.id+"\',\'"+element.courseName+"')\">查看</button>\n" +
                                         "                </td>\n" +
                                         "</tr>")
                                 }else if(element.score > 60 && element.score <80){
@@ -133,7 +134,7 @@
                                         "                <td>"+element.score+"</td>\n" +
                                         "                <td>"+element.createTime+"</td>\n" +
                                         "                <td>\n" +
-                                        "                    <button class=\"btn btn-primary\" type='button'>查看</button>\n" +
+                                        "                    <button class=\"btn btn-primary\" type='button' onclick=\"lookDetail(\'"+element.id+"\',\'"+element.courseName+"')\">查看</button>\n" +
                                         "                </td>\n" +
                                         "</tr>")
                                 }else if(element.score >80){
@@ -143,7 +144,7 @@
                                         "                <td>"+element.score+"</td>\n" +
                                         "                <td>"+element.createTime+"</td>\n" +
                                         "                <td>\n" +
-                                        "                    <button class=\"btn btn-primary\" type='button'>查看</button>\n" +
+                                        "                    <button class=\"btn btn-primary\" type='button' onclick=\"lookDetail(\'"+element.id+"\',\'"+element.courseName+"')\">查看</button>\n" +
                                         "                </td>\n" +
                                         "</tr>")
                                 }
@@ -154,7 +155,27 @@
                     type: "post"
                 })
             })
-        })
+
+        });
+        lookDetail = function (examId,course){
+            var json = {
+                examId : examId,
+                userName:'${username}',
+                courseName:course
+            };
+            $.ajax({
+                data: json,
+                dataType: "json",
+                url: "lookDetail",
+                success: function (res) {
+                   if(res.code === "ok"){
+                       window.open("examDetail")
+                   }
+                },
+                type: "post"
+            })
+        }
+
     </script>
 </head>
 <body>
@@ -298,9 +319,8 @@
                                         </div>
                                     </div>
                                 </div>
-                            <div class="col-sm-1" style="text-align:right;">
+                                <button type="reset" style="margin-left:50px"  class="btn btn-primary">清空</button>
                                 <button type="button" style="margin-left:50px" id="query" class="btn btn-primary">查询</button>
-                            </div>
                         </div>
                     </form>
                 </div>

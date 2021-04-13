@@ -16,4 +16,5 @@ public class SingleChoiceDto {
     String optionC;
     String optionD;
     String answer;
+    String analysis;
 }

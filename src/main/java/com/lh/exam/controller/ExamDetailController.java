@@ -1,5 +1,6 @@
 package com.lh.exam.controller;
 
+
 import com.lh.exam.model.dto.ExamScoreDto;
 import com.lh.exam.model.enums.Result2Enum;
 import com.lh.exam.model.vo.Result2Vo;
@@ -33,11 +34,12 @@ public class ExamDetailController {
         if(!"".equals(score)){
             res  = examScoreService.getExamDetailByFilter(username,type,Integer.valueOf(score),beginTime,endTime);
         }else {
-            res = examScoreService.getExamDetailByFilter(username,type,-1,beginTime,endTime);
+            res = examScoreService.getExamDetailByFilter(username,type,null,beginTime,endTime);
         }
         if(res != null){
             return ResultVoUtil.successResult2Vo(res);
         }
         return ResultVoUtil.errorResult2Vo(Result2Enum.UNKNOWN_EXCEPTION);
     }
+
 }

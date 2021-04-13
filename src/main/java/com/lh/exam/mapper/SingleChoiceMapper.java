@@ -12,4 +12,9 @@ import java.util.List;
 public interface SingleChoiceMapper  extends BaseMapper<SingleChoiceEntity> {
     @Select("select id,type,question,optionA,optionB,optionC,optionD,answer from single_choice where course_id = #{courseId} order by rand() limit 0,5")
     List<SingleChoiceDto> querySingleChoice(String courseId);
+
+    @Select("select id,type,question,optionA,optionB,optionC,optionD,answer,analysis from single_choice where id = #{id}")
+    SingleChoiceDto getSingleQuestionById(String id);
+
+
 }

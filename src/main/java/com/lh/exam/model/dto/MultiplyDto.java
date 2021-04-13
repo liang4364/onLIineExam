@@ -18,4 +18,5 @@ public class MultiplyDto {
     String optionC;
     String optionD;
     List<String> answer;
+    String analysis;
 }

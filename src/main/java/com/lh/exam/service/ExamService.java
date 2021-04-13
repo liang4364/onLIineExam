@@ -1,7 +1,9 @@
 package com.lh.exam.service;
 
 import com.lh.exam.model.dto.CourseDto;
-import com.lh.exam.model.entity.CourseEntity;
+import com.lh.exam.model.dto.UserJudgeDto;
+import com.lh.exam.model.dto.UserMultiplyDto;
+import com.lh.exam.model.dto.UserSingleDto;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -10,7 +12,12 @@ import java.util.List;
 public interface ExamService {
     CourseDto queryCourse(String courseName);
 
-    void insertData(CourseEntity courseEntity);
+    int insertExamMsg(HttpServletRequest request, HttpSession session);
 
-    int getExamScore(HttpServletRequest request, HttpSession session);
+    List<UserSingleDto> getUserSingleMsg(String examId,String user,String courseName);
+
+    List<UserMultiplyDto> getUserMultiplyMsg(String examId,String user,String courseName);
+
+    List<UserJudgeDto> getUserJudgeMsg(String examId,String user,String courseName);
+
 }

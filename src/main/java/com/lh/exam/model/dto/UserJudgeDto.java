@@ -7,12 +7,15 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class JudgeDto {
-    String id;
+public class UserJudgeDto {
+    String questionId;
     String type;
     String question;
     String optionA;
     String optionB;
+    String optionC;
+    String optionD;
     String answer;
+    String userAnswer;
     String analysis;
 }

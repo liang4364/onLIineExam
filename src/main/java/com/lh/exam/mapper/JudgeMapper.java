@@ -2,6 +2,7 @@ package com.lh.exam.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.lh.exam.model.dto.JudgeDto;
+import com.lh.exam.model.dto.SingleChoiceDto;
 import com.lh.exam.model.entity.JudgeEntity;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -17,4 +18,7 @@ public interface JudgeMapper extends BaseMapper<JudgeEntity> {
 
     @Insert("insert into judge (id,course_id,question,optionA,optionB,answer,type) values(#{id},#{courseId},#{question},#{optionA},#{optionB},#{answer},#{type})")
     void insertData(JudgeEntity judgeEntity);
+
+    @Select("select id,type,question,optionA,optionB,answer,analysis from judge where id = #{id}")
+    JudgeDto getJudgeQuestionById(String id);
 }

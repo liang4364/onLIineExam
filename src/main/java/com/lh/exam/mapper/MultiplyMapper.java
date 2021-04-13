@@ -15,4 +15,7 @@ public interface MultiplyMapper extends BaseMapper<MultiplyChoiceEntity> {
 
     @Select("select answer from multiply_answer where question_id = #{questionId}")
     List<String> getMultiplyAnswer(String questionId);
+
+    @Select("select id,type,question,optionA,optionB,optionC,optionD,analysis from multiply_choice where id = #{id}")
+    MultiplyDto getMultiplyQuestionById(String id);
 }

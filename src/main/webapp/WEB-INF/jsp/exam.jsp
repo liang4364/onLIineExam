@@ -364,6 +364,14 @@
                 $('#t12optionD').html(json.判断题[1].optionD);
             });
         });
+        function confirmSubmit() {
+            var msg = "您确定提交当前试卷吗？";
+            if (confirm(msg)==true){
+                submitExam()  //你也可以在这里做其他的操作
+            }else{
+                return false;
+            }
+        }
         function submitExam() {
             let answerJson={
                 'single' : {
@@ -389,10 +397,11 @@
                 data: JSON.stringify(answerJson),
                 dataType: "json",
                 contentType: "application/json",
-                url: "getExamResult",
+                url: "insertExamMsg",
                 success: function (res) {
                     console.log(res);
                     if(res.code == "ok"){
+                        window.close();
                         window.location.href = "list"
                     }
                 },
@@ -418,7 +427,7 @@
                 <div id="remainSeconds" style="display:none">5400</div>
                 <div id="remainTime" style="font-size:18px;font-weight:600;color:white"></div>
             </span>
-             <button type="button" class="btn btn-info" style="position:absolute;right:280px;top:20px;" id="submit" onclick="submitExam()">交卷</button>
+             <button type="button" class="btn btn-info" style="position:absolute;right:280px;top:20px;" id="submit" onclick="confirmSubmit()">交卷</button>
         </span>
         </div>
         <!--主体-->

@@ -1,10 +1,7 @@
 package com.lh.exam.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.lh.exam.model.dto.CourseDto;
-import com.lh.exam.model.dto.JudgeDto;
-import com.lh.exam.model.dto.MultiplyDto;
-import com.lh.exam.model.dto.SingleChoiceDto;
+import com.lh.exam.model.dto.*;
 import com.lh.exam.service.ExamService;
 import com.lh.exam.service.JudgeService;
 import com.lh.exam.service.MultiplyChoiceService;
@@ -63,4 +60,10 @@ public class IndexController {
     public String registerUser(){
         return "register";
     }
+
+    @RequestMapping("/examDetail")
+    public String examDetail(){
+        return "examDetail";
+    }
+
 }
