@@ -12,5 +12,8 @@ public class ExamScoreDto {
     String userName;
     String courseName;
     int score;
+    int singleScore;
+    int multiplyScore;
+    int judgeScore;
     String createTime;
 }

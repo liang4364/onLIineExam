@@ -27,12 +27,20 @@
             });
             //获取正则表达式对象
             $('#register').click(function () {
-                var usernameRegExp=/^1\d{9}$/;
+                var usernameRegExp=/^[a-zA-Z0-9_-]{4,16}$/;
                 var userOk=usernameRegExp.test($('#username').val());
                 if(userOk){
                     $('#testUsername').html("<span class='glyphicon glyphicon-ok'></span>");
                 }else{
                     $('#testUsername').html("<span class='glyphicon glyphicon-remove'></span>");
+                }
+
+                var userNumRegExp=/^1\d{9}$/;
+                var userNumOk=userNumRegExp.test($('#userNum').val());
+                if(userNumOk){
+                    $('#testUserNum').html("<span class='glyphicon glyphicon-ok'></span>");
+                }else{
+                    $('#testUserNum').html("<span class='glyphicon glyphicon-remove'></span>");
                 }
 
                 var passwordRegExp=/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{5,16}$/;
@@ -66,13 +74,14 @@
                     }
                 }
                 var json = {
-                    "username": $("#username").val(),
+                    "username":$("#username").val(),
+                    "userNum": $("#userNum").val(),
                     "password": MD5($("#password").val()),
                     "userEmail": $('#userEmail').val(),
                     "userPhone": $('#userPhone').val(),
                     "userRoleId" : userRole
                 };
-                if(userOk && passwordOk && emailOk && phonedOk){
+                if(userNumOk && passwordOk && emailOk && phonedOk && userOk){
                     $.ajax({
                         data: JSON.stringify(json),
                         dataType: "json",
@@ -96,8 +105,8 @@
                 }
 
             });
-            $('#username').focus(function () {
-                $('#testUsername').html('');
+            $('#userNum').focus(function () {
+                $('#testUserNum').html('');
             })
             $('#password').focus(function () {
                 $('#testPassword').html('');
@@ -122,8 +131,13 @@
         </div>
         <form action="auth/login" method="post" name="form">
             <div class="input-group input-group-lg">
-                <div id="testUsername"></div><span class="input-group-addon">学号</span>
-                <input type="text" id="username" class="form-control" placeholder="请输入学号...">
+                <div id="testUsername"></div><span class="input-group-addon">用户名</span>
+                <input type="text" id="username" class="form-control" placeholder="请输入用户名...">
+            </div>
+            <br>
+            <div class="input-group input-group-lg">
+                <div id="testUserNum"></div><span class="input-group-addon">工号</span>
+                <input type="text" id="userNum" class="form-control" placeholder="请输入工号...">
             </div>
             <br>
             <div class="input-group input-group-lg">

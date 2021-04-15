@@ -37,7 +37,7 @@ public class UserController {
             String tokenStr = info.getUsername() + "_" + info.getPassword();
             String token = DigestUtils.md5DigestAsHex(tokenStr.getBytes());
             caffeineCache.put(token, info);
-            TokenDto tokenVo = TokenDto.builder().token(token).expires(7199000).build();
+            TokenDto tokenVo = TokenDto.builder().token(token).expires(7199000).roleId(info.getUserRoleId()).build();
             return ResultVoUtil.successResult2Vo(tokenVo);
         }
         return ResultVoUtil.errorResult2Vo(Result2Enum.AUTHORIZATION_PWD_ERROR);

@@ -1,5 +1,6 @@
 package com.lh.exam.controller;
 
+import cn.hutool.core.util.IdUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.lh.exam.model.dto.*;
 import com.lh.exam.service.ExamService;
@@ -66,4 +67,19 @@ public class IndexController {
         return "examDetail";
     }
 
+    @RequestMapping("/examDetail1")
+    public String test(HttpSession session,HttpServletRequest request){
+        session.setAttribute("username",request.getParameter("username"));
+        return "examDetail1";
+    }
+
+    @RequestMapping("/teacherList")
+    public String teacherList(){
+        return "teacherList";
+    }
+
+    @RequestMapping("/questionManage")
+    public String questionManage(){
+        return "questionManage";
+    }
 }

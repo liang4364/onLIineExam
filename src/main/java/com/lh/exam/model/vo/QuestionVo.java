@@ -1,13 +1,14 @@
-package com.lh.exam.model.dto;
+package com.lh.exam.model.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SingleChoiceDto {
+public class QuestionVo {
     String id;
     String type;
     String question;
@@ -17,6 +18,5 @@ public class SingleChoiceDto {
     String optionD;
     String answer;
     String analysis;
-    String createTime;
-    String updateTime;
+
 }

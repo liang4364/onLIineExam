@@ -18,7 +18,6 @@
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdn.bootcss.com/moment.js/2.22.0/moment-with-locales.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
-
     <link href="static/css/list.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript">
         $(function () {
@@ -210,7 +209,10 @@
                                         <li><a href="#">Web前端</a></li>
                                     </ul>
                                 </li>
+<%--
                                 <li id="detailLi"><a id="detail" style="font-size: 20px;cursor: pointer"><span class="glyphicon glyphicon-align-center" style="font-size: 20px"></span>考试详情</a>
+--%>
+                                <li id="detailLi"><a  href="${pageContext.request.contextPath}/examDetail1?username=${username}" style="font-size: 20px;cursor: pointer"><span class="glyphicon glyphicon-align-center" style="font-size: 20px"></span>考试详情</a>
                                 </li>
                             </ul>
                             <!--向右对齐-->
@@ -240,11 +242,10 @@
             </div>
         </div>
         <!--首页主体部分-->
-        <div class="ant-layout-content" style="height: 100%; margin: -120px -120px 0px; padding-top: 120px;" id="homePage">
+        <div class="ant-layout-content" style="height: 100%; margin: -120px -120px 0px; padding-top: 130px;" id="homePage">
             <!--考生须知部分-->
-            < class="jumbotron">
             <div class="container" align="center" style="padding: 30px 60px 0px; color: white">
-                <h2 align="center">在线考试须知！</h2>
+                <h2>在线考试须知！</h2>
                 <p1>1．考生应认真核实准考证各项信息是否准确，如有问题，应在考试之前向监考老师确认。</p1>
                 <br/>
                 <p1>2．考生进入本系统后，请不要退出该页面，防止考试中断,若考试中断，请联系监考老师。</p1>
@@ -325,7 +326,7 @@
                     </form>
                 </div>
                 <br>
-                <table class="table">
+                <table class="table" style= "border:1px solid #cccccc;">
                     <thead>
                     <tr class="info" style="font-size: 15px" >
                         <th>用户名</th>

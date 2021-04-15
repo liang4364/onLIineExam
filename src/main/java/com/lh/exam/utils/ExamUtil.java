@@ -2,6 +2,7 @@ package com.lh.exam.utils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
+import java.util.List;
 
 public class ExamUtil {
     public static String getCourseId(String courseName){
@@ -28,4 +29,20 @@ public class ExamUtil {
         }
         return json.toString();//变为字符串返回
     }
+
+
+    public static <T> List<T> mergeLists(List<T>... lists) {
+        Class clazz = lists[0].getClass();
+        List<T> list = null;
+        try {
+            list = (List<T>) clazz.newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        for (int i = 0, len = lists.length; i < len; i++) {
+            list.addAll(lists[i]);
+        }
+        return list;
+    }
+
 }

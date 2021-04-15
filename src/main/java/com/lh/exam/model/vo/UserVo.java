@@ -14,10 +14,9 @@ public class UserVo {
     String username;
     @NotEmpty
     String password;
-    String nickname;
     int userRoleId;
     String userAvatar;
-    String userDescription;
+    String userNum;
     String userEmail;
     String userPhone;
     Date createTime;

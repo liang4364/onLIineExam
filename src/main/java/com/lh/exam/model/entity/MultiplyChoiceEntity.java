@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,5 +22,6 @@ public class MultiplyChoiceEntity {
     String optionB;
     String optionC;
     String optionD;
-
+    Date createTime;
+    Date updateTime;
 }

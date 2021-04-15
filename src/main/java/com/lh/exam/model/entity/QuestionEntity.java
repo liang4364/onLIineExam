@@ -12,18 +12,10 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("user")
-public class UserEntity {
-
+@TableName("question")
+public class QuestionEntity {
     @TableId(value = "id", type = IdType.UUID)
     String id;
-    String username;
-    String password;
-    int userRoleId;
-    String userAvatar;
-    String userNum;
-    String userEmail;
-    String userPhone;
-    Date createTime;
-    Date updateTime;
+    String typeId;
+    String type;
 }

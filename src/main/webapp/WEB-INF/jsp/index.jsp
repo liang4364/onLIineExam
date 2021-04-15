@@ -52,7 +52,12 @@
                         } else {
                             let dataRes = res.data;
                             $.cookie('Authorization', ''+dataRes.token+'', {expires: 10, path: '/'});
-                            window.location.href = "list?username="+$("#username").val();
+                            if(dataRes.roleId == 2){
+                                window.location.href = "list?username="+$("#username").val();
+                            }else {
+                                window.location.href = "teacherList?username="+$("#username").val();
+                            }
+
                         }
                     },
                     type: "post"
