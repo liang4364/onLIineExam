@@ -23,5 +23,5 @@ public class MultiplyChoiceEntity {
     String optionC;
     String optionD;
     Date createTime;
-    Date updateTime;
+    String updateTime;
 }

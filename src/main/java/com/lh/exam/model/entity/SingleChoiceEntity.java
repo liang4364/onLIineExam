@@ -26,5 +26,5 @@ public class SingleChoiceEntity {
     String answer;
     String analysis;
     Date createTime;
-    Date updateTime;
+    String updateTime;
 }

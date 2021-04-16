@@ -4,8 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.lh.exam.model.dto.MultiplyDto;
 import com.lh.exam.model.dto.QuestionDto;
 import com.lh.exam.model.entity.MultiplyChoiceEntity;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -32,4 +31,36 @@ public interface MultiplyMapper extends BaseMapper<MultiplyChoiceEntity> {
 
     @Select("select id,type,question,optionA,optionB,optionC,optionD,analysis,create_time,update_time from multiply_choice where id = #{id}")
     QuestionDto getQuestionById(String id);
+
+    @Update("<script>update multiply_choice " +
+            "\t<trim prefix='set' suffixOverrides=','>"+
+            "\t<if test=\"field == 'optionA'\">\n" +
+            "\t\toptionA = #{value}\n" +
+            "\t</if>\n" +
+            "\t<if test=\"field == 'optionB'\">\n" +
+            "\t\toptionB = #{value}\n" +
+            "\t</if>\n" +
+            "\t<if test=\"field == 'optionC'\">\n" +
+            "\t\toptionC = #{value}\n" +
+            "\t</if>\n" +
+            "\t<if test=\"field == 'optionD'\">\n" +
+            " \t\toptionD = #{value}\n" +
+            "\t</if>\n" +
+            "\t<if test=\"field == 'analysis'\">\n" +
+            " \t\tanalysis = #{value}\n" +
+            "\t</if>\n" +
+            "\t<if test=\"field == 'type'\">\n" +
+            " \t\ttype = #{value}\n" +
+            "\t</if>\n" +
+            "</trim>"+
+            ",update_time = #{updateTime} where id = #{typeId}"+
+            "</script>")
+    int updateMultiply(String field,String value,String typeId,String updateTime);
+
+    @Delete("delete from multiply_answer where question_id = #{typeId}")
+    int deleteOldAnswer(String typeId);
+
+    @Insert("insert into multiply_answer (id,question_id,answer) values (#{id},#{questionId},#{answer})")
+    int insertNewAnswer(String id,String questionId,String answer);
+
 }

@@ -8,6 +8,7 @@ import com.lh.exam.model.entity.JudgeEntity;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -35,4 +36,26 @@ public interface JudgeMapper extends BaseMapper<JudgeEntity> {
 
     @Select("select id,type,question,optionA,optionB,answer,analysis,create_time,update_time from judge where id = #{id}")
     QuestionDto getQuestionById(String id);
+
+    @Update("<script>update judge " +
+            "\t<trim prefix='set' suffixOverrides=','>"+
+            "\t<if test=\"field == 'optionA'\">\n" +
+            "\t\toptionA = #{value}\n" +
+            "\t</if>\n" +
+            "\t<if test=\"field == 'optionB'\">\n" +
+            "\t\toptionB = #{value}\n" +
+            "\t</if>\n" +
+            "\t<if test=\"field == 'answer'\">\n" +
+            " \t\tanswer = #{value}\n" +
+            "\t</if>\n" +
+            "\t<if test=\"field == 'analysis'\">\n" +
+            " \t\tanalysis = #{value}\n" +
+            "\t</if>\n" +
+            "\t<if test=\"field == 'type'\">\n" +
+            " \t\ttype = #{value}\n" +
+            "\t</if>\n" +
+            "</trim>"+
+            ",update_time = #{updateTime} where id = #{typeId}"+
+            "</script>")
+    int updateJudge(String field,String value,String typeId,String updateTime);
 }

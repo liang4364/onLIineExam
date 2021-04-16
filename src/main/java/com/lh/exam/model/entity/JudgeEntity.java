@@ -22,5 +22,5 @@ public class JudgeEntity {
     String optionB;
     String answer;
     Date createTime;
-    Date updateTime;
+    String updateTime;
 }

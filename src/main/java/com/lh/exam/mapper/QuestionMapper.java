@@ -15,7 +15,10 @@ public interface QuestionMapper extends BaseMapper<QuestionEntity> {
     @Select("select type_id from question where type = #{type}")
     List<String> getIds(String type);
 
-    @Select("select * from question")
+    @Select("select * from question order by id desc")
     List<QuestionEntity> getAll(Page<QuestionEntity> page);
+
+    @Select("select type from question where type_id = #{typeId}")
+    String getTypeById(String typeId);
 
 }

@@ -120,15 +120,16 @@
             ,title: '用户数据表'
             ,cols: [[
                 {type: 'checkbox', fixed: 'left',width:80}
-                ,{field:'type', title:'考试类型', width:120, edit: 'text',sort: true}
+                ,{field:'type', title:'考试类型', width:120,sort: true}
                 ,{field:'question', title:'问题', width:150,edit: 'text'}
                 ,{field:'optionA', title:'选项A', width:130, sort: true,edit: 'text'}
                 ,{field:'optionB', title:'选项B', width:130, sort: true,edit: 'text'}
                 ,{field:'optionC', title:'选项C', width:130, sort: true,edit: 'text'}
                 ,{field:'optionD', title:'选项D', width:130, sort: true,edit: 'text'}
                 ,{field:'answer', title:'正确答案', width:130, sort: true,edit: 'text'}
-                ,{field:'analysis', title:'解析', width:600, sort: true,edit: 'text'}
-                ,{field:'createTime', title:'创建时间', width:180, sort: true}
+                ,{field:'analysis', title:'解析', width:400, sort: true,edit: 'text'}
+                ,{field:'createTime1', title:'创建时间', width:170, sort: true}
+                ,{field:'updateTime', title:'更新时间', width:170, sort: true}
                 ,{title:'操作', toolbar: '#barDemo', width:280}
             ]]
             ,page: true
@@ -168,11 +169,11 @@
                 });
             } else if(obj.event === 'edit'){
                 layer.prompt({
-                    formType: 2
-                    ,value: data.email
+                    formType: 7
+                    ,value: data.analysis
                 }, function(value, index){
                     obj.update({
-                        email: value
+                        analysis: value
                     });
                     layer.close(index);
                 });
@@ -182,19 +183,14 @@
         table.on('edit(test)', function(obj){
             let value = obj.value //得到修改后的值
                 ,data = obj.data //得到所在行所有键值
-                ,field = obj.field
-                ,typeId = data.id;//得到字段
-            layer.msg('[ID: '+ data.id +'] ' + field + ' 字段更改为：'+ value);
-            var json = {
-
-        };
+                ,field = obj.field//得到字段
+                ,typeId = data.id;
             $.ajax({
-                data:JSON.stringify(json),
-                contentType: "application/json",
                 dataType: "json",
-                url: "updateQuestion",
+                url: "updateQuestion?"+field+"="+value+"&typeId="+typeId,
                 success: function (res) {
-                    if(res.code === "ok"){
+                    if(res.code === "ok" && res.data != -1){
+                        layer.msg('[ID: '+ data.id +'] ' + field + ' 字段更改为：'+ value);
                     }
                 },
                 type: "post"

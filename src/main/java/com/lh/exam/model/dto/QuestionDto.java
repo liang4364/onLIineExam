@@ -20,5 +20,6 @@ public class QuestionDto {
     String answer;
     String analysis;
     Date createTime;
-    Date updateTime;
+    String createTime1;
+    String updateTime;
 }
