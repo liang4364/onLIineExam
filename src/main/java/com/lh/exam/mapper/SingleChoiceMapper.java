@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lh.exam.model.dto.QuestionDto;
 import com.lh.exam.model.dto.SingleChoiceDto;
+import com.lh.exam.model.entity.ExamScoreEntity;
 import com.lh.exam.model.entity.SingleChoiceEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -64,5 +65,6 @@ public interface SingleChoiceMapper  extends BaseMapper<SingleChoiceEntity> {
             ",update_time = #{updateTime} where id = #{typeId}"+
             "</script>")
     int updateSingle(String field, String value, String typeId, String updateTime);
+
 
 }

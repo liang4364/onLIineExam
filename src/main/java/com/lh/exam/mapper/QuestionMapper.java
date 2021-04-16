@@ -21,4 +21,10 @@ public interface QuestionMapper extends BaseMapper<QuestionEntity> {
     @Select("select type from question where type_id = #{typeId}")
     String getTypeById(String typeId);
 
+    @Select("<script>select type_id from question " +
+            "\t<if test=\"type != ''\">\n" +
+            "\t\ttype = #{type}\n" +
+            "\t</if>\n" +
+            "</script>")
+    List<String> getIdsByFilter(String type);
 }

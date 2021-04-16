@@ -20,6 +20,43 @@
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdn.bootcss.com/moment.js/2.22.0/moment-with-locales.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            var picker1 = $('#datetimepicker1').datetimepicker({
+                format: 'YYYY-MM-DD',
+                locale: moment.locale('zh-cn'),
+                //minDate: '2016-7-1'
+            });
+            var picker2 = $('#datetimepicker2').datetimepicker({
+                format: 'YYYY-MM-DD',
+                locale: moment.locale('zh-cn')
+            });
+            var picker3 = $('#datetimepicker3').datetimepicker({
+                format: 'YYYY-MM-DD',
+                locale: moment.locale('zh-cn'),
+                //minDate: '2016-7-1'
+            });
+            var picker4 = $('#datetimepicker4').datetimepicker({
+                format: 'YYYY-MM-DD',
+                locale: moment.locale('zh-cn'),
+                //minDate: '2016-7-1'
+            });
+            //动态设置最小值
+            picker1.on('dp.change', function (e) {
+                picker2.data('DateTimePicker').minDate(e.date);
+            });
+            //动态设置最大值
+            picker2.on('dp.change', function (e) {
+                picker1.data('DateTimePicker').maxDate(e.date);
+            });
+            picker3.on('dp.change', function (e) {
+                picker1.data('DateTimePicker').maxDate(e.date);
+            });
+            picker4.on('dp.change', function (e) {
+                picker1.data('DateTimePicker').maxDate(e.date);
+            });
+        })
+    </script>
 </head>
 <body>
 <ul class="layui-nav layui-bg-cyan">
@@ -45,7 +82,7 @@
         </dl>
     </li>
 </ul>
-<div class="panel panel-default" style="height: 120px">
+<div class="panel panel-default" style="height: 180px">
     <div class="panel-heading">查询条件</div>
     <div class="panel-body">
         <form id="formSearch" class="form-horizontal">
@@ -58,7 +95,7 @@
                 <div class="col-sm-1">
                     <input type="text" class="form-control" placeholder="请输入问题描述..." id="question">
                 </div>
-                <label class="control-label col-sm-1">时间范围</label>
+                <label class="control-label col-sm-1">创建时间范围</label>
                 <div class='col-sm-2'>
                     <div class="form-group">
                         <div class='input-group date' id='datetimepicker1'>
@@ -73,6 +110,38 @@
                     <div class="form-group">
                         <div class='input-group date' id='datetimepicker2'>
                             <input type='text' class="form-control" id="endTime" />
+                            <span class="input-group-addon">
+                                                  <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="form-group" style="margin-top:15px">
+                <label class="control-label col-sm-1" for="type">选项</label>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control"  placeholder="请输入选项内容..." id="option">
+                </div>
+                <label class="control-label col-sm-1" for="question">解析</label>
+                <div class="col-sm-1">
+                    <input type="text" class="form-control" placeholder="请输入解析描述..." id="analysis">
+                </div>
+                <label class="control-label col-sm-1">更新时间范围</label>
+                <div class='col-sm-2'>
+                    <div class="form-group">
+                        <div class='input-group date' id='datetimepicker3'>
+                            <input type='text' class="form-control" id="updateBeginTime" />
+                            <span class="input-group-addon">
+                                                 <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class='col-sm-2'>
+                    <div class="form-group">
+                        <div class='input-group date' id='datetimepicker4'>
+                            <input type='text' class="form-control" id="updateEndTime" />
                             <span class="input-group-addon">
                                                   <span class="glyphicon glyphicon-calendar"></span>
                                             </span>
@@ -110,6 +179,7 @@
         var table = layui.table;
         table.render({
             elem: '#test'
+            ,id: 'indent'
             ,url:'/api/getAllQuestion'
             ,toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
             ,defaultToolbar: ['filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
@@ -153,7 +223,7 @@
 
                 //自定义头工具栏右侧图标 - 提示
                 case 'LAYTABLE_TIPS':
-                    layer.alert('这是工具栏右侧自定义的一个图标按钮');
+                    layer.alert('点击你要修改的信息即可！');
                     break;
             };
         });
@@ -163,7 +233,7 @@
             var data = obj.data;
             //console.log(obj)
             if(obj.event === 'del'){
-                layer.confirm('真的删除行么', function(index){
+                layer.confirm('确定删除吗？', function(index){
                     obj.del();
                     layer.close(index);
                 });
@@ -179,6 +249,48 @@
                 });
             }
         });
+
+        var active = {
+            reload: function(){
+                var type = $('#type').val();
+                var question = $('#question').val();
+                var beginTime = $('#beginTime').val();
+                var endTime = $('#endTime').val();
+                var option = $('#option').val();
+                var analysis = $('#analysis').val();
+                var updateBeginTime = $('#updateBeginTime').val();
+                var updateEndTime = $('#updateEndTime').val();
+                //执行重载
+                table.reload('indent', {
+                    url : '/api/getAllQuestionByFilter',
+                    method:'post',
+                    page: {
+                        curr: 1
+                    }
+                    ,where: {
+                        username: '${username}',
+                        type: type,
+                        beginTime: beginTime,
+                        endTime: endTime,
+                        question:question,
+                        option:option,
+                        analysis:analysis,
+                        updateBeginTime:updateBeginTime,
+                        updateEndTime:updateEndTime
+                    }
+                });
+            }
+        };
+        $('#query').on('click', function(){
+            var type = $(this).data('type');
+            if($('#type').val() == "" && $('#option').val()=="" && $('#beginTime').val()=="" && $('#endTime').val()=="" && $('#question').val()=="" && $('#analysis').val()=="" && $('#updateBeginTime').val()=="" && $('#updateEndTime').val()==""){
+                layer.msg('查询条件不能为空');
+                return false;
+            }
+            active[type] ? active[type].call(this) : '';
+        });
+
+
         //监听单元格编辑
         table.on('edit(test)', function(obj){
             let value = obj.value //得到修改后的值

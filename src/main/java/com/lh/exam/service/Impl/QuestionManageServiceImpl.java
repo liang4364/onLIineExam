@@ -8,6 +8,7 @@ import com.lh.exam.mapper.QuestionMapper;
 import com.lh.exam.mapper.SingleChoiceMapper;
 import com.lh.exam.model.dto.*;
 import com.lh.exam.model.entity.QuestionEntity;
+import com.lh.exam.model.vo.QuestionFilterVo;
 import com.lh.exam.model.vo.QuestionVo;
 import com.lh.exam.service.QuestionManageService;
 import com.lh.exam.utils.ExamUtil;
@@ -139,7 +140,10 @@ public class QuestionManageServiceImpl implements QuestionManageService {
         return count;
     }
 
-    public static void main(String[] args) {
-        System.out.println(IdUtil.simpleUUID());
+    @Override
+    public Page<QuestionDto> getAllQuestionByFilter(QuestionFilterVo questionFilterVo) {
+        List<String> typeIdsByFilter = questionMapper.getIdsByFilter(questionFilterVo.getType());
+        //TODO BY LH
+        return null;
     }
 }

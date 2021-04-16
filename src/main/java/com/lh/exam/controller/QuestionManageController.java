@@ -3,6 +3,7 @@ package com.lh.exam.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lh.exam.model.dto.QuestionDto;
 import com.lh.exam.model.enums.Result2Enum;
+import com.lh.exam.model.vo.QuestionFilterVo;
 import com.lh.exam.model.vo.QuestionVo;
 import com.lh.exam.model.vo.Result2Vo;
 import com.lh.exam.service.QuestionManageService;
@@ -33,6 +34,11 @@ public class QuestionManageController {
         return map;
     }
 
+    @RequestMapping("getAllQuestionByFilter")
+    public Map<String,Object> getAllQuestionByFilter(QuestionFilterVo questionFilterVo){
+        return null;
+    }
+
     @RequestMapping("/updateQuestion")
     public Result2Vo updateQuestion(HttpServletRequest request){
         QuestionVo questionVo = new QuestionVo();
@@ -49,7 +55,6 @@ public class QuestionManageController {
             return ResultVoUtil.successResult2Vo(count);
         }
         return ResultVoUtil.errorResult2Vo(Result2Enum.UNKNOWN_EXCEPTION);
-
     }
 
 }
