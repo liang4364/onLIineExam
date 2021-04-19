@@ -15,5 +15,12 @@ public interface CourseMapper extends BaseMapper<CourseEntity> {
     String getCourseName(String courseId);
 
     @Select("select id from course where course_name like #{courseName}")
-    String getCourseId(String courseName);
+    String getCourseIdByLike(String courseName);
+
+    @Select("select id from course where course_name like concat('%',#{questionFilterVo.question},'%')")
+    String getCourseIdByLikeConcat(String courseName);
+
+    @Select("select id from course where course_name = {courseName}")
+    String getCourseIdByName(String courseName);
+
 }

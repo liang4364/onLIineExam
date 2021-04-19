@@ -49,6 +49,8 @@ public class UserController {
         int count = userInfoService.registerUser(userVo);
         if(count == 1){
             return ResultVoUtil.successResult2Vo(count);
+        }else if(count == -1){
+            return ResultVoUtil.errorResult2Vo(Result2Enum.EXIST_USER_INFO);
         }
         return ResultVoUtil.errorResult2Vo(Result2Enum.ARGUMENT_FORMAT_INVALID);
     }

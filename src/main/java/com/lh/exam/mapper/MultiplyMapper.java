@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.lh.exam.model.dto.MultiplyDto;
 import com.lh.exam.model.dto.QuestionDto;
 import com.lh.exam.model.entity.MultiplyChoiceEntity;
+import com.lh.exam.model.entity.SingleChoiceEntity;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -29,7 +30,7 @@ public interface MultiplyMapper extends BaseMapper<MultiplyChoiceEntity> {
     })
     List<QuestionDto> getMultiplyQuestions(List<String> ids);
 
-    @Select("select id,type,question,optionA,optionB,optionC,optionD,analysis,create_time,update_time from multiply_choice where id = #{id}")
+    @Select("select id,type,question,optionA,optionB,optionC,optionD,analysis,create_time,update_time,course_id,creator from multiply_choice where id = #{id}")
     QuestionDto getQuestionById(String id);
 
     @Update("<script>update multiply_choice " +
@@ -62,5 +63,6 @@ public interface MultiplyMapper extends BaseMapper<MultiplyChoiceEntity> {
 
     @Insert("insert into multiply_answer (id,question_id,answer) values (#{id},#{questionId},#{answer})")
     int insertNewAnswer(String id,String questionId,String answer);
+
 
 }

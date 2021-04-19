@@ -17,6 +17,7 @@ public class MultiplyChoiceEntity {
     @TableId(value = "id", type = IdType.UUID)
     String id;
     String courseId;
+    String creator;
     String question;
     String optionA;
     String optionB;
@@ -24,4 +25,6 @@ public class MultiplyChoiceEntity {
     String optionD;
     Date createTime;
     String updateTime;
+    String type;
+    String analysis;
 }

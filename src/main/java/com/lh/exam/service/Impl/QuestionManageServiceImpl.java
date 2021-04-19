@@ -2,12 +2,9 @@ package com.lh.exam.service.Impl;
 
 import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.lh.exam.mapper.JudgeMapper;
-import com.lh.exam.mapper.MultiplyMapper;
-import com.lh.exam.mapper.QuestionMapper;
-import com.lh.exam.mapper.SingleChoiceMapper;
+import com.lh.exam.mapper.*;
 import com.lh.exam.model.dto.*;
-import com.lh.exam.model.entity.QuestionEntity;
+import com.lh.exam.model.entity.*;
 import com.lh.exam.model.vo.QuestionFilterVo;
 import com.lh.exam.model.vo.QuestionVo;
 import com.lh.exam.service.QuestionManageService;
@@ -35,6 +32,12 @@ public class QuestionManageServiceImpl implements QuestionManageService {
 
     @Autowired
     JudgeMapper judgeMapper;
+    
+    @Autowired
+    QuestionInfoMapper questionInfoMapper;
+
+    @Autowired
+    CourseMapper courseMapper;
 
     @Override
     public Page<QuestionDto> getAllQuestion(Integer page,Integer limit) {
@@ -51,18 +54,21 @@ public class QuestionManageServiceImpl implements QuestionManageService {
             QuestionDto questionDto =null;
             if( "single".equals(type)){
                 questionDto = singleChoiceMapper.getQuestionById(questionEntity.getTypeId());
+                questionDto.setCourseName(courseMapper.getCourseName(questionDto.getCourseId()));
                 if(questionDto.getCreateTime() != null){
                     questionDto.setCreateTime1(sdf.format(questionDto.getCreateTime()));
                 }
                singleChoiceDtos.add(questionDto);
             }else if("multiply".equals(type)){
                 questionDto  =  multiplyMapper.getQuestionById(questionEntity.getTypeId());
+                questionDto.setCourseName(courseMapper.getCourseName(questionDto.getCourseId()));
                 if(questionDto.getCreateTime() != null){
                     questionDto.setCreateTime1(sdf.format(questionDto.getCreateTime()));
                 }
                 multiplyDtos.add(questionDto);
             }else if("judge".equals(type)){
                 questionDto = judgeMapper.getQuestionById(questionEntity.getTypeId());
+                questionDto.setCourseName(courseMapper.getCourseName(questionDto.getCourseId()));
                 if(questionDto.getCreateTime() != null){
                     questionDto.setCreateTime1(sdf.format(questionDto.getCreateTime()));
                 }
@@ -81,7 +87,6 @@ public class QuestionManageServiceImpl implements QuestionManageService {
                 multiplyDto.setAnswer(multiplyAnswer);
             }
         }
-
         List<QuestionDto> questionDtoList = ExamUtil.mergeLists(singleChoiceDtos, multiplyDtos, judgeDtos);
         BeanUtils.copyProperties(page1,resPage);
         resPage.setRecords(questionDtoList);
@@ -95,6 +100,7 @@ public class QuestionManageServiceImpl implements QuestionManageService {
         String field = "";
         String value = "";
         int count = -1;
+        Date date = new Date();
         if(questionVo.getQuestion() != null){
             field = "question";
             value = questionVo.getQuestion();
@@ -118,12 +124,12 @@ public class QuestionManageServiceImpl implements QuestionManageService {
             value = questionVo.getAnalysis();
         }
         if("single".equals(type)){
-            count = singleChoiceMapper.updateSingle(field,value,questionVo.getTypeId(),sdf.format(new Date()));
+            count = singleChoiceMapper.updateSingle(field,value,questionVo.getTypeId(),sdf.format(date));
         }else if("judge".equals(type)){
-            count = judgeMapper.updateJudge(field,value,questionVo.getTypeId(),sdf.format(new Date()));
+            count = judgeMapper.updateJudge(field,value,questionVo.getTypeId(),sdf.format(date));
         }else if("multiply".equals(type)){
             if(!"answer".equals(field)){
-                count =  multiplyMapper.updateMultiply(field,value,questionVo.getTypeId(),sdf.format(new Date()));
+                count =  multiplyMapper.updateMultiply(field,value,questionVo.getTypeId(),sdf.format(date));
             }else{
                 int res = multiplyMapper.deleteOldAnswer(questionVo.getTypeId());
                 if(res != -1){
@@ -137,13 +143,55 @@ public class QuestionManageServiceImpl implements QuestionManageService {
                 }
             }
         }
+        questionInfoMapper.updateQuestionFilter(field,value,questionVo.getTypeId(),sdf.format(date));
         return count;
     }
 
     @Override
     public Page<QuestionDto> getAllQuestionByFilter(QuestionFilterVo questionFilterVo) {
-        List<String> typeIdsByFilter = questionMapper.getIdsByFilter(questionFilterVo.getType());
-        //TODO BY LH
-        return null;
+        if(!"".equals(questionFilterVo.getBeginTime())){
+            questionFilterVo.setBeginTime(questionFilterVo.getBeginTime()+" 00:00:00");
+        }
+        if(!"".equals(questionFilterVo.getEndTime())){
+            questionFilterVo.setEndTime(questionFilterVo.getEndTime() +" 23:59:59");
+        }
+        if(!"".equals(questionFilterVo.getUpdateBeginTime())){
+            questionFilterVo.setUpdateBeginTime(questionFilterVo.getUpdateBeginTime()+" 00:00:00");
+        }
+        if(!"".equals(questionFilterVo.getUpdateEndTime())){
+            questionFilterVo.setUpdateEndTime(questionFilterVo.getUpdateEndTime() +" 23:59:59");
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Page<QuestionInfoEntity> page1 = new Page<>(questionFilterVo.getPage(),questionFilterVo.getLimit());
+        Page<QuestionDto> resPage = new Page<>(questionFilterVo.getPage(),questionFilterVo.getLimit());
+        page1.setRecords(questionInfoMapper.getQuestionByFilter(page1,questionFilterVo));
+        List<QuestionDto> res = new ArrayList<>();
+        List<QuestionInfoEntity> records = page1.getRecords();
+        for(QuestionInfoEntity questionInfoEntity : records){
+            QuestionDto questionDto = new QuestionDto();
+            BeanUtils.copyProperties(questionInfoEntity,questionDto);
+            questionDto.setId(questionInfoEntity.getTypeId());
+            if(questionDto.getCreateTime() != null){
+                questionDto.setCreateTime1(sdf.format(questionDto.getCreateTime()));
+            }
+            if("多选题".equals(questionInfoEntity.getType())){
+                String multiplyAnswer = "";
+                List<String> multiplyAnswers = multiplyMapper.getMultiplyAnswer(questionInfoEntity.getTypeId());
+                Collections.sort(multiplyAnswers);
+                for(String answer : multiplyAnswers){
+                    multiplyAnswer = multiplyAnswer+ answer+",";
+                }
+                multiplyAnswer = multiplyAnswer.substring(0,multiplyAnswer.length()-1);
+                questionDto.setAnswer(multiplyAnswer);
+            }else if("单选题".equals(questionInfoEntity.getType())){
+                questionDto.setAnswer(singleChoiceMapper.getAnswer(questionInfoEntity.getTypeId()));
+            }else if("判断题".equals(questionInfoEntity.getType())){
+                questionDto.setAnswer(judgeMapper.getAnswer(questionInfoEntity.getTypeId()));
+            }
+            res.add(questionDto);
+        }
+        BeanUtils.copyProperties(page1,resPage);
+        resPage.setRecords(res);
+        return resPage;
     }
 }

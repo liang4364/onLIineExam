@@ -7,15 +7,13 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class QuestionFilterVo {
-    int page;
-    int limit;
-    String type;
-    String question;
-    String courseName;
-    String analysis;
+public class UserFilterVo {
+    String username;
+    String role;
+    String userEmail;
+    String userPhone;
     String beginTime;
     String endTime;
-    String updateBeginTime;
-    String updateEndTime;
+    Integer page;
+    Integer limit;
 }

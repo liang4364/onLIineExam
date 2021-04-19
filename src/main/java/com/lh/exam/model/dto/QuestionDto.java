@@ -12,6 +12,7 @@ import java.util.Date;
 public class QuestionDto {
     String id;
     String type;
+    String creator;
     String question;
     String optionA;
     String optionB;
@@ -22,4 +23,6 @@ public class QuestionDto {
     Date createTime;
     String createTime1;
     String updateTime;
+    String courseId;
+    String courseName;
 }

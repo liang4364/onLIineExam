@@ -35,6 +35,10 @@ public class UserInfoServiceImpl implements UserInfoService {
     @Override
     public int registerUser(UserVo userVo) {
         UserEntity userEntity = new UserEntity();
+        UserEntity existFlag = userInfoMapper.existUser(userVo.getUsername(), userVo.getUserEmail(), userVo.getUserPhone());
+        if(existFlag != null){
+            return -1;
+        }
         BeanUtils.copyProperties(userVo,userEntity);
         return userInfoMapper.insert(userEntity);
     }

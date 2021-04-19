@@ -99,7 +99,7 @@ public class ExamScoreServiceImpl extends ServiceImpl<ExamScoreMapper,ExamScoreE
         if("".equals(type)){
             examScoreEntities = examScoreMapper.getExamDetailByFilter1(userInfoMapper.getIdByUsername(username),score,beginTime,endTime);
         }else {
-            examScoreEntities = examScoreMapper.getExamDetailByFilter(userInfoMapper.getIdByUsername(username),courseMapper.getCourseId('%'+type+'%'),score,beginTime,endTime);
+            examScoreEntities = examScoreMapper.getExamDetailByFilter(userInfoMapper.getIdByUsername(username),courseMapper.getCourseIdByLike('%'+type+'%'),score,beginTime,endTime);
         }
         List<ExamScoreDto> examScoreDtos = new ArrayList<>();
         for(ExamScoreEntity examScoreEntity : examScoreEntities){
@@ -129,7 +129,7 @@ public class ExamScoreServiceImpl extends ServiceImpl<ExamScoreMapper,ExamScoreE
         if("".equals(type)){
             records = examScoreMapper.getExamDetailByFilter33(page1,userInfoMapper.getIdByUsername(username),score,beginTime,endTime);
         }else {
-            records = examScoreMapper.getExamDetailByFilter22(page1,userInfoMapper.getIdByUsername(username),courseMapper.getCourseId('%'+type+'%'),score,beginTime,endTime);
+            records = examScoreMapper.getExamDetailByFilter22(page1,userInfoMapper.getIdByUsername(username),courseMapper.getCourseIdByLike('%'+type+'%'),score,beginTime,endTime);
         }
         List<ExamScoreDto> resRecords = new ArrayList<>();
         for(ExamScoreEntity examScoreEntity : records){

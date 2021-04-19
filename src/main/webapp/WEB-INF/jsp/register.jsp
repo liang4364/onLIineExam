@@ -16,6 +16,7 @@
     <link href="static/css/register.css" rel="stylesheet" type="text/css"/>
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="static/js/md5.js"></script>
     <script type="text/javascript">
@@ -89,21 +90,55 @@
                         url: "auth/register",
                         success: function (res) {
                             if(res.code == "ok"){
-                                window.location.href = "index";
-                            }else {
+                                var msg = "注册成功，是否立即登录？";
+                                if (confirm(msg)==true){
+                                        var md5password = MD5($("#password").val());
+                                        var json = {
+                                            "username": $("#username").val(),
+                                            "password": md5password
+                                        };
+                                        $.ajax({
+                                            data: JSON.stringify(json),
+                                            dataType: "json",
+                                            contentType: "application/json",
+                                            url: "auth/login",
+                                            success: function (res) {
+                                                if (res.code == "ok") {
+                                                    let dataRes = res.data;
+                                                    $.cookie('Authorization', ''+dataRes.token+'', {expires: 10, path: '/'});
+                                                    if(userRole == 2){
+                                                        window.location.href = "list?username="+$("#username").val();
+                                                    }else {
+                                                        window.location.href = "teacherList?username="+$("#username").val();
+                                                    }
+                                                }
+                                            },
+                                            type: "post"
+                                        })
+                                }else{
+                                    return false;
+                                }
+                            }else if(res.code="exist_user_info"){
                                 $("#error").html("<div class=\"alert alert-danger alert-dismissable\">\n" +
                                     "\t<button type=\"button\" class=\"close\" data-dismiss=\"alert\"\n" +
                                     "\t\t\taria-hidden=\"true\">\n" +
                                     "\t\t&times;\n" +
                                     "\t</button>\n" +
-                                    "\t用户名信息输入错误！\n" +
-                                    "</div>")
+                                    "\t用户名信息已存在，请重新输入！\n" +
+                                    "</div>");
                             }
                         },
                         type: "post"
                     })
+                }else {
+                    $("#error").html("<div class=\"alert alert-danger alert-dismissable\">\n" +
+                        "\t<button type=\"button\" class=\"close\" data-dismiss=\"alert\"\n" +
+                        "\t\t\taria-hidden=\"true\">\n" +
+                        "\t\t&times;\n" +
+                        "\t</button>\n" +
+                        "\t用户名信息输入错误！\n" +
+                        "</div>");
                 }
-
             });
             $('#userNum').focus(function () {
                 $('#testUserNum').html('');
@@ -160,6 +195,7 @@
                 <input type="text" id="userPhone" class="form-control" placeholder="请输入手机号...">
             </div>
             <br>
+            <button type="reset"  class="btn btn-primary btn-lg btn-block">清空</button>
             <button type="button" id="register" class="btn btn-primary btn-lg btn-block">注册</button>
             <div id="error"></div>
         </form>

@@ -36,7 +36,13 @@ public class QuestionManageController {
 
     @RequestMapping("getAllQuestionByFilter")
     public Map<String,Object> getAllQuestionByFilter(QuestionFilterVo questionFilterVo){
-        return null;
+        Page<QuestionDto> res = questionManageService.getAllQuestionByFilter(questionFilterVo);
+        Map<String,Object> map = new HashMap<String,Object>();
+        map.put("code","0");
+        map.put("msg","成功");
+        map.put("count",res.getTotal());
+        map.put("data",res.getRecords());
+        return map;
     }
 
     @RequestMapping("/updateQuestion")

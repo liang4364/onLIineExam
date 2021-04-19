@@ -64,17 +64,17 @@
     <li class="layui-nav-item "><a href="${pageContext.request.contextPath}/teacherList" style="font-size: 15px;cursor: pointer" id="home">
         <span class="glyphicon glyphicon-home" style="font-size: 15px;"></span>首页</a>
     </li>
-    <li class="layui-nav-item"><a href="${pageContext.request.contextPath}/questionManage" style="font-size: 15px;cursor: pointer" id="questionManage">
+    <li class="layui-nav-item  layui-this"><a href="${pageContext.request.contextPath}/questionManage" style="font-size: 15px;cursor: pointer" id="questionManage">
         <span class="glyphicon glyphicon-th-large" style="font-size: 15px;"></span>问题管理</a>
     </li>
-    <li class="layui-nav-item"><a style="font-size: 15px;cursor: pointer" id="examManage">
+    <li class="layui-nav-item"><a href="${pageContext.request.contextPath}/examManage" style="font-size: 15px;cursor: pointer" id="examManage">
         <span class="glyphicon glyphicon-file" style="font-size: 15px;"></span>考试管理</a>
     </li>
-    <li class="layui-nav-item"><a style="font-size: 15px;cursor: pointer" id="stuManage">
+    <li class="layui-nav-item"><a  href="${pageContext.request.contextPath}/studentManage" style="font-size: 15px;cursor: pointer" id="stuManage">
         <span class="glyphicon glyphicon-user" style="font-size: 15px;"></span>学生管理</a>
     </li>
     <li class="layui-nav-item" lay-unselect="">
-        <a href="javascript:;"><img src="https://i.loli.net/2019/11/02/rCHKVJd4jTovzW9.jpg" class="layui-nav-img">我</a>
+        <a href="javascript:;"><img src="https://i.loli.net/2019/11/02/rCHKVJd4jTovzW9.jpg" class="layui-nav-img">${username}</a>
         <dl class="layui-nav-child">
             <dd><a href="javascript:;">修改信息</a></dd>
             <dd><a href="javascript:;">安全管理</a></dd>
@@ -87,9 +87,9 @@
     <div class="panel-body">
         <form id="formSearch" class="form-horizontal">
             <div class="form-group" style="margin-top:15px">
-                <label class="control-label col-sm-1" for="type">试题类型</label>
+                <label class="control-label col-sm-1" for="type">考试类型</label>
                 <div class="col-sm-2">
-                    <input type="text" class="form-control"  placeholder="请输入试题类型..." id="type">
+                    <input type="text" class="form-control"  placeholder="请输入考试类型..." id="type">
                 </div>
                 <label class="control-label col-sm-1" for="question">问题</label>
                 <div class="col-sm-1">
@@ -119,11 +119,11 @@
 
             </div>
             <div class="form-group" style="margin-top:15px">
-                <label class="control-label col-sm-1" for="type">选项</label>
+                <label class="control-label col-sm-1" for="courseName">科目名称</label>
                 <div class="col-sm-2">
-                    <input type="text" class="form-control"  placeholder="请输入选项内容..." id="option">
+                    <input type="text" class="form-control"  placeholder="请输入课程名称..." id="courseName">
                 </div>
-                <label class="control-label col-sm-1" for="question">解析</label>
+                <label class="control-label col-sm-1" for="analysis">解析</label>
                 <div class="col-sm-1">
                     <input type="text" class="form-control" placeholder="请输入解析描述..." id="analysis">
                 </div>
@@ -159,8 +159,8 @@
 
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" id="insertData"><i class="layui-icon"></i></button>
         <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
-        <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>
         <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
     </div>
 </script>
@@ -173,7 +173,6 @@
 
 <script src="static/layui.js" charset="utf-8"></script>
 <!-- 注意：如果你直接复制所有代码到本地，上述 JS 路径需要改成你本地的 -->
-
 <script>
     layui.use('table', function(){
         var table = layui.table;
@@ -187,9 +186,11 @@
                 ,layEvent: 'LAYTABLE_TIPS'
                 ,icon: 'layui-icon-tips'
             }]
-            ,title: '用户数据表'
+            ,title: '问题详情表'
             ,cols: [[
                 {type: 'checkbox', fixed: 'left',width:80}
+                ,{field:'courseName', title:'考试科目', width:130, sort: true}
+                ,{field:'creator', title:'创建人', width:130,edit: 'text'}
                 ,{field:'type', title:'考试类型', width:120,sort: true}
                 ,{field:'question', title:'问题', width:150,edit: 'text'}
                 ,{field:'optionA', title:'选项A', width:130, sort: true,edit: 'text'}
@@ -197,7 +198,7 @@
                 ,{field:'optionC', title:'选项C', width:130, sort: true,edit: 'text'}
                 ,{field:'optionD', title:'选项D', width:130, sort: true,edit: 'text'}
                 ,{field:'answer', title:'正确答案', width:130, sort: true,edit: 'text'}
-                ,{field:'analysis', title:'解析', width:400, sort: true,edit: 'text'}
+                ,{field:'analysis', title:'解析', width:300, sort: true,edit: 'text'}
                 ,{field:'createTime1', title:'创建时间', width:170, sort: true}
                 ,{field:'updateTime', title:'更新时间', width:170, sort: true}
                 ,{title:'操作', toolbar: '#barDemo', width:280}
@@ -213,14 +214,9 @@
                     var data = checkStatus.data;
                     layer.alert(JSON.stringify(data));
                     break;
-                case 'getCheckLength':
-                    var data = checkStatus.data;
-                    layer.msg('选中了：'+ data.length + ' 个');
-                    break;
                 case 'isAll':
                     layer.msg(checkStatus.isAll ? '全选': '未全选');
                     break;
-
                 //自定义头工具栏右侧图标 - 提示
                 case 'LAYTABLE_TIPS':
                     layer.alert('点击你要修改的信息即可！');
@@ -256,7 +252,7 @@
                 var question = $('#question').val();
                 var beginTime = $('#beginTime').val();
                 var endTime = $('#endTime').val();
-                var option = $('#option').val();
+                var courseName = $('#courseName').val();
                 var analysis = $('#analysis').val();
                 var updateBeginTime = $('#updateBeginTime').val();
                 var updateEndTime = $('#updateEndTime').val();
@@ -273,7 +269,7 @@
                         beginTime: beginTime,
                         endTime: endTime,
                         question:question,
-                        option:option,
+                        courseName:courseName,
                         analysis:analysis,
                         updateBeginTime:updateBeginTime,
                         updateEndTime:updateEndTime
@@ -283,11 +279,35 @@
         };
         $('#query').on('click', function(){
             var type = $(this).data('type');
-            if($('#type').val() == "" && $('#option').val()=="" && $('#beginTime').val()=="" && $('#endTime').val()=="" && $('#question').val()=="" && $('#analysis').val()=="" && $('#updateBeginTime').val()=="" && $('#updateEndTime').val()==""){
+            if($('#type').val() == "" && $('#courseName').val()=="" && $('#beginTime').val()=="" && $('#endTime').val()=="" && $('#question').val()=="" && $('#analysis').val()=="" && $('#updateBeginTime').val()=="" && $('#updateEndTime').val()==""){
                 layer.msg('查询条件不能为空');
                 return false;
             }
             active[type] ? active[type].call(this) : '';
+        });
+
+        $('#insertData').on('click', function(){
+            var dataBak = [];
+            var tableBak = table.cache.indent;
+            for (var i = 0; i < tableBak.length; i++) {
+                dataBak.push(tableBak[i]);      //将之前的数组备份
+            }
+            console.log(dataBak);
+            dataBak.push({
+                "question": ""
+                ,"optionA": "1"
+                ,"optionB": "2"
+                ,"optionC": "3"
+                ,"optionD": "4"
+                ,"type": "1"
+                ,"courseName": "2"
+                ,"answer": "3"
+                ,"analysis": "4"
+            });
+            console.log(dataBak);
+            table.reload("indent",{
+                data:dataBak
+            });
         });
 
 

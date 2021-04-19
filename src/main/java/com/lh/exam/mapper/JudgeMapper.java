@@ -5,6 +5,7 @@ import com.lh.exam.model.dto.JudgeDto;
 import com.lh.exam.model.dto.QuestionDto;
 import com.lh.exam.model.dto.SingleChoiceDto;
 import com.lh.exam.model.entity.JudgeEntity;
+import com.lh.exam.model.entity.MultiplyChoiceEntity;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -34,7 +35,7 @@ public interface JudgeMapper extends BaseMapper<JudgeEntity> {
     })
     List<QuestionDto> getJudgeQuestions(List<String> ids);
 
-    @Select("select id,type,question,optionA,optionB,answer,analysis,create_time,update_time from judge where id = #{id}")
+    @Select("select id,type,question,optionA,optionB,answer,analysis,create_time,update_time,course_id,creator from judge where id = #{id}")
     QuestionDto getQuestionById(String id);
 
     @Update("<script>update judge " +
@@ -58,4 +59,7 @@ public interface JudgeMapper extends BaseMapper<JudgeEntity> {
             ",update_time = #{updateTime} where id = #{typeId}"+
             "</script>")
     int updateJudge(String field,String value,String typeId,String updateTime);
+
+    @Select("select answer from judge where id = #{typeId}")
+    String getAnswer(String typeId);
 }

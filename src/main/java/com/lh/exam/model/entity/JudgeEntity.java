@@ -16,6 +16,8 @@ import java.util.Date;
 public class JudgeEntity {
     @TableId(value = "id", type = IdType.UUID)
     String id;
+    String type;
+    String creator;
     String courseId;
     String question;
     String optionA;
@@ -23,4 +25,5 @@ public class JudgeEntity {
     String answer;
     Date createTime;
     String updateTime;
+    String analysis;
 }

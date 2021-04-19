@@ -183,7 +183,7 @@ public class ExamServiceImpl implements ExamService {
     @Override
     public List<UserSingleDto> getUserSingleMsg(String examId,String userName,String courseName) {
         List<UserSingleDto> userSingleDtos = new ArrayList<>();
-        List<String> userSingleQuestions = userSingleMapper.getSingleQuestions(examId,userInfoMapper.getIdByUsername(userName),courseMapper.getCourseId(courseName));
+        List<String> userSingleQuestions = userSingleMapper.getSingleQuestions(examId,userInfoMapper.getIdByUsername(userName),courseMapper.getCourseIdByName(courseName));
             for(String singleQuestionId : userSingleQuestions){
             UserSingleDto userSingleDto = new UserSingleDto();
             SingleChoiceDto singleChoiceDto = singleChoiceMapper.getSingleQuestionById(singleQuestionId);
@@ -205,7 +205,7 @@ public class ExamServiceImpl implements ExamService {
     @Override
     public List<UserMultiplyDto> getUserMultiplyMsg(String examId,String userName,String courseName) {
         List<UserMultiplyDto> userMultiplyDtos = new ArrayList<>();
-        List<String> userSingleQuestionIds = userMultiplyMapper.getMultiplyQuestions(examId,userInfoMapper.getIdByUsername(userName),courseMapper.getCourseId(courseName));
+        List<String> userSingleQuestionIds = userMultiplyMapper.getMultiplyQuestions(examId,userInfoMapper.getIdByUsername(userName),courseMapper.getCourseIdByName(courseName));
         for(String multiplyQuestionId : userSingleQuestionIds){
             UserMultiplyDto userMultiplyDto = new UserMultiplyDto();
             String answer = "";
@@ -234,7 +234,7 @@ public class ExamServiceImpl implements ExamService {
     @Override
     public List<UserJudgeDto> getUserJudgeMsg(String examId,String userName,String courseName) {
         List<UserJudgeDto> userJudgeDtos = new ArrayList<>();
-        List<String> userJudgeQuestions = userJudgeMapper.getJudgeQuestions(examId,userInfoMapper.getIdByUsername(userName),courseMapper.getCourseId(courseName));
+        List<String> userJudgeQuestions = userJudgeMapper.getJudgeQuestions(examId,userInfoMapper.getIdByUsername(userName),courseMapper.getCourseIdByName(courseName));
         for(String judgeQuestionId : userJudgeQuestions){
             UserJudgeDto userJudgeDto = new UserJudgeDto();
             JudgeDto judgeDto = judgeMapper.getJudgeQuestionById(judgeQuestionId);

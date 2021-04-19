@@ -32,14 +32,14 @@
     <li class="layui-nav-item"><a href="${pageContext.request.contextPath}/questionManage" style="font-size: 15px;cursor: pointer" id="questionManage">
         <span class="glyphicon glyphicon-th-large" style="font-size: 15px;"></span>问题管理</a>
     </li>
-    <li class="layui-nav-item"><a style="font-size: 15px;cursor: pointer" id="examManage">
+    <li class="layui-nav-item"><a href="${pageContext.request.contextPath}/examManage" style="font-size: 15px;cursor: pointer" id="examManage">
         <span class="glyphicon glyphicon-file" style="font-size: 15px;"></span>考试管理</a>
     </li>
-    <li class="layui-nav-item"><a style="font-size: 15px;cursor: pointer" id="stuManage">
+    <li class="layui-nav-item"><a href="${pageContext.request.contextPath}/studentManage" style="font-size: 15px;cursor: pointer" id="stuManage">
         <span class="glyphicon glyphicon-user" style="font-size: 15px;"></span>学生管理</a>
     </li>
     <li class="layui-nav-item" lay-unselect="">
-        <a href="javascript:;"><img src="https://i.loli.net/2019/11/02/rCHKVJd4jTovzW9.jpg" class="layui-nav-img">我</a>
+        <a href="javascript:;"><img src="https://i.loli.net/2019/11/02/rCHKVJd4jTovzW9.jpg" class="layui-nav-img">${username}</a>
         <dl class="layui-nav-child">
             <dd><a href="javascript:;">修改信息</a></dd>
             <dd><a href="javascript:;">安全管理</a></dd>

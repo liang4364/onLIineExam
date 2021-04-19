@@ -35,7 +35,7 @@ public interface SingleChoiceMapper  extends BaseMapper<SingleChoiceEntity> {
     })
     List<QuestionDto> getSingleQuestions(List<String> ids);
 
-    @Select("select id,type,question,optionA,optionB,optionC,optionD,answer,analysis,create_time,update_time from single_choice where id = #{id}")
+    @Select("select id,type,question,optionA,optionB,optionC,optionD,answer,analysis,create_time,update_time,course_id,creator from single_choice where id = #{id}")
     QuestionDto getQuestionById(String id);
 
     @Update("<script>update single_choice " +
@@ -66,5 +66,7 @@ public interface SingleChoiceMapper  extends BaseMapper<SingleChoiceEntity> {
             "</script>")
     int updateSingle(String field, String value, String typeId, String updateTime);
 
+    @Select("select answer from single_choice where id = #{typeId}")
+    String getAnswer(String typeId);
 
 }

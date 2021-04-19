@@ -74,7 +74,8 @@ public class IndexController {
     }
 
     @RequestMapping("/teacherList")
-    public String teacherList(){
+    public String teacherList(HttpSession session,HttpServletRequest request){
+        session.setAttribute("username",request.getParameter("username"));
         return "teacherList";
     }
 
@@ -82,4 +83,15 @@ public class IndexController {
     public String questionManage(){
         return "questionManage";
     }
+
+    @RequestMapping("/examManage")
+    public String examManage(){
+        return "examManage";
+    }
+
+    @RequestMapping("/studentManage")
+    public String studentManage(){
+        return "studentManage";
+    }
+
 }

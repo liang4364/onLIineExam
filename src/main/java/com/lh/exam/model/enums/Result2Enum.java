@@ -19,6 +19,7 @@ public enum Result2Enum {
 
     ARGUMENT_FORMAT_INVALID("Argument_format_invalid","参数不合法！"),
 
+    EXIST_USER_INFO("exist_user_info","用户信息已存在，请重新输入！")
 
     ;
 

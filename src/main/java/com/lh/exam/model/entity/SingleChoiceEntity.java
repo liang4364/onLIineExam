@@ -17,7 +17,8 @@ public class SingleChoiceEntity {
     @TableId(value = "id", type = IdType.UUID)
     String id;
     String courseId;
-    int type;
+    String type;
+    String creator;
     String question;
     String optionA;
     String optionB;
