@@ -64,5 +64,8 @@ public interface MultiplyMapper extends BaseMapper<MultiplyChoiceEntity> {
     @Insert("insert into multiply_answer (id,question_id,answer) values (#{id},#{questionId},#{answer})")
     int insertNewAnswer(String id,String questionId,String answer);
 
+    @Insert("INSERT INTO multiply_choice  ( id, course_id, type, creator, question, optionA, optionB, optionC, optionD, analysis )  VALUES  ( #{id}, #{courseId},#{type},#{creator}, #{question}, #{optionA}, #{optionB}, #{optionC}, #{optionD},#{analysis} )")
+    int insertQuestion(MultiplyChoiceEntity multiplyChoiceEntity);
+
 
 }

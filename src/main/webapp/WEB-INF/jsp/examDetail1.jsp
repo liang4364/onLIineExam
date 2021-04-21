@@ -163,7 +163,7 @@
                     }]
                     ,title: '考试成绩表'
                     ,cols: [[
-                        ,{field:'userName', title:'用户名', width:120, edit: 'text'}
+                        {field:'userName', title:'用户名', width:120, edit: 'text'}
                         ,{field:'courseName', title:'考试类型', width:150, edit: 'text'}
                         ,{field:'singleScore', title:'单选题得分', width:130, sort: true}
                         ,{field:'multiplyScore', title:'多选题得分', width:130, sort: true}

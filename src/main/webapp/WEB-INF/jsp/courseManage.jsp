@@ -31,10 +31,10 @@
         <span class="glyphicon glyphicon-th-large" style="font-size: 15px;"></span>问题管理</a>
     </li>
     <li class="layui-nav-item"><a href="${pageContext.request.contextPath}/examManage" style="font-size: 15px;cursor: pointer" id="examManage">
-        <span class="glyphicon glyphicon-file" style="font-size: 15px;"></span>考试管理</a>
+        <span class="glyphicon glyphicon-file" style="font-size: 15px;"></span>学生考试管理</a>
     </li>
-    <li class="layui-nav-item  layui-this"><a href="${pageContext.request.contextPath}/studentManage" style="font-size: 15px;cursor: pointer" id="stuManage">
-        <span class="glyphicon glyphicon-user" style="font-size: 15px;"></span>学生管理</a>
+    <li class="layui-nav-item  layui-this"><a href="${pageContext.request.contextPath}/courseManage" style="font-size: 15px;cursor: pointer" id="stuManage">
+        <span class="glyphicon glyphicon-user" style="font-size: 15px;"></span>科目管理</a>
     </li>
     <li class="layui-nav-item" lay-unselect="">
         <a href="javascript:;"><img src="https://i.loli.net/2019/11/02/rCHKVJd4jTovzW9.jpg" class="layui-nav-img">${username}</a>
@@ -54,9 +54,9 @@
                 <div class="col-sm-2">
                     <input type="text" class="form-control" placeholder="请输入学生姓名..." id="username">
                 </div>
-                <label class="control-label col-sm-1" for="role">角色</label>
+                <label class="control-label col-sm-1" for="userPhone">手机号</label>
                 <div class="col-sm-2">
-                    <input type="text" class="form-control" placeholder="请输入角色描述..." id="role">
+                    <input type="text" class="form-control" placeholder="手机号..." id="userPhone">
                 </div>
 
             </div>
@@ -108,8 +108,10 @@
     </div>
 </script>
 
+
 <script type="text/html" id="barDemo">
-    <a id="lookDetail" class="layui-btn layui-btn-xs" lay-event="look">查看</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 <script src="static/layui.js" charset="utf-8"></script>
 <!-- 注意：如果你直接复制所有代码到本地，上述 JS 路径需要改成你本地的 -->
@@ -149,10 +151,6 @@
                 case 'isAll':
                     layer.msg(checkStatus.isAll ? '全选': '未全选');
                     break;
-                case 'getCheckLength':
-                    var data = checkStatus.data;
-                    layer.msg('选中了：'+ data.length + ' 个');
-                    break;
                 //自定义头工具栏右侧图标 - 提示
                 case 'LAYTABLE_TIPS':
                     layer.alert('点击你要修改的信息即可！');
@@ -162,32 +160,29 @@
 
         //监听行工具事件
         table.on('tool(test)', function(obj){
-            //监听行工具事件
-            table.on('tool(test)', function(obj){
-                var data=obj.data;
-                console.log(data);
-                var json = {
-                    examId : data.id,
-                    userName:data.userName,
-                    courseName:data.courseName
-                };
-                $.ajax({
-                    data: json,
-                    dataType: "json",
-                    url: "lookDetail",
-                    success: function (res) {
-                        if(res.code === "ok"){
-                            window.open("examDetail")
-                        }
-                    },
-                    type: "post"
-                })
-            });
+            var data = obj.data;
+            //console.log(obj)
+            if(obj.event === 'del'){
+                layer.confirm('确定删除吗？', function(index){
+                    obj.del();
+                    layer.close(index);
+                });
+            } else if(obj.event === 'edit'){
+                layer.prompt({
+                    formType: 7
+                    ,value: data.analysis
+                }, function(value, index){
+                    obj.update({
+                        analysis: value
+                    });
+                    layer.close(index);
+                });
+            }
         });
+
         var active = {
             reload: function(){
                 var username = $('#username').val();
-                var role = $('#role').val();
                 var userEmail = $('#userEmail').val();
                 var userPhone = $('#userPhone').val();
                 var beginTime = $('#beginTime').val();
@@ -201,7 +196,6 @@
                     }
                     ,where: {
                         username: username,
-                        role: role,
                         userEmail: userEmail,
                         userPhone: userPhone,
                         beginTime:beginTime,
@@ -212,7 +206,7 @@
         };
         $('#query').on('click', function(){
             var type = $(this).data('type');
-            if($('#username').val() == "" &&$('#role').val() == "" && $('#userEmail').val()=="" && $('#userPhone').val()=="" && $('#beginTime').val()==""  && $('#endTime').val()==""){
+            if($('#username').val() == "" && $('#userEmail').val()=="" && $('#userPhone').val()=="" && $('#beginTime').val()==""  && $('#endTime').val()==""){
                 layer.msg('查询条件不能为空');
                 return false;
             }

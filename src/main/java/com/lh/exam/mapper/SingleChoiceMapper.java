@@ -7,6 +7,8 @@ import com.lh.exam.model.dto.QuestionDto;
 import com.lh.exam.model.dto.SingleChoiceDto;
 import com.lh.exam.model.entity.ExamScoreEntity;
 import com.lh.exam.model.entity.SingleChoiceEntity;
+import com.lh.exam.model.vo.QuestionAddVo;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -68,5 +70,8 @@ public interface SingleChoiceMapper  extends BaseMapper<SingleChoiceEntity> {
 
     @Select("select answer from single_choice where id = #{typeId}")
     String getAnswer(String typeId);
+
+    @Insert("INSERT INTO single_choice  ( id, course_id, type, creator, question, optionA, optionB, optionC, optionD, answer, analysis )  VALUES  ( #{id}, #{courseId},#{type},#{creator}, #{question}, #{optionA}, #{optionB},  #{optionC}, #{optionD}, #{answer},#{analysis} )")
+    int insertQuestion(SingleChoiceEntity singleChoiceEntity);
 
 }

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.lang.reflect.Array;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -52,8 +53,10 @@ public class ExamServiceImpl implements ExamService {
 
     @Override
     public int insertExamMsg(HttpServletRequest request, HttpSession session) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         JSONObject jsonObject = JSONObject.parseObject(ExamUtil.readJSONStringFromRequestBody(request));
         Map<String, List> resMap = (Map<String, List>) session.getAttribute("resMap");
+        Date beginTime = (Date) session.getAttribute("beginTime");
         //正确答案
         JSONArray singleJsonArray = (JSONArray) resMap.get("单选题");
         JSONArray multiplyJsonArray = (JSONArray) resMap.get("多选题");
@@ -175,6 +178,7 @@ public class ExamServiceImpl implements ExamService {
         examScoreEntity.setSingleScore(singleScore);
         examScoreEntity.setMultiplyScore(multiplyScore);
         examScoreEntity.setJudgeScore(judgeScore);
+        examScoreEntity.setBeginTime(sdf.format(beginTime));
         examScoreMapper.insert(examScoreEntity);
         return score;
     }

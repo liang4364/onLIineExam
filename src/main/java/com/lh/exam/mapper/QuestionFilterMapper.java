@@ -3,6 +3,7 @@ package com.lh.exam.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lh.exam.model.entity.QuestionInfoEntity;
+import com.lh.exam.model.entity.SingleChoiceEntity;
 import com.lh.exam.model.vo.QuestionFilterVo;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -12,7 +13,7 @@ import org.apache.ibatis.annotations.Update;
 import java.util.List;
 
 @Mapper
-public interface QuestionInfoMapper extends BaseMapper<QuestionInfoEntity> {
+public interface QuestionFilterMapper extends BaseMapper<QuestionInfoEntity> {
     @Select("<script>select * from question_filter " +
             "<where>\n" +
             "\t<if test=\"questionFilterVo.type != ''\">\n" +
@@ -61,11 +62,14 @@ public interface QuestionInfoMapper extends BaseMapper<QuestionInfoEntity> {
             "\t<if test=\"field == 'analysis'\">\n" +
             " \t\tanalysis = #{value}\n" +
             "\t</if>\n" +
+            "\t<if test=\"updateTime != '' \">\n" +
+            " \t\tupdate_time = #{updateTime}\n" +
+            "\t</if>\n" +
             "</trim>"+
-            ",update_time = #{updateTime} where type_id = #{typeId}"+
+            "where type_id = #{typeId}"+
             "</script>")
     int updateQuestionFilter(String field, String value, String typeId, String updateTime);
 
-    @Insert("insert into question_filter values(#{id},#{type},#{typeId},#{courseName},#{question},#{optionA},#{optionB},#{optionC},#{optionD},#{analysis},#{createTime},#{updateTime})")
-    int test(QuestionInfoEntity questionInfoEntity);
+    @Insert("INSERT INTO question_filter  ( id, course_name, type_id, type, creator,question, optionA, optionB, optionC, optionD, analysis )  VALUES  ( #{id}, #{courseName},#{typeId}, #{type},#{creator},#{question}, #{optionA}, #{optionB},  #{optionC}, #{optionD},#{analysis} )")
+    int insertQuestion(QuestionInfoEntity questionInfoEntity);
 }

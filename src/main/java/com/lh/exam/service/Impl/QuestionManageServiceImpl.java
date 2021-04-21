@@ -5,10 +5,14 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lh.exam.mapper.*;
 import com.lh.exam.model.dto.*;
 import com.lh.exam.model.entity.*;
+import com.lh.exam.model.enums.Result2Enum;
+import com.lh.exam.model.vo.QuestionAddVo;
 import com.lh.exam.model.vo.QuestionFilterVo;
 import com.lh.exam.model.vo.QuestionVo;
+import com.lh.exam.model.vo.Result2Vo;
 import com.lh.exam.service.QuestionManageService;
 import com.lh.exam.utils.ExamUtil;
+import com.lh.exam.utils.ResultVoUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,7 +38,7 @@ public class QuestionManageServiceImpl implements QuestionManageService {
     JudgeMapper judgeMapper;
     
     @Autowired
-    QuestionInfoMapper questionInfoMapper;
+    QuestionFilterMapper questionInfoMapper;
 
     @Autowired
     CourseMapper courseMapper;
@@ -194,4 +198,91 @@ public class QuestionManageServiceImpl implements QuestionManageService {
         resPage.setRecords(res);
         return resPage;
     }
+
+    @Override
+    public Result2Vo insertQuestion(QuestionAddVo questionAddVo) {
+        String answer = questionAddVo.getAnswer();
+        String type = questionAddVo.getType();
+        int count = -1;
+        answer = answer.substring(0,answer.length()-1);
+        QuestionEntity questionEntity = new QuestionEntity();
+        QuestionInfoEntity questionInfoEntity = new QuestionInfoEntity();
+        if("single".equals(type)){
+            if(answer.contains(",")){
+                return ResultVoUtil.errorResult2Vo(Result2Enum.SINGLE_ERROR);
+            }
+            SingleChoiceEntity singleChoiceEntity = new SingleChoiceEntity();
+            BeanUtils.copyProperties(questionAddVo,singleChoiceEntity);
+            String typeId = IdUtil.simpleUUID();
+            singleChoiceEntity.setId(typeId);
+            singleChoiceEntity.setCourseId(courseMapper.getCourseIdByName(questionAddVo.getCourse()));
+            singleChoiceEntity.setType("单选题");
+            singleChoiceEntity.setAnswer(answer);
+            count = singleChoiceMapper.insertQuestion(singleChoiceEntity);
+            questionEntity.setId(IdUtil.simpleUUID());
+            questionEntity.setType(type);
+            questionEntity.setTypeId(typeId);
+
+            BeanUtils.copyProperties(questionAddVo,questionInfoEntity);
+            questionInfoEntity.setId(IdUtil.simpleUUID());
+            questionInfoEntity.setType("单选题");
+            questionInfoEntity.setCourseName(questionAddVo.getCourse());
+            questionInfoEntity.setTypeId(typeId);
+            questionInfoMapper.insertQuestion(questionInfoEntity);
+
+        }else if("multiply".equals(type)){
+            if(!answer.contains(",")){
+                return ResultVoUtil.errorResult2Vo(Result2Enum.MULTIPLY_ERROR);
+            }
+            MultiplyChoiceEntity multiplyChoiceEntity = new MultiplyChoiceEntity();
+            BeanUtils.copyProperties(questionAddVo,multiplyChoiceEntity);
+            multiplyChoiceEntity.setCourseId(courseMapper.getCourseIdByName(questionAddVo.getCourse()));
+            String questionId = IdUtil.simpleUUID();
+            multiplyChoiceEntity.setId(questionId);
+            multiplyChoiceEntity.setType("多选题");
+
+            BeanUtils.copyProperties(questionAddVo,questionInfoEntity);
+            questionInfoEntity.setId(IdUtil.simpleUUID());
+            questionInfoEntity.setType("多选题");
+            questionInfoEntity.setTypeId(questionId);
+            questionInfoEntity.setCourseName(questionAddVo.getCourse());
+            questionInfoMapper.insertQuestion(questionInfoEntity);
+
+            questionEntity.setId(IdUtil.simpleUUID());
+            questionEntity.setType(type);
+            questionEntity.setTypeId(questionId);
+            count = multiplyMapper.insertQuestion(multiplyChoiceEntity);
+            String[] answerArray = answer.split(",");
+            for(int i = 0;i<answerArray.length;i++){
+                multiplyMapper.insertNewAnswer(IdUtil.simpleUUID(),questionId,answerArray[i]);
+            }
+        }else if("judge".equals(type)){
+            if(answer.contains(",") || "C".equals(answer) ||"D".equals(answer)){
+                return ResultVoUtil.errorResult2Vo(Result2Enum.JUDGE_ERROR);
+            }
+
+            JudgeEntity judgeEntity = new JudgeEntity();
+            BeanUtils.copyProperties(questionAddVo,judgeEntity);
+            judgeEntity.setType("判断题");
+            String typeId = IdUtil.simpleUUID();
+            judgeEntity.setCourseId(courseMapper.getCourseIdByName(questionAddVo.getCourse()));
+            judgeEntity.setId(IdUtil.simpleUUID());
+            judgeEntity.setAnswer(answer);
+            count = judgeMapper.insertQuestion(judgeEntity);
+
+            BeanUtils.copyProperties(questionAddVo,questionInfoEntity);
+            questionInfoEntity.setId(IdUtil.simpleUUID());
+            questionInfoEntity.setType("判断题");
+            questionInfoEntity.setTypeId(typeId);
+            questionInfoEntity.setCourseName(questionAddVo.getCourse());
+            questionInfoMapper.insertQuestion(questionInfoEntity);
+
+            questionEntity.setId(typeId);
+            questionEntity.setType(type);
+            questionEntity.setTypeId(typeId);
+        }
+        questionMapper.insert(questionEntity);
+        return ResultVoUtil.successResult2Vo(count);
+    }
+
 }

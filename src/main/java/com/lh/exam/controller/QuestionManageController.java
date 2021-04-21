@@ -3,6 +3,7 @@ package com.lh.exam.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lh.exam.model.dto.QuestionDto;
 import com.lh.exam.model.enums.Result2Enum;
+import com.lh.exam.model.vo.QuestionAddVo;
 import com.lh.exam.model.vo.QuestionFilterVo;
 import com.lh.exam.model.vo.QuestionVo;
 import com.lh.exam.model.vo.Result2Vo;
@@ -10,6 +11,7 @@ import com.lh.exam.service.QuestionManageService;
 import com.lh.exam.utils.ExamUtil;
 import com.lh.exam.utils.ResultVoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -61,6 +63,16 @@ public class QuestionManageController {
             return ResultVoUtil.successResult2Vo(count);
         }
         return ResultVoUtil.errorResult2Vo(Result2Enum.UNKNOWN_EXCEPTION);
+    }
+
+    @RequestMapping("/addQuestion")
+    public Result2Vo test(){
+        return ResultVoUtil.successResult2Vo();
+    }
+
+    @RequestMapping("/addQuestion1")
+    public Result2Vo addQuestion1(@RequestBody QuestionAddVo questionAddVo){
+    return questionManageService.insertQuestion(questionAddVo);
     }
 
 }

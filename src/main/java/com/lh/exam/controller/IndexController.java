@@ -1,6 +1,5 @@
 package com.lh.exam.controller;
 
-import cn.hutool.core.util.IdUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.lh.exam.model.dto.*;
 import com.lh.exam.service.ExamService;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,6 +54,7 @@ public class IndexController {
         session.setAttribute("resMap",jsonObject);
         session.setAttribute("courseMsg",courseDto);
         session.setAttribute("username",request.getParameter("username"));
+        session.setAttribute("beginTime",new Date());
         return "exam";
     }
 
@@ -89,9 +90,17 @@ public class IndexController {
         return "examManage";
     }
 
-    @RequestMapping("/studentManage")
+    @RequestMapping("/courseManage")
     public String studentManage(){
-        return "studentManage";
+        return "courseManage";
     }
+
+    @RequestMapping("/questionAdd")
+    public String questionAdd(HttpSession session,HttpServletRequest request){
+        System.out.println(request.getParameter("username"));
+        session.setAttribute("username",request.getParameter("username"));
+        return "questionAdd";
+    }
+
 
 }

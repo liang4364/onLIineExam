@@ -28,12 +28,26 @@
                 format: 'YYYY-MM-DD',
                 locale: moment.locale('zh-cn')
             });
+            var picker3 = $('#datetimepicker3').datetimepicker({
+                format: 'YYYY-MM-DD',
+                locale: moment.locale('zh-cn')
+            });
+            var picker4 = $('#datetimepicker4').datetimepicker({
+                format: 'YYYY-MM-DD',
+                locale: moment.locale('zh-cn')
+            });
             //动态设置最小值
             picker1.on('dp.change', function (e) {
                 picker2.data('DateTimePicker').minDate(e.date);
             });
             //动态设置最大值
             picker2.on('dp.change', function (e) {
+                picker1.data('DateTimePicker').maxDate(e.date);
+            });
+            picker3.on('dp.change', function (e) {
+                picker1.data('DateTimePicker').maxDate(e.date);
+            });
+            picker4.on('dp.change', function (e) {
                 picker1.data('DateTimePicker').maxDate(e.date);
             });
         })
@@ -49,10 +63,10 @@
         <span class="glyphicon glyphicon-th-large" style="font-size: 15px;"></span>问题管理</a>
     </li>
     <li class="layui-nav-item  layui-this"><a href="${pageContext.request.contextPath}/examManage" style="font-size: 15px;cursor: pointer" id="examManage">
-        <span class="glyphicon glyphicon-file" style="font-size: 15px;"></span>考试管理</a>
+        <span class="glyphicon glyphicon-file" style="font-size: 15px;"></span>学生考试管理</a>
     </li>
-    <li class="layui-nav-item"><a href="${pageContext.request.contextPath}/studentManage" style="font-size: 15px;cursor: pointer" id="stuManage">
-        <span class="glyphicon glyphicon-user" style="font-size: 15px;"></span>学生管理</a>
+    <li class="layui-nav-item"><a href="${pageContext.request.contextPath}/courseManage" style="font-size: 15px;cursor: pointer" id="stuManage">
+        <span class="glyphicon glyphicon-user" style="font-size: 15px;"></span>科目管理</a>
     </li>
     <li class="layui-nav-item" lay-unselect="">
         <a href="javascript:;"><img src="https://i.loli.net/2019/11/02/rCHKVJd4jTovzW9.jpg" class="layui-nav-img">${username}</a>
@@ -68,39 +82,19 @@
     <div class="panel-body">
         <form id="formSearch" class="form-horizontal">
             <div class="form-group" style="margin-top:15px">
-                <label class="control-label col-sm-1" for="grade">总分数</label>
-                <div class="col-sm-2">
-                    <input type="text" class="form-control" placeholder="请输入问题描述..." id="grade">
-                </div>
-                <label class="control-label col-sm-1" for="singleGrade">单选得分</label>
-                <div class="col-sm-2">
-                    <input type="text" class="form-control" placeholder="请输入问题描述..." id="singleGrade">
-                </div>
-                <label class="control-label col-sm-1" for="multiplyGrade">多选得分</label>
-                <div class="col-sm-2">
-                    <input type="text" class="form-control" placeholder="请输入问题描述..." id="multiplyGrade">
-                </div>
-                <label class="control-label col-sm-1" for="judgeGrade">单选得分</label>
-                <div class="col-sm-2">
-                    <input type="text" class="form-control" placeholder="请输入问题描述..." id="judgeGrade">
-                </div>
-
-            </div>
-            <div class="form-group" style="margin-top:15px">
-
                 <label class="control-label col-sm-1" for="username">学生姓名</label>
                 <div class="col-sm-2">
                     <input type="text" class="form-control"  placeholder="请输入学生姓名..." id="username">
                 </div>
-                <label class="control-label col-sm-1" for="type">考试科目</label>
+                <label class="control-label col-sm-1" for="stuEmail">学生邮箱</label>
                 <div class="col-sm-1">
-                    <input type="text" class="form-control"  placeholder="请输入考试科目..." id="type">
+                    <input type="text" class="form-control" placeholder="请输入问题描述..." id="stuEmail">
                 </div>
-                <label class="control-label col-sm-1">创建时间范围</label>
+                <label class="control-label col-sm-1">学生创建时间范围</label>
                 <div class='col-sm-2'>
                     <div class="form-group">
                         <div class='input-group date' id='datetimepicker1'>
-                            <input type='text' class="form-control" id="beginTime" />
+                            <input type='text' class="form-control" id="userCreateTimeBegin" />
                             <span class="input-group-addon">
                                                  <span class="glyphicon glyphicon-calendar"></span>
                                             </span>
@@ -110,7 +104,40 @@
                 <div class='col-sm-2'>
                     <div class="form-group">
                         <div class='input-group date' id='datetimepicker2'>
-                            <input type='text' class="form-control" id="endTime" />
+                            <input type='text' class="form-control" id="userCreateTimeEnd" />
+                            <span class="input-group-addon">
+                                                  <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="form-group" style="margin-top:15px">
+
+                <label class="control-label col-sm-1" for="grade">总分数</label>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control" placeholder="请输入分数..." id="grade">
+                </div>
+                <label class="control-label col-sm-1" for="course">考试科目</label>
+                <div class="col-sm-1">
+                    <input type="text" class="form-control"  placeholder="请输入考试科目..." id="course">
+                </div>
+                <label class="control-label col-sm-1">考试创建时间范围</label>
+                <div class='col-sm-2'>
+                    <div class="form-group">
+                        <div class='input-group date' id='datetimepicker3'>
+                            <input type='text' class="form-control" id="examBeginTime" />
+                            <span class="input-group-addon">
+                                                 <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class='col-sm-2'>
+                    <div class="form-group">
+                        <div class='input-group date' id='datetimepicker4'>
+                            <input type='text' class="form-control" id="examEndTime" />
                             <span class="input-group-addon">
                                                   <span class="glyphicon glyphicon-calendar"></span>
                                             </span>
@@ -157,12 +184,17 @@
             ,cols: [[
                 {type: 'checkbox', fixed: 'left',width:80}
                 ,{field:'userName', title:'学生姓名', width:130,sort: true}
+                ,{field:'userEmail', title:'学生邮箱', width:160,sort: true}
+                ,{field:'userPhone', title:'学生手机号', width:130,sort: true}
                 ,{field:'courseName', title:'考试科目', width:120, sort: true}
                 ,{field:'singleScore', title:'单选题得分', width:130, sort: true}
                 ,{field:'multiplyScore', title:'多选题得分', width:130, sort: true}
                 ,{field:'judgeScore', title:'判断题得分', width:130, sort: true}
-                ,{field:'score', title:'总分数', width:900}
-                ,{field:'createTime', title:'创建时间', width:180, sort: true}
+                ,{field:'score', title:'总分数', width:140}
+                ,{field:'examTime', title:'考试时长', width:140, sort: true}
+                ,{field:'examBeginTime', title:'考试开始时间', width:180, sort: true}
+                ,{field:'examEndTime', title:'考试结束时间', width:180, sort: true}
+                ,{field:'userCreateTime', title:'用户创建时间', width:180, sort: true}
                 ,{title:'操作', toolbar: '#barDemo', width:280}
             ]]
             ,page: true
@@ -217,13 +249,14 @@
         var active = {
             reload: function(){
                 var username = $('#username').val();
-                var type = $('#type').val();
+                var userEmail = $('#stuEmail').val();
+                var userCreateBeginTime = $("#userCreateTimeBegin").val();
+                var userCreateEndTime = $('#userCreateTimeEnd').val();
                 var score = $('#grade').val();
-                var beginTime = $('#beginTime').val();
-                var endTime = $('#endTime').val();
-                var singleScore = $('#singleGrade').val();
-                var multiplyScore = $('#multiplyGrade').val();
-                var judgeScore = $('#judgeGrade').val();
+                var course = $('#course').val();
+                var examBeginTime = $('#examBeginTime').val();
+                var examEndTime = $('#examEndTime').val();
+
                 //执行重载
                 table.reload('indent', {
                     url : '/api/getAllExamByFilter',
@@ -233,20 +266,20 @@
                     }
                     ,where: {
                         username: username,
-                        type: type,
-                        beginTime: beginTime,
-                        endTime: endTime,
+                        userEmail: userEmail,
+                        userCreateBeginTime: userCreateBeginTime,
+                        userCreateEndTime: userCreateEndTime,
                         score:score,
-                        singleScore:singleScore,
-                        multiplyScore:multiplyScore,
-                        judgeScore:judgeScore
+                        course:course,
+                        examBeginTime:examBeginTime,
+                        examEndTime:examEndTime
                     }
                 });
             }
         };
         $('#query').on('click', function(){
             var type = $(this).data('type');
-            if($('#username').val() == "" &&$('#type').val() == "" && $('#grade').val()=="" && $('#beginTime').val()=="" && $('#endTime').val()==""  && $('#singleGrade').val()=="" && $('#multiplyGrade').val()=="" && $('#judgeGrade').val()==""){
+            if($('#username').val() == "" && $('#stuEmail').val() == "" && $('#userCreateBeginTime').val()=="" && $('#userCreateEndTime').val()=="" && $('#grade').val()==""  && $('#course').val()=="" && $('#examBeginTime').val()=="" && $('#examEndTime').val()==""){
                 layer.msg('查询条件不能为空');
                 return false;
             }

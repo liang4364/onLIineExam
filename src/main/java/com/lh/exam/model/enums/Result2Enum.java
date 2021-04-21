@@ -19,7 +19,13 @@ public enum Result2Enum {
 
     ARGUMENT_FORMAT_INVALID("Argument_format_invalid","参数不合法！"),
 
-    EXIST_USER_INFO("exist_user_info","用户信息已存在，请重新输入！")
+    EXIST_USER_INFO("exist_user_info","用户信息已存在，请重新输入！"),
+
+    SINGLE_ERROR("single_error","单选题答案必须唯一！"),
+
+    JUDGE_ERROR("judge_error","判断题答案必须唯一，并且答案必须为A或者B！"),
+
+    MULTIPLY_ERROR("multiply_error","多选题答案至少为两个以上！")
 
     ;
 

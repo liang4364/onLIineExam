@@ -374,6 +374,7 @@
         }
         function submitExam() {
             let answerJson={
+                'begin_time':'${beginTime}',
                 'single' : {
                     "${resMap["单选题"][0].id}":getSingleAnswer('${resMap["单选题"][0].id}'),
                     "${resMap["单选题"][1].id}":getSingleAnswer('${resMap["单选题"][1].id}'),

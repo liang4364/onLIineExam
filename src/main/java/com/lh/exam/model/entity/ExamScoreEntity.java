@@ -20,6 +20,7 @@ public class ExamScoreEntity {
     String courseId;
     int score;
     Date createTime;
+    String beginTime;
     int singleScore;
     int multiplyScore;
     int judgeScore;

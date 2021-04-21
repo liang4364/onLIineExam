@@ -17,5 +17,5 @@ public class UserDto {
     String userNum;
     String userEmail;
     String userPhone;
-    Date createTime;
+    String createTime;
 }

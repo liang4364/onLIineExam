@@ -12,12 +12,12 @@ public class ExamFilterVo {
     Integer limit;
     String username;
     String userId;
+    String userEmail;
+    String userCreateBeginTime;
+    String userCreateEndTime;
     String courseId;
-    String type;
+    String course;
     String score;
-    String singleScore;
-    String multiplyScore;
-    String judgeScore;
-    String beginTime;
-    String EndTime;
+    String examBeginTime;
+    String examEndTime;
 }

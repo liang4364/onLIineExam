@@ -68,10 +68,10 @@
         <span class="glyphicon glyphicon-th-large" style="font-size: 15px;"></span>问题管理</a>
     </li>
     <li class="layui-nav-item"><a href="${pageContext.request.contextPath}/examManage" style="font-size: 15px;cursor: pointer" id="examManage">
-        <span class="glyphicon glyphicon-file" style="font-size: 15px;"></span>考试管理</a>
+        <span class="glyphicon glyphicon-file" style="font-size: 15px;"></span>学生考试管理</a>
     </li>
-    <li class="layui-nav-item"><a  href="${pageContext.request.contextPath}/studentManage" style="font-size: 15px;cursor: pointer" id="stuManage">
-        <span class="glyphicon glyphicon-user" style="font-size: 15px;"></span>学生管理</a>
+    <li class="layui-nav-item"><a  href="${pageContext.request.contextPath}/courseManage" style="font-size: 15px;cursor: pointer" id="stuManage">
+        <span class="glyphicon glyphicon-user" style="font-size: 15px;"></span>科目管理</a>
     </li>
     <li class="layui-nav-item" lay-unselect="">
         <a href="javascript:;"><img src="https://i.loli.net/2019/11/02/rCHKVJd4jTovzW9.jpg" class="layui-nav-img">${username}</a>
@@ -156,7 +156,6 @@
     <br>
 </div>
 <table class="layui-hide" id="test" lay-filter="test"></table>
-
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
         <button class="layui-btn layui-btn-sm" id="insertData"><i class="layui-icon"></i></button>
@@ -164,7 +163,6 @@
         <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
     </div>
 </script>
-
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
@@ -287,7 +285,7 @@
         });
 
         $('#insertData').on('click', function(){
-            var dataBak = [];
+            /*var dataBak = [];
             var tableBak = table.cache.indent;
             for (var i = 0; i < tableBak.length; i++) {
                 dataBak.push(tableBak[i]);      //将之前的数组备份
@@ -307,9 +305,19 @@
             console.log(dataBak);
             table.reload("indent",{
                 data:dataBak
-            });
+            });*/
+            $.ajax({
+                dataType: "json",
+                contentType: "application/json",
+                url: "/api/addQuestion",
+                success: function (res) {
+                    if(res.code == "ok"){
+                        window.location.href = "questionAdd?username=${username}"
+                    }
+                },
+                type: "post"
+            })
         });
-
 
         //监听单元格编辑
         table.on('edit(test)', function(obj){

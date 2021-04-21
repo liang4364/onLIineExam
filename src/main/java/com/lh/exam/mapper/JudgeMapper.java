@@ -6,6 +6,7 @@ import com.lh.exam.model.dto.QuestionDto;
 import com.lh.exam.model.dto.SingleChoiceDto;
 import com.lh.exam.model.entity.JudgeEntity;
 import com.lh.exam.model.entity.MultiplyChoiceEntity;
+import com.lh.exam.model.entity.SingleChoiceEntity;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -62,4 +63,7 @@ public interface JudgeMapper extends BaseMapper<JudgeEntity> {
 
     @Select("select answer from judge where id = #{typeId}")
     String getAnswer(String typeId);
+
+    @Insert("INSERT INTO single_choice  ( id, course_id, type, creator, question, optionA, optionB, answer, analysis )  VALUES  ( #{id}, #{courseId},#{type},#{creator}, #{question}, #{optionA}, #{optionB}, #{answer},#{analysis} )")
+    int insertQuestion(JudgeEntity judgeEntity);
 }
