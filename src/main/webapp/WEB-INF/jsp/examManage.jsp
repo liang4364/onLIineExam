@@ -50,6 +50,14 @@
             picker4.on('dp.change', function (e) {
                 picker1.data('DateTimePicker').maxDate(e.date);
             });
+            $('#exit').click(function () {
+                var msg = "确定退出登录吗？";
+                if (confirm(msg)==true){
+                    window.location.href = "index"
+                }else{
+                    return false;
+                }
+            })
         })
     </SCRIPT>
 </head>
@@ -65,15 +73,15 @@
     <li class="layui-nav-item  layui-this"><a href="${pageContext.request.contextPath}/examManage" style="font-size: 15px;cursor: pointer" id="examManage">
         <span class="glyphicon glyphicon-file" style="font-size: 15px;"></span>学生考试管理</a>
     </li>
-    <li class="layui-nav-item"><a href="${pageContext.request.contextPath}/courseManage" style="font-size: 15px;cursor: pointer" id="stuManage">
-        <span class="glyphicon glyphicon-user" style="font-size: 15px;"></span>科目管理</a>
+    <li class="layui-nav-item"><a href="${pageContext.request.contextPath}/scoreAnalysis" style="font-size: 15px;cursor: pointer" id="stuManage">
+        <span class="glyphicon glyphicon-user" style="font-size: 15px;"></span>成绩分析</a>
     </li>
     <li class="layui-nav-item" lay-unselect="">
         <a href="javascript:;"><img src="https://i.loli.net/2019/11/02/rCHKVJd4jTovzW9.jpg" class="layui-nav-img">${username}</a>
         <dl class="layui-nav-child">
-            <dd><a href="javascript:;">修改信息</a></dd>
-            <dd><a href="javascript:;">安全管理</a></dd>
-            <dd><a href="javascript:;">退了</a></dd>
+            <%--<dd><a href="javascript:;">修改信息</a></dd>
+            <dd><a href="javascript:;">安全管理</a></dd>--%>
+            <dd><a id="exit">退了</a></dd>
         </dl>
     </li>
 </ul>
@@ -86,9 +94,9 @@
                 <div class="col-sm-2">
                     <input type="text" class="form-control"  placeholder="请输入学生姓名..." id="username">
                 </div>
-                <label class="control-label col-sm-1" for="stuEmail">学生邮箱</label>
+                <label class="control-label col-sm-1" for="userClass">所属班级</label>
                 <div class="col-sm-1">
-                    <input type="text" class="form-control" placeholder="请输入问题描述..." id="stuEmail">
+                    <input type="text" class="form-control" placeholder="请输入问题描述..." id="userClass">
                 </div>
                 <label class="control-label col-sm-1">学生创建时间范围</label>
                 <div class='col-sm-2'>
@@ -183,15 +191,17 @@
             ,title: '考试详情表'
             ,cols: [[
                 {type: 'checkbox', fixed: 'left',width:80}
-                ,{field:'userName', title:'学生姓名', width:130,sort: true}
+                ,{field:'userName', title:'学生姓名', width:110,sort: true}
+                ,{field:'userCollege', title:'学院', width:130,sort: true}
+                ,{field:'userClass', title:'班级', width:130,sort: true}
                 ,{field:'userEmail', title:'学生邮箱', width:160,sort: true}
                 ,{field:'userPhone', title:'学生手机号', width:130,sort: true}
                 ,{field:'courseName', title:'考试科目', width:120, sort: true}
                 ,{field:'singleScore', title:'单选题得分', width:130, sort: true}
                 ,{field:'multiplyScore', title:'多选题得分', width:130, sort: true}
                 ,{field:'judgeScore', title:'判断题得分', width:130, sort: true}
-                ,{field:'score', title:'总分数', width:140}
-                ,{field:'examTime', title:'考试时长', width:140, sort: true}
+                ,{field:'score', title:'总分数', width:130}
+                ,{field:'examTime', title:'考试时长', width:130, sort: true}
                 ,{field:'examBeginTime', title:'考试开始时间', width:180, sort: true}
                 ,{field:'examEndTime', title:'考试结束时间', width:180, sort: true}
                 ,{field:'userCreateTime', title:'用户创建时间', width:180, sort: true}
@@ -249,7 +259,7 @@
         var active = {
             reload: function(){
                 var username = $('#username').val();
-                var userEmail = $('#stuEmail').val();
+                var userClass = $('#userClass').val();
                 var userCreateBeginTime = $("#userCreateTimeBegin").val();
                 var userCreateEndTime = $('#userCreateTimeEnd').val();
                 var score = $('#grade').val();
@@ -266,7 +276,7 @@
                     }
                     ,where: {
                         username: username,
-                        userEmail: userEmail,
+                        userClass: userClass,
                         userCreateBeginTime: userCreateBeginTime,
                         userCreateEndTime: userCreateEndTime,
                         score:score,
@@ -279,7 +289,7 @@
         };
         $('#query').on('click', function(){
             var type = $(this).data('type');
-            if($('#username').val() == "" && $('#stuEmail').val() == "" && $('#userCreateBeginTime').val()=="" && $('#userCreateEndTime').val()=="" && $('#grade').val()==""  && $('#course').val()=="" && $('#examBeginTime').val()=="" && $('#examEndTime').val()==""){
+            if($('#username').val() == "" && $('#userClass').val() == "" && $('#userCreateBeginTime').val()=="" && $('#userCreateEndTime').val()=="" && $('#grade').val()==""  && $('#course').val()=="" && $('#examBeginTime').val()=="" && $('#examEndTime').val()==""){
                 layer.msg('查询条件不能为空');
                 return false;
             }

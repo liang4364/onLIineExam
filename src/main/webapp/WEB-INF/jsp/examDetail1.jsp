@@ -20,6 +20,11 @@
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdn.bootcss.com/moment.js/2.22.0/moment-with-locales.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+    <style type="text/css">
+        .pointer{
+            cursor: pointer;
+        }
+    </style>
     <script type="text/javascript">
         $(function () {
             var picker1 = $('#datetimepicker1').datetimepicker({
@@ -39,6 +44,14 @@
             picker2.on('dp.change', function (e) {
                 picker1.data('DateTimePicker').maxDate(e.date);
             });
+            $('#exit').click(function () {
+                var msg = "确定退出登录吗？";
+                if (confirm(msg)==true){
+                    window.location.href = "index"
+                }else{
+                    return false;
+                }
+            })
         })
     </script>
 </head>
@@ -90,9 +103,9 @@
                                     </div>
                                 </a>
                                 <ul class="dropdown-menu" style="position: absolute;top: 55px">
-                                    <li><a href="#">账户设置</a></li>
-                                    <li class="divider"></li>
-                                    <li><a href="#">退出登录</a></li>
+                                    <%--<li><a href="#">账户设置</a></li>
+                                    <li class="divider"></li>--%>
+                                    <li><a id="exit" class="pointer">退出登录</a></li>
                                 </ul>
                             </li>
                         </ul>

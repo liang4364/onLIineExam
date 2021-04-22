@@ -18,4 +18,7 @@ public class UserDto {
     String userEmail;
     String userPhone;
     String createTime;
+    String userCollege;
+    String userClass;
+    int userLock;
 }

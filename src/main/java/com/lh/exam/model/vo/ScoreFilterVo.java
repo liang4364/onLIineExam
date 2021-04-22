@@ -7,12 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserFilterVo {
-    String username;
-    String userEmail;
-    String userPhone;
-    String beginTime;
-    String endTime;
+public class ScoreFilterVo {
     Integer page;
     Integer limit;
+    String college;
+    String className;
 }

@@ -41,23 +41,29 @@ public interface JudgeMapper extends BaseMapper<JudgeEntity> {
 
     @Update("<script>update judge " +
             "\t<trim prefix='set' suffixOverrides=','>"+
+            "\t<if test=\"field == 'question'\">\n" +
+            "\t\tquestion = #{value},\n" +
+            "\t</if>\n" +
             "\t<if test=\"field == 'optionA'\">\n" +
-            "\t\toptionA = #{value}\n" +
+            "\t\toptionA = #{value},\n" +
             "\t</if>\n" +
             "\t<if test=\"field == 'optionB'\">\n" +
-            "\t\toptionB = #{value}\n" +
+            "\t\toptionB = #{value},\n" +
             "\t</if>\n" +
             "\t<if test=\"field == 'answer'\">\n" +
-            " \t\tanswer = #{value}\n" +
+            " \t\tanswer = #{value},\n" +
             "\t</if>\n" +
             "\t<if test=\"field == 'analysis'\">\n" +
-            " \t\tanalysis = #{value}\n" +
+            " \t\tanalysis = #{value},\n" +
             "\t</if>\n" +
             "\t<if test=\"field == 'type'\">\n" +
-            " \t\ttype = #{value}\n" +
+            " \t\ttype = #{value},\n" +
+            "\t</if>\n" +
+            "\t<if test=\"updateTime != '' \">\n" +
+            " \t\tupdate_time = #{updateTime}\n" +
             "\t</if>\n" +
             "</trim>"+
-            ",update_time = #{updateTime} where id = #{typeId}"+
+            "  where id = #{typeId}"+
             "</script>")
     int updateJudge(String field,String value,String typeId,String updateTime);
 

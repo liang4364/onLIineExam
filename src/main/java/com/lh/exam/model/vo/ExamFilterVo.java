@@ -12,7 +12,7 @@ public class ExamFilterVo {
     Integer limit;
     String username;
     String userId;
-    String userEmail;
+    String userClass;
     String userCreateBeginTime;
     String userCreateEndTime;
     String courseId;

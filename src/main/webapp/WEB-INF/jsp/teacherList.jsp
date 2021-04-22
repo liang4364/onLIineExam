@@ -22,6 +22,21 @@
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdn.bootcss.com/moment.js/2.22.0/moment-with-locales.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+    <style type="text/css">
+        .pointer{
+            cursor: pointer;
+        }
+    </style>
+    <script type="text/javascript">
+        $('#exit').click(function () {
+            var msg = "确定退出登录吗？";
+            if (confirm(msg)==true){
+                window.location.href = "index"
+            }else{
+                return false;
+            }
+        })
+    </script>
 </head>
 <body>
 <ul class="layui-nav layui-bg-cyan">
@@ -35,15 +50,15 @@
     <li class="layui-nav-item"><a href="${pageContext.request.contextPath}/examManage" style="font-size: 15px;cursor: pointer" id="examManage">
         <span class="glyphicon glyphicon-file" style="font-size: 15px;"></span>学生考试管理</a>
     </li>
-    <li class="layui-nav-item"><a href="${pageContext.request.contextPath}/courseManage" style="font-size: 15px;cursor: pointer" id="stuManage">
-        <span class="glyphicon glyphicon-user" style="font-size: 15px;"></span>科目管理</a>
+    <li class="layui-nav-item"><a href="${pageContext.request.contextPath}/scoreAnalysis" style="font-size: 15px;cursor: pointer" id="stuManage">
+        <span class="glyphicon glyphicon-user" style="font-size: 15px;"></span>成绩分析</a>
     </li>
     <li class="layui-nav-item" lay-unselect="">
         <a href="javascript:;"><img src="https://i.loli.net/2019/11/02/rCHKVJd4jTovzW9.jpg" class="layui-nav-img">${username}</a>
         <dl class="layui-nav-child">
-            <dd><a href="javascript:;">修改信息</a></dd>
-            <dd><a href="javascript:;">安全管理</a></dd>
-            <dd><a href="javascript:;">退了</a></dd>
+            <%--<dd><a href="javascript:;">修改信息</a></dd>
+            <dd><a href="javascript:;">安全管理</a></dd>--%>
+            <dd><a id="exit" class="pointer">退了</a></dd>
         </dl>
     </li>
 </ul>

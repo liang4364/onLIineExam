@@ -21,4 +21,6 @@ public class UserVo {
     String userPhone;
     Date createTime;
     Date updateTime;
+    String userCollege;
+    String userClass;
 }

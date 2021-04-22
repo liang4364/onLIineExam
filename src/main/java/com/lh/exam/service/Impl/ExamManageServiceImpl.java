@@ -1,11 +1,11 @@
 package com.lh.exam.service.Impl;
 
+import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lh.exam.mapper.CourseMapper;
 import com.lh.exam.mapper.ExamScoreMapper;
 import com.lh.exam.mapper.UserInfoMapper;
 import com.lh.exam.model.dto.ExamManageDto;
-import com.lh.exam.model.dto.ExamScoreDto;
 import com.lh.exam.model.entity.ExamScoreEntity;
 import com.lh.exam.model.entity.UserEntity;
 import com.lh.exam.model.vo.ExamFilterVo;
@@ -45,6 +45,8 @@ public class ExamManageServiceImpl implements ExamManageService {
             examManageDto.setUserName(userEntity.getUsername());
             examManageDto.setUserEmail(userEntity.getUserEmail());
             examManageDto.setUserPhone(userEntity.getUserPhone());
+            examManageDto.setUserCollege(userEntity.getUserCollege());
+            examManageDto.setUserClass(userEntity.getUserClass());
             examManageDto.setCourseName(courseMapper.getCourseName(examScoreEntity.getCourseId()));
             examManageDto.setExamEndTime(sdf.format(examScoreEntity.getCreateTime()));
             examManageDto.setExamBeginTime(examScoreEntity.getBeginTime());

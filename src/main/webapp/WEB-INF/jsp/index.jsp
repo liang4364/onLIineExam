@@ -54,8 +54,11 @@
                             $.cookie('Authorization', ''+dataRes.token+'', {expires: 10, path: '/'});
                             if(dataRes.roleId == 2){
                                 window.location.href = "list?username="+$("#username").val();
-                            }else {
+                            }else if(dataRes.roleId == 1){
                                 window.location.href = "teacherList?username="+$("#username").val();
+                            }
+                            else if(dataRes.roleId == 0){
+                                window.location.href = "adminList?username="+$("#username").val();
                             }
 
                         }
@@ -64,7 +67,7 @@
                 })
             });
             $('#register').click(function () {
-                window.location.href = "register";
+                window.location.href = "stuRegister";
             })
         })
     </script>

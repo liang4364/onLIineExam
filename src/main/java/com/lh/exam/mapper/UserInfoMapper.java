@@ -2,14 +2,12 @@ package com.lh.exam.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.lh.exam.model.entity.QuestionInfoEntity;
 import com.lh.exam.model.entity.UserEntity;
-import com.lh.exam.model.vo.QuestionFilterVo;
 import com.lh.exam.model.vo.UserFilterVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
-import java.util.Date;
 import java.util.List;
 
 @Mapper
@@ -23,8 +21,13 @@ public interface UserInfoMapper extends BaseMapper<UserEntity> {
     @Select("select username from user where id = #{userId}")
     String getUsernameById(String userId);
 
-    @Select("select username,user_role_id,user_num,user_email,user_phone,create_time from user where user_role_id = 2")
-    List<UserEntity> getAllUsers(Page page);
+    @Select("select username,user_role_id,user_num,user_email,user_phone,user_college,user_class,user_lock,create_time from user where user_role_id = 2")
+    List<UserEntity> getAllUsers(Page<UserEntity> page);
+
+
+    @Select("select * from user where id = #{userId}")
+    UserEntity getUserById(String userId);
+
     @Select("<script>select * from user " +
             "<where>\n" +
             "\t<if test=\"userFilterVo.username != ''\">\n" +
@@ -50,6 +53,6 @@ public interface UserInfoMapper extends BaseMapper<UserEntity> {
             "</script>")
     List<UserEntity> getUserByFilter(Page<UserEntity> page, UserFilterVo userFilterVo);
 
-    @Select("select * from user where id = #{userId}")
-    UserEntity getUserById(String userId);
+    @Update("update user set user_lock = #{lock} where username = {username}")
+    int updateUserLock(int lock,String username);
 }

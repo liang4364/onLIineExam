@@ -23,6 +23,7 @@ public class UserManageServiceImpl implements UserManageService {
 
     @Override
     public Page<UserDto> getAllUser(Integer page,Integer limit) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Page<UserEntity> page1 = new Page<>(page,limit);
         Page<UserDto> page2 = new Page<>(page,limit);
         page1.setRecords(userInfoMapper.getAllUsers(page1));
@@ -33,6 +34,7 @@ public class UserManageServiceImpl implements UserManageService {
             if(userEntity.getUserRoleId() == 2){
                 userDto.setUserRole("学生");
             }
+            userDto.setCreateTime(sdf.format(userEntity.getCreateTime()));
             userDtos.add(userDto);
         }
         BeanUtils.copyProperties(page1,page2);
@@ -54,7 +56,7 @@ public class UserManageServiceImpl implements UserManageService {
         List<UserDto> resList = new ArrayList<>();
         page1.setRecords(userInfoMapper.getUserByFilter(page1,userFilterVo));
         for (UserEntity userEntity : page1.getRecords()) {
-           UserDto userDto = new UserDto();
+            UserDto userDto = new UserDto();
             BeanUtils.copyProperties(userEntity, userDto);
             userDto.setCreateTime(sdf.format(userEntity.getCreateTime()));
             resList.add(userDto);
@@ -64,7 +66,14 @@ public class UserManageServiceImpl implements UserManageService {
         return page2;
     }
 
-    public static void main(String[] args) {
-        System.out.println(IdUtil.simpleUUID());
+    @Override
+    public int updateUserLock(boolean lock) {
+        int count = -1;
+        if(lock){
+            count = userInfoMapper.updateUserLock(0);
+        }else {
+            count = userInfoMapper.updateUserLock(1);
+        }
+        return count;
     }
 }

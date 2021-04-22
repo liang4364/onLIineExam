@@ -1,47 +1,47 @@
 <%--
   Created by IntelliJ IDEA.
   User: liangheng
-  Date: 2021/4/19
-  Time: 17:16
+  Date: 2021/4/22
+  Time: 17:12
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <meta charset="utf-8">
-    <title>学生管理</title>
+    <title>用户管理页面</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" href="static/css/layui.css"  media="all">
+    <script src="static/layui.js" charset="utf-8"></script>
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdn.bootcss.com/moment.js/2.22.0/moment-with-locales.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+    <style type="text/css">
+        .pointer{
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
 <ul class="layui-nav layui-bg-cyan">
-    <li class="layui-nav-item"><span style="font-size: 25px">教师管理</span></li>
-    <li class="layui-nav-item"><a href="${pageContext.request.contextPath}/teacherList" style="font-size: 15px;cursor: pointer" id="home">
-        <span class="glyphicon glyphicon-home" style="font-size: 15px;"></span>首页</a>
+    <li class="layui-nav-item"><span style="font-size: 25px">管理员权限</span></li>
+    <li class="layui-nav-item  layui-this"><a href="${pageContext.request.contextPath}/stuManage" style="font-size: 15px;cursor: pointer">
+        <span class="glyphicon glyphicon-th-large" style="font-size: 15px;"></span>学生信息管理</a>
     </li>
-    <li class="layui-nav-item"><a href="${pageContext.request.contextPath}/questionManage" style="font-size: 15px;cursor: pointer" id="questionManage">
-        <span class="glyphicon glyphicon-th-large" style="font-size: 15px;"></span>问题管理</a>
-    </li>
-    <li class="layui-nav-item"><a href="${pageContext.request.contextPath}/examManage" style="font-size: 15px;cursor: pointer" id="examManage">
-        <span class="glyphicon glyphicon-file" style="font-size: 15px;"></span>学生考试管理</a>
-    </li>
-    <li class="layui-nav-item  layui-this"><a href="${pageContext.request.contextPath}/courseManage" style="font-size: 15px;cursor: pointer" id="stuManage">
-        <span class="glyphicon glyphicon-user" style="font-size: 15px;"></span>科目管理</a>
+    <li class="layui-nav-item"><a href="${pageContext.request.contextPath}/teacherManage" style="font-size: 15px;cursor: pointer">
+        <span class="glyphicon glyphicon-file" style="font-size: 15px;"></span>教师信息管理</a>
     </li>
     <li class="layui-nav-item" lay-unselect="">
         <a href="javascript:;"><img src="https://i.loli.net/2019/11/02/rCHKVJd4jTovzW9.jpg" class="layui-nav-img">${username}</a>
         <dl class="layui-nav-child">
-            <dd><a href="javascript:;">修改信息</a></dd>
-            <dd><a href="javascript:;">安全管理</a></dd>
-            <dd><a href="javascript:;">退了</a></dd>
+            <%--<dd><a href="javascript:;">修改信息</a></dd>
+            <dd><a href="javascript:;">安全管理</a></dd>--%>
+            <dd><a id="exit" class="pointer">退了</a></dd>
         </dl>
     </li>
 </ul>
@@ -113,11 +113,17 @@
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
+<script type="text/html" id="checkboxTpl">
+    <!-- 这里的 checked 的状态只是演示 -->
+    <input type="checkbox" name="userLock" value="{{d.id}}" title="锁定" lay-filter="lockDemo" {{ d.userLock == 0 ? 'checked' : '' }}>
+</script>
+
 <script src="static/layui.js" charset="utf-8"></script>
 <!-- 注意：如果你直接复制所有代码到本地，上述 JS 路径需要改成你本地的 -->
 <script>
     layui.use('table', function(){
-        var table = layui.table;
+        var table = layui.table
+        ,form = layui.form;
         table.render({
             elem: '#test'
             ,id: 'indent'
@@ -132,13 +138,33 @@
             ,cols: [[
                 {type: 'checkbox', fixed: 'left',width:80}
                 ,{field:'username', title:'学生姓名', width:200,sort: true}
+                ,{field:'userCollege', title:'所属学院', width:200,sort: true}
+                ,{field:'userClass', title:'所在班级', width:200,sort: true}
                 ,{field:'userRole', title:'角色', width:200, sort: true}
                 ,{field:'userNum', title:'学号', width:200, sort: true}
-                ,{field:'userPhone', title:'手机号', width:900, sort: true}
-                ,{field:'createTime', title:'创建时间', width:180, sort: true}
+                ,{field:'userPhone', title:'手机号', width:200, sort: true}
+                ,{field:'createTime', title:'创建时间', width:400, sort: true}
+                ,{field:'userLock', title:'是否锁定', width:110, templet: '#checkboxTpl', unresize: true}
                 ,{title:'操作', toolbar: '#barDemo', width:280}
             ]]
             ,page: true
+        });
+        //监听锁定操作
+        form.on('checkbox(lockDemo)', function(obj){
+            $.ajax({
+                dataType: "json",
+                contentType: "application/json",
+                url: "updateUserLock?lock="+ obj.elem.checked,
+                success: function (res) {
+                    if(res.code == "ok"){
+                        layer.tips(this.name + '：'+ obj.elem.checked, obj.othis);
+                    }else {
+                        layer.tips("更新数据库失败！");
+                    }
+                },
+                type: "post"
+            });
+
         });
         //头工具栏事件
         table.on('toolbar(test)', function(obj){
@@ -157,11 +183,10 @@
                     break;
             };
         });
-
         //监听行工具事件
         table.on('tool(test)', function(obj){
             var data = obj.data;
-            //console.log(obj)
+            console.log(obj)
             if(obj.event === 'del'){
                 layer.confirm('确定删除吗？', function(index){
                     obj.del();
@@ -169,17 +194,16 @@
                 });
             } else if(obj.event === 'edit'){
                 layer.prompt({
-                    formType: 7
-                    ,value: data.analysis
+                    formType: 0
+                    ,value: data.username
                 }, function(value, index){
                     obj.update({
-                        analysis: value
+                        username: value
                     });
                     layer.close(index);
                 });
             }
         });
-
         var active = {
             reload: function(){
                 var username = $('#username').val();

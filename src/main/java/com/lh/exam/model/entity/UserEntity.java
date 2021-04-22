@@ -26,4 +26,7 @@ public class UserEntity {
     String userPhone;
     Date createTime;
     Date updateTime;
+    String userCollege;
+    String userClass;
+    int userLock;
 }

@@ -3,6 +3,7 @@ package com.lh.exam.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lh.exam.model.dto.ExamManageDto;
+import com.lh.exam.model.dto.ScoreAnalysisDto;
 import com.lh.exam.model.entity.ExamScoreEntity;
 import com.lh.exam.model.vo.ExamFilterVo;
 import org.apache.ibatis.annotations.Mapper;
@@ -116,6 +117,8 @@ public interface ExamScoreMapper extends BaseMapper<ExamScoreEntity> {
             "\tu.username AS userName,\n" +
             "\tu.user_email AS userEmail,\n" +
             "\tu.user_phone AS userPhone,\n" +
+            "\tu.user_college AS userCollege,\n" +
+            "\tu.user_class AS userClass,\n" +
             "\tu.create_time AS userCreateTime,\n" +
             "\te.course_id AS courseId,\n" +
             "\te.score AS score,\n" +
@@ -131,8 +134,8 @@ public interface ExamScoreMapper extends BaseMapper<ExamScoreEntity> {
             "\t<if test=\"examFilterVo.username != ''\">\n" +
             "\t\tu.username like concat('%',#{examFilterVo.username},'%') \n" +
             "\t</if>\n" +
-            "\t<if test=\"examFilterVo.userEmail != ''\">\n" +
-            "\t\tu.user_email like concat('%',#{examFilterVo.userEmail},'%') \n" +
+            "\t<if test=\"examFilterVo.userClass != ''\">\n" +
+            "\t\tu.user_class like concat('%',#{examFilterVo.userClass},'%') \n" +
             "\t</if>\n" +
             "\t<if test=\"examFilterVo.userCreateBeginTime != ''\">\n" +
             " \t\tand u.create_time &gt; #{examFilterVo.beginTime}\n" +
@@ -156,5 +159,52 @@ public interface ExamScoreMapper extends BaseMapper<ExamScoreEntity> {
             "order by e.score desc"+
             "</script>")
     List<ExamManageDto> getAllByFilter(Page<ExamManageDto> page, ExamFilterVo examFilterVo);
+
+    @Select("SELECT\n" +
+            "\tcourse_id as courseId,\n" +
+            "\tavg( score ) AS avgScore,\n" +
+            "\tavg( single_score ) AS avgSingleScore,\n" +
+            "\tavg( multiply_score ) AS avgMultiplyScore,\n" +
+            "\tavg( judge_score ) AS avgJudgeScore,\n" +
+            "\tmax( score ) AS maxScore,\n" +
+            "\tmin( score ) AS minScore \n" +
+            "FROM\n" +
+            "\texam_score \n" +
+            "WHERE\n" +
+            "\tuser_college = #{collegeName} \tAND user_class = #{className}\n" +
+            "GROUP BY course_id ")
+    List<ScoreAnalysisDto> getScoreAnalysisByCourse(String collegeName,String className);
+
+    @Select("SELECT\n" +
+            "\tcourse_id as courseId,\n" +
+            "\tavg( score ) AS avgScore,\n" +
+            "\tavg( single_score ) AS avgSingleScore,\n" +
+            "\tavg( multiply_score ) AS avgMultiplyScore,\n" +
+            "\tavg( judge_score ) AS avgJudgeScore,\n" +
+            "\tmax( score ) AS maxScore,\n" +
+            "\tmin( score ) AS minScore \n" +
+            "FROM\n" +
+            "\texam_score \n" +
+            "WHERE\n" +
+            "\tuser_college = '数学与计算机学院' \tAND user_class = '计科11703'\n" +
+            "GROUP BY course_id ")
+    List<ScoreAnalysisDto> getTableData(Page<ScoreAnalysisDto> page);
+
+    @Select("SELECT\n" +
+            "\tcourse_id as courseId,\n" +
+            "\tavg( score ) AS avgScore,\n" +
+            "\tavg( single_score ) AS avgSingleScore,\n" +
+            "\tavg( multiply_score ) AS avgMultiplyScore,\n" +
+            "\tavg( judge_score ) AS avgJudgeScore,\n" +
+            "\tmax( score ) AS maxScore,\n" +
+            "\tmin( score ) AS minScore \n" +
+            "FROM\n" +
+            "\texam_score \n" +
+            "WHERE\n" +
+            "\tuser_college = #{college} \tAND user_class = #{className}\n" +
+            "GROUP BY course_id ")
+    List<ScoreAnalysisDto> getTableDataByFilter(Page<ScoreAnalysisDto> page,String college,String className);
+
+
 }
 

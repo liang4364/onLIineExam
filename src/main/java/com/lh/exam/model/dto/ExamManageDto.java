@@ -12,6 +12,8 @@ public class ExamManageDto {
     String userName;
     String userEmail;
     String userPhone;
+    String userCollege;
+    String userClass;
     String courseName;
     String courseId;
     int score;

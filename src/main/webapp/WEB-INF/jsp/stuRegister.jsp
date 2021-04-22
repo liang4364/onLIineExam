@@ -21,6 +21,26 @@
     <script type="text/javascript" src="static/js/md5.js"></script>
     <script type="text/javascript">
         $(function () {
+            $.ajax({
+                url:"queryCollege",
+                dataType:"json",
+                success:function (data) {
+                    $("#userCollege").empty();
+                    $.each(data.data,function (index,element) {
+                        $("#userCollege").append("<option value='"+element+"'>"+element+"</option>");
+                    })
+                }
+            });
+            $("#userCollege").change(function () {
+                var obj = $("#userCollege>option:selected");
+                var collegeName = obj.val();
+                $.post("queryClass",{college:collegeName},function(resp){
+                    $("#userClass").empty();
+                    $.each(resp.data,function (index,element) {
+                        $("#userClass").append("<option value='"+element+"'>"+element+"</option>");
+                    })
+                },"json");
+            });
             $("body").keydown(function (event) {
                 if (event.keyCode == 13) {
                     $("#register").click();
@@ -67,20 +87,15 @@
                 }else{
                     $('#testUserPhone').html("<span class='glyphicon glyphicon-remove'></span>");
                 }
-                var userRole = null;
-                var role = document.getElementsByName("userRoleId");
-                for (var i = 0; i < role.length; i++) { //遍历Radio
-                    if (role[i].checked) {
-                        userRole = role[i].value;
-                    }
-                }
                 var json = {
                     "username":$("#username").val(),
                     "userNum": $("#userNum").val(),
                     "password": MD5($("#password").val()),
                     "userEmail": $('#userEmail').val(),
                     "userPhone": $('#userPhone').val(),
-                    "userRoleId" : userRole
+                    "userRoleId" : 2,
+                    "userCollege" : $('#userCollege option:selected').val(),
+                    "userClass" : $('#userClass option:selected').val()
                 };
                 if(userNumOk && passwordOk && emailOk && phonedOk && userOk){
                     $.ajax({
@@ -156,9 +171,7 @@
     </script>
 </head>
 <body>
-<body>
-<div class="login_box">
-    <div class="login_l_img"><img src="static/images/login-img.png"/></div>
+<div class="login_box div">
     <div class="login">
         <div class="login_logo"><img src="static/images/login_logo.png"/></div>
         <div class="login_name">
@@ -168,6 +181,25 @@
             <div class="input-group input-group-lg">
                 <div id="testUsername"></div><span class="input-group-addon">用户名</span>
                 <input type="text" id="username" class="form-control" placeholder="请输入用户名...">
+            </div>
+            <br>
+            <div class="input-group input-group-lg">
+                <span class="input-group-addon">学院</span>
+                <label for="userCollege"></label>
+                <select class="form-control" id="userCollege">
+                    <option value="0">请选择...</option>
+                </select>
+            </div>
+            <br>
+            <div class="input-group input-group-lg">
+                <span class="input-group-addon">班级</span>
+                <label for="userClass"></label>
+                <select class="form-control" id="userClass">
+                    <option value="物联网11702">物联网11702</option>
+                    <option value="软件11701">软件11701</option>
+                    <option value="计科11701">计科11701</option>
+                    <option value="计科11703" selected>计科11703</option>
+                </select>
             </div>
             <br>
             <div class="input-group input-group-lg">
@@ -185,11 +217,10 @@
                 <input type="text" id="userEmail" class="form-control" placeholder="请输入邮箱...">
             </div>
             <br>
-            &nbsp;&nbsp;<span style="font-size: 18px">角色</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <input type="radio" name="userRoleId" value="2" ><span style="font-size: 18px">学生</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <input type="radio" name="userRoleId" value="1"><span style="font-size: 18px">教师</span>
-            <br>
-            <br>
+            <!--  &nbsp;&nbsp;<span style="font-size: 18px">角色</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <input type="radio" name="userRoleId" value="2" ><span style="font-size: 18px">学生</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <input type="radio" name="userRoleId" value="1"><span style="font-size: 18px">教师</span>
+              <br>-->
             <div class="input-group input-group-lg">
                 <div id="testUserPhone"></div><span class="input-group-addon">手机</span>
                 <input type="text" id="userPhone" class="form-control" placeholder="请输入手机号...">

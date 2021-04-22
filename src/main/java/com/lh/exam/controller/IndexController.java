@@ -58,9 +58,9 @@ public class IndexController {
         return "exam";
     }
 
-    @RequestMapping("register")
+    @RequestMapping("stuRegister")
     public String registerUser(){
-        return "register";
+        return "stuRegister";
     }
 
     @RequestMapping("/examDetail")
@@ -80,6 +80,12 @@ public class IndexController {
         return "teacherList";
     }
 
+    @RequestMapping("/adminList")
+    public String adminList(HttpSession session,HttpServletRequest request){
+        session.setAttribute("username",request.getParameter("username"));
+        return "adminList";
+    }
+
     @RequestMapping("/questionManage")
     public String questionManage(){
         return "questionManage";
@@ -90,9 +96,9 @@ public class IndexController {
         return "examManage";
     }
 
-    @RequestMapping("/courseManage")
+    @RequestMapping("/scoreAnalysis")
     public String studentManage(){
-        return "courseManage";
+        return "scoreAnalysis";
     }
 
     @RequestMapping("/questionAdd")
@@ -100,6 +106,16 @@ public class IndexController {
         System.out.println(request.getParameter("username"));
         session.setAttribute("username",request.getParameter("username"));
         return "questionAdd";
+    }
+
+    @RequestMapping("/test")
+    public  String test(){
+        return "test2";
+    }
+
+    @RequestMapping("/stuManage")
+    public String stuManage(){
+        return "stuManage";
     }
 
 

@@ -55,6 +55,15 @@
             picker4.on('dp.change', function (e) {
                 picker1.data('DateTimePicker').maxDate(e.date);
             });
+
+            $('#exit').click(function () {
+                var msg = "确定退出登录吗？";
+                if (confirm(msg)==true){
+                    window.location.href = "index"
+                }else{
+                    return false;
+                }
+            })
         })
     </script>
 </head>
@@ -70,15 +79,15 @@
     <li class="layui-nav-item"><a href="${pageContext.request.contextPath}/examManage" style="font-size: 15px;cursor: pointer" id="examManage">
         <span class="glyphicon glyphicon-file" style="font-size: 15px;"></span>学生考试管理</a>
     </li>
-    <li class="layui-nav-item"><a  href="${pageContext.request.contextPath}/courseManage" style="font-size: 15px;cursor: pointer" id="stuManage">
-        <span class="glyphicon glyphicon-user" style="font-size: 15px;"></span>科目管理</a>
+    <li class="layui-nav-item"><a  href="${pageContext.request.contextPath}/scoreAnalysis" style="font-size: 15px;cursor: pointer" id="stuManage">
+        <span class="glyphicon glyphicon-user" style="font-size: 15px;"></span>成绩分析</a>
     </li>
     <li class="layui-nav-item" lay-unselect="">
         <a href="javascript:;"><img src="https://i.loli.net/2019/11/02/rCHKVJd4jTovzW9.jpg" class="layui-nav-img">${username}</a>
         <dl class="layui-nav-child">
-            <dd><a href="javascript:;">修改信息</a></dd>
-            <dd><a href="javascript:;">安全管理</a></dd>
-            <dd><a href="javascript:;">退了</a></dd>
+           <%-- <dd><a href="javascript:;">修改信息</a></dd>
+            <dd><a href="javascript:;">安全管理</a></dd>--%>
+            <dd><a id="exit">退了</a></dd>
         </dl>
     </li>
 </ul>
@@ -196,7 +205,7 @@
                 ,{field:'optionC', title:'选项C', width:130, sort: true,edit: 'text'}
                 ,{field:'optionD', title:'选项D', width:130, sort: true,edit: 'text'}
                 ,{field:'answer', title:'正确答案', width:130, sort: true,edit: 'text'}
-                ,{field:'analysis', title:'解析', width:300, sort: true,edit: 'text'}
+                ,{field:'analysis', title:'解析', width:170, sort: true,edit: 'text'}
                 ,{field:'createTime1', title:'创建时间', width:170, sort: true}
                 ,{field:'updateTime', title:'更新时间', width:170, sort: true}
                 ,{title:'操作', toolbar: '#barDemo', width:280}

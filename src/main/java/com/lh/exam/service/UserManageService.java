@@ -7,4 +7,5 @@ import com.lh.exam.model.vo.UserFilterVo;
 public interface UserManageService {
     Page<UserDto> getAllUser(Integer page,Integer limit);
     Page<UserDto> getAllUserByFilter(UserFilterVo userFilterVo);
+    int updateUserLock(boolean lock);
 }
