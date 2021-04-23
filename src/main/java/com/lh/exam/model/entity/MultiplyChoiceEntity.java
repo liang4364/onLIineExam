@@ -18,6 +18,7 @@ public class MultiplyChoiceEntity {
     String id;
     String courseId;
     String creator;
+    String multiplyDifficult;
     String question;
     String optionA;
     String optionB;

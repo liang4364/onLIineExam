@@ -12,6 +12,7 @@ import java.util.Date;
 public class QuestionDto {
     String id;
     String type;
+    String difficult;
     String creator;
     String question;
     String optionA;

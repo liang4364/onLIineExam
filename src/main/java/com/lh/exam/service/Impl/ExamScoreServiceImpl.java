@@ -7,10 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lh.exam.mapper.*;
 import com.lh.exam.model.dto.*;
-import com.lh.exam.model.entity.ExamScoreEntity;
-import com.lh.exam.model.entity.UserJudgeEntity;
-import com.lh.exam.model.entity.UserMultiplyEntity;
-import com.lh.exam.model.entity.UserSingleEntity;
+import com.lh.exam.model.entity.*;
 import com.lh.exam.service.ExamScoreService;
 import com.lh.exam.utils.ExamUtil;
 import org.checkerframework.checker.units.qual.A;
@@ -21,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -71,9 +69,20 @@ public class ExamScoreServiceImpl extends ServiceImpl<ExamScoreMapper,ExamScoreE
         List<ExamScoreDto> resRecords = new ArrayList<>();
         for(ExamScoreEntity examScoreEntity : records){
             ExamScoreDto scoreDto = new ExamScoreDto();
-            scoreDto.setUserName(username);
+            String userId = userInfoMapper.getIdByUsername(username);
+            UserEntity userEntity = userInfoMapper.getUserById(userId);
+            scoreDto.setUserName(userEntity.getUsername());
+            scoreDto.setUserCollege(userEntity.getUserCollege());
+            scoreDto.setUserClass(userEntity.getUserClass());
             scoreDto.setCourseName(courseMapper.getCourseName(examScoreEntity.getCourseId()));
             scoreDto.setCreateTime(sdf.format(examScoreEntity.getCreateTime()));
+            scoreDto.setBeginTime(examScoreEntity.getBeginTime());
+            try {
+                if(examScoreEntity.getBeginTime() != null &&examScoreEntity.getCreateTime() != null)
+                scoreDto.setExamTime(ExamUtil.dateDiff(examScoreEntity.getBeginTime(),sdf.format(examScoreEntity.getCreateTime())));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             scoreDto.setScore(examScoreEntity.getScore());
             scoreDto.setId(examScoreEntity.getId());
             scoreDto.setSingleScore(examScoreEntity.getSingleScore());

@@ -31,7 +31,7 @@ public class TokenInterceptor extends HandlerInterceptorAdapter {
                 authorization =  c.getValue();
             }
         }
-        //log.info("request authorization data -> {}", authorization);
+        log.info("request authorization data -> {}", authorization);
         if (StringUtils.isEmpty(authorization)) {
             throw new AuthenticationException("authorization is null");
         }

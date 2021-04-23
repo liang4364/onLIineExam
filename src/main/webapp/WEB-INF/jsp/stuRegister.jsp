@@ -48,7 +48,7 @@
             });
             //获取正则表达式对象
             $('#register').click(function () {
-                var usernameRegExp=/^[a-zA-Z0-9_-]{4,16}$/;
+              /*  var usernameRegExp=/^[a-zA-Z0-9_-]{4,16}$/;
                 var userOk=usernameRegExp.test($('#username').val());
                 if(userOk){
                     $('#testUsername').html("<span class='glyphicon glyphicon-ok'></span>");
@@ -56,7 +56,7 @@
                     $('#testUsername').html("<span class='glyphicon glyphicon-remove'></span>");
                 }
 
-                var userNumRegExp=/^1\d{9}$/;
+*/               var userNumRegExp=/^1\d{9}$/;
                 var userNumOk=userNumRegExp.test($('#userNum').val());
                 if(userNumOk){
                     $('#testUserNum').html("<span class='glyphicon glyphicon-ok'></span>");
@@ -95,9 +95,10 @@
                     "userPhone": $('#userPhone').val(),
                     "userRoleId" : 2,
                     "userCollege" : $('#userCollege option:selected').val(),
-                    "userClass" : $('#userClass option:selected').val()
+                    "userClass" : $('#userClass option:selected').val(),
+                    "userLock":1
                 };
-                if(userNumOk && passwordOk && emailOk && phonedOk && userOk){
+                if(userNumOk && passwordOk && emailOk && phonedOk){
                     $.ajax({
                         data: JSON.stringify(json),
                         dataType: "json",
@@ -121,11 +122,7 @@
                                                 if (res.code == "ok") {
                                                     let dataRes = res.data;
                                                     $.cookie('Authorization', ''+dataRes.token+'', {expires: 10, path: '/'});
-                                                    if(userRole == 2){
-                                                        window.location.href = "list?username="+$("#username").val();
-                                                    }else {
-                                                        window.location.href = "teacherList?username="+$("#username").val();
-                                                    }
+                                                    window.location.href = "list?username="+$("#username").val();
                                                 }
                                             },
                                             type: "post"
@@ -179,7 +176,7 @@
         </div>
         <form action="auth/login" method="post" name="form">
             <div class="input-group input-group-lg">
-                <div id="testUsername"></div><span class="input-group-addon">用户名</span>
+                <span class="input-group-addon">用户名</span>
                 <input type="text" id="username" class="form-control" placeholder="请输入用户名...">
             </div>
             <br>

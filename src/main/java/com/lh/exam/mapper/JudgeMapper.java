@@ -14,7 +14,11 @@ import java.util.List;
 @Mapper
 public interface JudgeMapper extends BaseMapper<JudgeEntity> {
 
-    @Select("select id,type,question,optionA,optionB,answer from judge where course_id = #{courseId} order by rand() limit 0,2")
+    @Select("(select id,type,question,optionA,optionB,answer,judge_difficult as difficult from judge where course_id = #{courseId} and judge_difficult = '易' order by rand() limit 0,1)\n" +
+            "UNION\n" +
+            "(select id,type,question,optionA,optionB,answer,judge_difficult as difficult from judge where course_id = #{courseId} and judge_difficult = '中' order by rand() limit 0,1)\n" +
+            "UNION\n" +
+            "(select id,type,question,optionA,optionB,answer,judge_difficult as difficult from judge where course_id = #{courseId} and judge_difficult = '难' order by rand() limit 0,1)\n")
     List<JudgeDto> queryAll(String courseId);
 
     @Insert("insert into judge (id,course_id,question,optionA,optionB,answer,type) values(#{id},#{courseId},#{question},#{optionA},#{optionB},#{answer},#{type})")
@@ -33,7 +37,7 @@ public interface JudgeMapper extends BaseMapper<JudgeEntity> {
     })
     List<QuestionDto> getJudgeQuestions(List<String> ids);
 
-    @Select("select id,type,question,optionA,optionB,answer,analysis,create_time,update_time,course_id,creator from judge where id = #{id}")
+    @Select("select id,type,judge_difficult as difficult,question,optionA,optionB,answer,analysis,create_time,update_time,course_id,creator from judge where id = #{id}")
     QuestionDto getQuestionById(String id);
 
     @Update("<script>update judge " +

@@ -19,4 +19,5 @@ public class SingleChoiceDto {
     String analysis;
     String createTime;
     String updateTime;
+    String difficult;
 }

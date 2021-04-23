@@ -45,7 +45,15 @@
             picker2.on('dp.change', function (e) {
                 picker1.data('DateTimePicker').maxDate(e.date);
             });
-x        })
+            $('#exit').click(function () {
+                var msg = "确定退出登录吗？";
+                if (confirm(msg)==true){
+                    window.location.href = "index"
+                }else{
+                    return false;
+                }
+            })
+       })
 
     </script>
 </head>
@@ -63,7 +71,7 @@ x        })
         <dl class="layui-nav-child">
             <%--<dd><a href="javascript:;">修改信息</a></dd>
             <dd><a href="javascript:;">安全管理</a></dd>--%>
-            <dd><a id="exit" class="pointer">退了</a></dd>
+                <dd><a href="javascript:;" id="exit">退了</a></dd>
         </dl>
     </li>
 </ul>
@@ -274,10 +282,10 @@ x        })
             $.ajax({
                 dataType: "json",
                 contentType: "application/json",
-                url: "/api/addTeacher",
+                url: "addTeacher",
                 success: function (res) {
-                    if(res.code == "ok"){
-                        window.location.href = "addTeacher"
+                    if(res.code === "ok"){
+                        window.location.href = "addTeacher1?username=${username}"
                     }
                 },
                 type: "post"

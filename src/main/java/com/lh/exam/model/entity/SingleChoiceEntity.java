@@ -18,6 +18,7 @@ public class SingleChoiceEntity {
     String id;
     String courseId;
     String type;
+    String singleDifficult;
     String creator;
     String question;
     String optionA;

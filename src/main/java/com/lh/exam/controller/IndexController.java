@@ -107,7 +107,8 @@ public class IndexController {
     }
 
     @RequestMapping("/stuManage")
-    public String stuManage(){
+    public String stuManage(HttpSession session,HttpServletRequest request){
+        session.setAttribute("username",request.getParameter("username"));
         return "stuManage";
     }
 
@@ -116,8 +117,9 @@ public class IndexController {
         return "teacherManage";
     }
 
-    @RequestMapping("/addTeacher")
-    public String addTeacher(){
+    @RequestMapping("/addTeacher1")
+    public String addTeacher(HttpSession session,HttpServletRequest request){
+        session.setAttribute("username",request.getParameter("username"));
         return "addTeacher";
     }
 

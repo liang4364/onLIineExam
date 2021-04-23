@@ -15,5 +15,6 @@ public class QuestionVo {
     String optionD;
     String answer;
     String analysis;
+    String difficult;
 
 }

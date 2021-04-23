@@ -45,6 +45,14 @@
             picker2.on('dp.change', function (e) {
                 picker1.data('DateTimePicker').maxDate(e.date);
             });
+            $('#exit').click(function () {
+                var msg = "确定退出登录吗？";
+                if (confirm(msg)==true){
+                    window.location.href = "index"
+                }else{
+                    return false;
+                }
+            })
         })
     </script>
 </head>
@@ -62,7 +70,7 @@
         <dl class="layui-nav-child">
             <%--<dd><a href="javascript:;">修改信息</a></dd>
             <dd><a href="javascript:;">安全管理</a></dd>--%>
-            <dd><a id="exit" class="pointer">退了</a></dd>
+            <dd><a href="javascript:;" id="exit">退了</a></dd>
         </dl>
     </li>
 </ul>

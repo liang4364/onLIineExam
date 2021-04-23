@@ -42,4 +42,9 @@ public class TeacherManageController {
         map.put("data",res.getRecords());
         return map;
     }
+
+    @RequestMapping("/addTeacher")
+    public Result2Vo addTeacher(){
+        return ResultVoUtil.successResult2Vo();
+    }
 }

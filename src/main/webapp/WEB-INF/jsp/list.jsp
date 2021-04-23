@@ -238,7 +238,7 @@
 								<img src="https://i.loli.net/2019/11/02/rCHKVJd4jTovzW9.jpg" class="img-circle"
                                      alt="Cinque Terre" width="34" height="34">
 							</span>
-							<span style="font-size: 22px;color:white;position: absolute;right:-20px;top: 5px">${username}</span>
+							<span style="font-size: 22px;color:white;position: absolute;right:-50px;top: 5px">${username}</span>
 						</span>
                                         </div>
                                     </a>

@@ -85,9 +85,9 @@
     <li class="layui-nav-item" lay-unselect="">
         <a href="javascript:;"><img src="https://i.loli.net/2019/11/02/rCHKVJd4jTovzW9.jpg" class="layui-nav-img">${username}</a>
         <dl class="layui-nav-child">
-           <%-- <dd><a href="javascript:;">修改信息</a></dd>
+<%--            <dd><a href="javascript:;">修改信息</a></dd>
             <dd><a href="javascript:;">安全管理</a></dd>--%>
-            <dd><a id="exit">退了</a></dd>
+            <dd><a href="javascript:;" id="exit">退了</a></dd>
         </dl>
     </li>
 </ul>
@@ -195,16 +195,17 @@
             ,title: '问题详情表'
             ,cols: [[
                 {type: 'checkbox', fixed: 'left',width:80}
-                ,{field:'courseName', title:'考试科目', width:130, sort: true}
-                ,{field:'creator', title:'创建人', width:130,edit: 'text'}
+                ,{field:'courseName', title:'考试科目', width:110, sort: true}
+                ,{field:'creator', title:'创建人', width:110,edit: 'text'}
                 ,{field:'type', title:'考试类型', width:120,sort: true}
+                ,{field:'difficult', title:'难易程度', width:90,edit: 'text',sort: true}
                 ,{field:'question', title:'问题', width:150,edit: 'text'}
                 ,{field:'optionA', title:'选项A', width:130, sort: true,edit: 'text'}
                 ,{field:'optionB', title:'选项B', width:130, sort: true,edit: 'text'}
                 ,{field:'optionC', title:'选项C', width:130, sort: true,edit: 'text'}
                 ,{field:'optionD', title:'选项D', width:130, sort: true,edit: 'text'}
                 ,{field:'answer', title:'正确答案', width:130, sort: true,edit: 'text'}
-                ,{field:'analysis', title:'解析', width:170, sort: true,edit: 'text'}
+                ,{field:'analysis', title:'解析', width:130, sort: true,edit: 'text'}
                 ,{field:'createTime1', title:'创建时间', width:170, sort: true}
                 ,{field:'updateTime', title:'更新时间', width:170, sort: true}
                 ,{title:'操作', toolbar: '#barDemo', width:280}
@@ -344,6 +345,12 @@
                 ,data = obj.data //得到所在行所有键值
                 ,field = obj.field//得到字段
                 ,typeId = data.id;
+            if(field === "difficult"){
+                if(value != "难" || value != "中" || value!="易"){
+                    layer.msg("难易程度设置只能为难或易或中其中一个！");
+                    return;
+                }
+            }
             $.ajax({
                 dataType: "json",
                 url: "updateQuestion?"+field+"="+value+"&typeId="+typeId,

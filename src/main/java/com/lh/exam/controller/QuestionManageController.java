@@ -57,6 +57,7 @@ public class QuestionManageController {
         questionVo.setOptionD(request.getParameter("optionD"));
         questionVo.setAnswer(request.getParameter("answer"));
         questionVo.setAnalysis(request.getParameter("analysis"));
+        questionVo.setDifficult(request.getParameter("difficult"));
         int count = questionManageService.updateQuestion(questionVo);
         if(count != -1){
             return ResultVoUtil.successResult2Vo(count);

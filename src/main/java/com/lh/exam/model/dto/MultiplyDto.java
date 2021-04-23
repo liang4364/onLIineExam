@@ -19,4 +19,5 @@ public class MultiplyDto {
     String optionD;
     List<String> answer;
     String analysis;
+    String difficult;
 }

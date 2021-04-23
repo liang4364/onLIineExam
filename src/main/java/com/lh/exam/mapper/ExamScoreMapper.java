@@ -62,7 +62,7 @@ public interface ExamScoreMapper extends BaseMapper<ExamScoreEntity> {
 
 
 
-    @Select("select id,user_id,course_id,score,single_score,multiply_score,judge_score,create_time from exam_score where user_id = #{userId}")
+    @Select("select id,user_id,course_id,score,single_score,multiply_score,judge_score,create_time,begin_time from exam_score where user_id = #{userId}")
     List<ExamScoreEntity> getExamDetail1(Page page, String userId);
 
     @Select("<script>select id,user_id,course_id,score,create_time from exam_score " +

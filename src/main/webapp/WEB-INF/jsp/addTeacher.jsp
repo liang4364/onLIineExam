@@ -28,14 +28,6 @@
             });
             //获取正则表达式对象
             $('#register').click(function () {
-                var usernameRegExp=/^[a-zA-Z0-9_-]{4,16}$/;
-                var userOk=usernameRegExp.test($('#username').val());
-                if(userOk){
-                    $('#testUsername').html("<span class='glyphicon glyphicon-ok'></span>");
-                }else{
-                    $('#testUsername').html("<span class='glyphicon glyphicon-remove'></span>");
-                }
-
                 var userNumRegExp=/^1\d{9}$/;
                 var userNumOk=userNumRegExp.test($('#userNum').val());
                 if(userNumOk){
@@ -74,8 +66,9 @@
                     "userEmail": $('#userEmail').val(),
                     "userPhone": $('#userPhone').val(),
                     "userRoleId" : 1,
+                    "userLock":1
                 };
-                if(userNumOk && passwordOk && emailOk && phonedOk && userOk){
+                if(userNumOk && passwordOk && emailOk && phonedOk){
                     $.ajax({
                         data: JSON.stringify(json),
                         dataType: "json",
@@ -83,29 +76,8 @@
                         url: "auth/register",
                         success: function (res) {
                             if(res.code == "ok"){
-                                var msg = "注册成功，是否立即登录？";
-                                if (confirm(msg)==true){
-                                    var md5password = MD5($("#password").val());
-                                    var json = {
-                                        "username": $("#username").val(),
-                                        "password": md5password
-                                    };
-                                    $.ajax({
-                                        data: JSON.stringify(json),
-                                        dataType: "json",
-                                        contentType: "application/json",
-                                        url: "auth/login",
-                                        success: function (res) {
-                                            if (res.code == "ok") {
-                                                window.close();
-                                                window.location.href = "teacherManage";
-                                            }
-                                        },
-                                        type: "post"
-                                    })
-                                }else{
-                                    return false;
-                                }
+                                window.close();
+                                window.location.href = "teacherManage"
                             }else if(res.code="exist_user_info"){
                                 $("#error").html("<div class=\"alert alert-danger alert-dismissable\">\n" +
                                     "\t<button type=\"button\" class=\"close\" data-dismiss=\"alert\"\n" +
@@ -152,7 +124,7 @@
         </div>
         <form action="auth/login" method="post" name="form">
             <div class="input-group input-group-lg">
-                <div id="testUsername"></div><span class="input-group-addon">用户名</span>
+                <span class="input-group-addon">用户名</span>
                 <input type="text" id="username" class="form-control" placeholder="请输入用户名...">
             </div>
             <br>

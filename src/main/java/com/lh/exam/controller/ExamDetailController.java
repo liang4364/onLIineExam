@@ -50,9 +50,7 @@ public class ExamDetailController {
     }
 
     @RequestMapping("/getExamDetail1")
-    public Map<String,Object> getExamDetail1(@RequestParam Integer page, @RequestParam Integer limit, HttpSession session){
-        //String username  = (String) session.getAttribute("username");
-        String username  = "lh";
+    public Map<String,Object> getExamDetail1(@RequestParam Integer page, @RequestParam Integer limit,String username){
         Page<ExamScoreDto> res = examScoreService.getExamDetail1(page,limit,username);
         Map<String,Object> map = new HashMap<String,Object>();
         map.put("code","0");

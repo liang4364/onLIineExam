@@ -126,12 +126,17 @@ public class QuestionManageServiceImpl implements QuestionManageService {
         }else if(questionVo.getAnalysis() != null){
             field = "analysis";
             value = questionVo.getAnalysis();
+        }else if(questionVo.getDifficult() != null){
+            field = "difficult";
         }
         if("single".equals(type)){
+            value = "single_difficult";
             count = singleChoiceMapper.updateSingle(field,value,questionVo.getTypeId(),sdf.format(date));
         }else if("judge".equals(type)){
+            value = "judge_difficult";
             count = judgeMapper.updateJudge(field,value,questionVo.getTypeId(),sdf.format(date));
         }else if("multiply".equals(type)){
+            value = "multiply_difficult";
             if(!"answer".equals(field)){
                 count =  multiplyMapper.updateMultiply(field,value,questionVo.getTypeId(),sdf.format(date));
             }else{

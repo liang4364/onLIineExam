@@ -17,6 +17,7 @@ public class JudgeEntity {
     @TableId(value = "id", type = IdType.UUID)
     String id;
     String type;
+    String judgeDifficult;
     String creator;
     String courseId;
     String question;

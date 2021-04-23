@@ -11,7 +11,11 @@ import java.util.List;
 
 @Mapper
 public interface MultiplyMapper extends BaseMapper<MultiplyChoiceEntity> {
-    @Select("select id,type,question,optionA,optionB,optionC,optionD from multiply_choice where course_id = #{courseId} order by rand() limit 0,5")
+    @Select("(select id,type,question,optionA,optionB,optionC,optionD,multiply_difficult as difficult from multiply_choice where course_id = #{courseId} and multiply_difficult = '易' order by rand() limit 0,2)\n" +
+            "union\n" +
+            "(select id,type,question,optionA,optionB,optionC,optionD,multiply_difficult as difficult from multiply_choice where course_id = #{courseId} and multiply_difficult = '中' order by rand() limit 0,2)\n" +
+            "union\n" +
+            "(select id,type,question,optionA,optionB,optionC,optionD,multiply_difficult as difficult from multiply_choice where course_id = #{courseId} and multiply_difficult = '难' order by rand() limit 0,1)")
     List<MultiplyDto> queryByCourseId(String courseId);
 
     @Select("select answer from multiply_answer where question_id = #{questionId}")
@@ -30,7 +34,7 @@ public interface MultiplyMapper extends BaseMapper<MultiplyChoiceEntity> {
     })
     List<QuestionDto> getMultiplyQuestions(List<String> ids);
 
-    @Select("select id,type,question,optionA,optionB,optionC,optionD,analysis,create_time,update_time,course_id,creator from multiply_choice where id = #{id}")
+    @Select("select id,type,multiply_difficult as difficult,question,optionA,optionB,optionC,optionD,analysis,create_time,update_time,course_id,creator from multiply_choice where id = #{id}")
     QuestionDto getQuestionById(String id);
 
     @Update("<script>update multiply_choice " +

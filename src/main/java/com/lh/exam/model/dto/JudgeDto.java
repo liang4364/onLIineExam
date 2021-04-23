@@ -15,4 +15,5 @@ public class JudgeDto {
     String optionB;
     String answer;
     String analysis;
+    String difficult;
 }

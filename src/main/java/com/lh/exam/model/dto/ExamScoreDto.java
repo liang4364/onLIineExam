@@ -10,10 +10,14 @@ import lombok.NoArgsConstructor;
 public class ExamScoreDto {
     String id;
     String userName;
+    String userCollege;
+    String userClass;
     String courseName;
     int score;
     int singleScore;
     int multiplyScore;
     int judgeScore;
+    String examTime;
+    String beginTime;
     String createTime;
 }

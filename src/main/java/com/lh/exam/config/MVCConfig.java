@@ -24,8 +24,9 @@ public class MVCConfig implements WebMvcConfigurer {
         registry.addInterceptor(tokenInterceptor).addPathPatterns("/**")
                 .excludePathPatterns("/index")
                 .excludePathPatterns("/static/**")
-                .excludePathPatterns("/auth/login")
-                .excludePathPatterns("/auth/register")
-                .excludePathPatterns("/register");
+                .excludePathPatterns("/auth/**")
+                .excludePathPatterns("/stuRegister")
+                .excludePathPatterns("/queryCollege")
+                .excludePathPatterns("/queryClass");
     }
 }

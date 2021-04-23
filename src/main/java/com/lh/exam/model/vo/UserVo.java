@@ -23,4 +23,5 @@ public class UserVo {
     Date updateTime;
     String userCollege;
     String userClass;
+    int userLock;
 }

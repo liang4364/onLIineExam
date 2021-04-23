@@ -1,21 +1,20 @@
 package com.lh.exam.mapper;
 
-import cn.hutool.db.DaoTemplate;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lh.exam.model.dto.QuestionDto;
 import com.lh.exam.model.dto.SingleChoiceDto;
-import com.lh.exam.model.entity.ExamScoreEntity;
 import com.lh.exam.model.entity.SingleChoiceEntity;
-import com.lh.exam.model.vo.QuestionAddVo;
 import org.apache.ibatis.annotations.*;
-
-import java.util.Date;
 import java.util.List;
 
 @Mapper
 public interface SingleChoiceMapper  extends BaseMapper<SingleChoiceEntity> {
-    @Select("select id,type,question,optionA,optionB,optionC,optionD,answer from single_choice where course_id = #{courseId} order by rand() limit 0,5")
+    @Select("(select id,type,question,optionA,optionB,optionC,optionD,answer,single_difficult as difficult  from single_choice where course_id = #{courseId} and single_difficult = '易' order by rand() limit 0,2)\n" +
+            "\tUNION\n" +
+            "(select id,type,question,optionA,optionB,optionC,optionD,answer,single_difficult as difficult from single_choice where course_id = #{courseId} and single_difficult = '中' order by rand() limit 0,2)\n" +
+            "\tUNION\n" +
+            "(select id,type,question,optionA,optionB,optionC,optionD,answer,single_difficult as difficult from single_choice where course_id = #{courseId} and single_difficult = '难' order by rand() limit 0,1)")
     List<SingleChoiceDto> querySingleChoice(String courseId);
 
     @Select("select id,type,question,optionA,optionB,optionC,optionD,answer,analysis,create_time,update_time from single_choice where id = #{id}")
@@ -34,7 +33,7 @@ public interface SingleChoiceMapper  extends BaseMapper<SingleChoiceEntity> {
     })
     List<QuestionDto> getSingleQuestions(List<String> ids);
 
-    @Select("select id,type,question,optionA,optionB,optionC,optionD,answer,analysis,create_time,update_time,course_id,creator from single_choice where id = #{id}")
+    @Select("select id,type,single_difficult as difficult,question,optionA,optionB,optionC,optionD,answer,analysis,create_time,update_time,course_id,creator from single_choice where id = #{id}")
     QuestionDto getQuestionById(String id);
 
     @Update("<script>update single_choice " +

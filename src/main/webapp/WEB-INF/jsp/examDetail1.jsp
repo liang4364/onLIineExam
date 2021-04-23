@@ -98,7 +98,7 @@
 								<img src="https://i.loli.net/2019/11/02/rCHKVJd4jTovzW9.jpg" class="img-circle"
                                      alt="Cinque Terre" width="34" height="34">
 							</span>
-							<span style="font-size: 22px;color:white;position: absolute;right:-20px;top: 5px">${username}</span>
+							<span style="font-size: 22px;color:white;position: absolute;right:-50px;top: 5px">${username}</span>
 						</span>
                                     </div>
                                 </a>
@@ -166,7 +166,7 @@
                 table.render({
                     elem: '#test'
                     ,id: 'indent'
-                    ,url:'/api/getExamDetail1'
+                    ,url:'/api/getExamDetail1?username=${username}'
                     ,port:8082
                     ,toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
                     ,defaultToolbar: ['filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
@@ -177,13 +177,16 @@
                     ,title: '考试成绩表'
                     ,cols: [[
                         {field:'userName', title:'用户名', width:120, edit: 'text'}
+                        ,{field:'userCollege', title:'所属学院', width:150, edit: 'text'}
+                        ,{field:'userClass', title:'所在班级', width:150, edit: 'text'}
                         ,{field:'courseName', title:'考试类型', width:150, edit: 'text'}
                         ,{field:'singleScore', title:'单选题得分', width:130, sort: true}
                         ,{field:'multiplyScore', title:'多选题得分', width:130, sort: true}
                         ,{field:'judgeScore', title:'判断题得分', width:130, sort: true}
-                        ,{field:'score', title:'考试总成绩', width:900, sort: true}
-                        ,{field:'createTime', title:'创建时间', width:180, sort: true}
-                        ,{title:'操作', toolbar: '#barDemo', width:280}
+                        ,{field:'score', title:'考试总成绩', width:450, sort: true}
+                        ,{field:'examTime', title:'考试时长', width:120, sort: true}
+                        ,{field:'beginTime', title:'考试开始时间', width:180, sort: true}
+                        ,{field:'createTime', title:'考试结束时间', width:180, sort: true}
                     ]]
                     ,page: true
 
