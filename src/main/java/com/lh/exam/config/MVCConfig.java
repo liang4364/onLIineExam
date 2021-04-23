@@ -21,11 +21,11 @@ public class MVCConfig implements WebMvcConfigurer {
         String[] pathPatterns = {"/autonomous/**", "/chassis/**", "/proxy"};
         registry.addInterceptor(rateLimiterInterceptor).addPathPatterns(pathPatterns);
         //拦截除了index和static路径下的所有资源
-       /* registry.addInterceptor(tokenInterceptor).addPathPatterns("/**")
+        registry.addInterceptor(tokenInterceptor).addPathPatterns("/**")
                 .excludePathPatterns("/index")
                 .excludePathPatterns("/static/**")
                 .excludePathPatterns("/auth/login")
                 .excludePathPatterns("/auth/register")
-                .excludePathPatterns("/register");*/
+                .excludePathPatterns("/register");
     }
 }

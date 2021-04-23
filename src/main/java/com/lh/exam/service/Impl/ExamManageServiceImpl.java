@@ -41,6 +41,9 @@ public class ExamManageServiceImpl implements ExamManageService {
         for (ExamScoreEntity examScoreEntity : page1.getRecords()) {
             ExamManageDto examManageDto = new ExamManageDto();
             UserEntity userEntity = userInfoMapper.getUserById(examScoreEntity.getUserId());
+            if(userInfoMapper.getLock(userEntity.getUsername()) == 0){
+                break;
+            }
             BeanUtils.copyProperties(examScoreEntity, examManageDto);
             examManageDto.setUserName(userEntity.getUsername());
             examManageDto.setUserEmail(userEntity.getUserEmail());

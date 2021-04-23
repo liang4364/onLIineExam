@@ -74,4 +74,15 @@ public class QuestionManageController {
     return questionManageService.insertQuestion(questionAddVo);
     }
 
+    @RequestMapping("/deleteQuestion")
+    public  Result2Vo deleteQuestion(String questionId){
+        int count = questionManageService.deleteQuestion(questionId);
+        if(count != -1){
+            return ResultVoUtil.successResult2Vo(count);
+        }else {
+            return ResultVoUtil.errorResult2Vo(Result2Enum.UNKNOWN_EXCEPTION);
+        }
+    }
+
+
 }

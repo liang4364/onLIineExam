@@ -9,7 +9,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>学生管理页面</title>
+    <title>教师管理页面</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -45,16 +45,17 @@
             picker2.on('dp.change', function (e) {
                 picker1.data('DateTimePicker').maxDate(e.date);
             });
-        })
+x        })
+
     </script>
 </head>
 <body>
 <ul class="layui-nav layui-bg-cyan">
     <li class="layui-nav-item"><span style="font-size: 25px">管理员权限</span></li>
-    <li class="layui-nav-item  layui-this"><a href="${pageContext.request.contextPath}/stuManage" style="font-size: 15px;cursor: pointer">
+    <li class="layui-nav-item"><a href="${pageContext.request.contextPath}/stuManage" style="font-size: 15px;cursor: pointer">
         <span class="glyphicon glyphicon-th-large" style="font-size: 15px;"></span>学生信息管理</a>
     </li>
-    <li class="layui-nav-item"><a href="${pageContext.request.contextPath}/teacherManage" style="font-size: 15px;cursor: pointer">
+    <li class="layui-nav-item   layui-this"><a href="${pageContext.request.contextPath}/teacherManage" style="font-size: 15px;cursor: pointer">
         <span class="glyphicon glyphicon-file" style="font-size: 15px;"></span>教师信息管理</a>
     </li>
     <li class="layui-nav-item" lay-unselect="">
@@ -71,7 +72,7 @@
     <div class="panel-body">
         <form id="formSearch" class="form-horizontal">
             <div class="form-group" style="margin-top:15px">
-                <label class="control-label col-sm-1" for="username">学生姓名</label>
+                <label class="control-label col-sm-1" for="username">教师姓名</label>
                 <div class="col-sm-2">
                     <input type="text" class="form-control" placeholder="请输入学生姓名..." id="username">
                 </div>
@@ -81,13 +82,13 @@
                 </div>
             </div>
             <div class="form-group" style="margin-top:15px">
-                <label class="control-label col-sm-1" for="userNum">学号</label>
+                <label class="control-label col-sm-1" for="userNum">工号</label>
                 <div class="col-sm-2">
-                    <input type="text" class="form-control"  placeholder="请输入学生学号..." id="userNum">
+                    <input type="text" class="form-control"  placeholder="请输入工号..." id="userNum">
                 </div>
-                <label class="control-label col-sm-1" for="userClass">班级</label>
+                <label class="control-label col-sm-1" for="userEmail">邮箱</label>
                 <div class="col-sm-1">
-                    <input type="text" class="form-control"  placeholder="请输入所在班级..." id="userClass">
+                    <input type="text" class="form-control"  placeholder="请输入所在班级..." id="userEmail">
                 </div>
                 <label class="control-label col-sm-1">创建时间范围</label>
                 <div class='col-sm-2'>
@@ -110,7 +111,7 @@
                         </div>
                     </div>
                 </div>
-                <button type="reset" style="margin-left:50px"  class="layui-btn">清空</button>
+                <button type="reset" style="margin-left:50px"  class="layui-btn" id="reset">清空</button>
                 <button type="button" style="margin-left:50px" id="query" class="layui-btn layui-inline" data-type="reload">查询</button>
             </div>
         </form>
@@ -121,8 +122,8 @@
 
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" id="insertData"><i class="layui-icon"></i></button>
         <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>
-        <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
         <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
     </div>
 </script>
@@ -142,11 +143,11 @@
 <script>
     layui.use('table', function(){
         var table = layui.table
-        ,form = layui.form;
+            ,form = layui.form;
         table.render({
             elem: '#test'
             ,id: 'indent'
-            ,url:'/api/getAllUser'
+            ,url:'/api/getAllTeacher'
             ,toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
             ,defaultToolbar: ['filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
                 title: '提示'
@@ -156,13 +157,12 @@
             ,title: '学生详情表'
             ,cols: [[
                 {type: 'checkbox', fixed: 'left',width:80}
-                ,{field:'username', title:'学生姓名', width:200,sort: true}
-                ,{field:'userCollege', title:'所属学院', width:200,sort: true}
-                ,{field:'userClass', title:'所在班级', width:200,sort: true}
-                ,{field:'userRole', title:'角色', width:200, sort: true}
-                ,{field:'userNum', title:'学号', width:200, sort: true}
+                ,{field:'username', title:'教师姓名', width:200,sort: true}
+                ,{field:'userNum', title:'工号', width:200,sort: true}
                 ,{field:'userPhone', title:'手机号', width:200, sort: true}
-                ,{field:'createTime', title:'创建时间', width:400, sort: true}
+                ,{field:'userEmail', title:'邮箱', width:200,sort: true}
+                ,{field:'userRole', title:'角色', width:200, sort: true}
+                ,{field:'createTime', title:'创建时间', width:610, sort: true}
                 ,{field:'userLock', title:'是否锁定', width:110, templet: '#checkboxTpl', unresize: true}
                 ,{title:'操作', toolbar: '#barDemo', width:280}
             ]]
@@ -189,10 +189,6 @@
         table.on('toolbar(test)', function(obj){
             var checkStatus = table.checkStatus(obj.config.id);
             switch(obj.event){
-                case 'getCheckData':
-                    var data = checkStatus.data;
-                    layer.alert(JSON.stringify(data));
-                    break;
                 case 'isAll':
                     layer.msg(checkStatus.isAll ? '全选': '未全选');
                     break;
@@ -241,22 +237,22 @@
         var active = {
             reload: function(){
                 var username = $('#username').val();
-                var userClass = $('#userClass').val();
+                var userEmail = $('#userEmail').val();
                 var userPhone = $('#userPhone').val();
                 var beginTime = $('#beginTime').val();
                 var endTime = $('#endTime').val();
                 var userNum = $('#userNum').val();
-                var userRole = "学生";
+                var userRole = "教师";
                 //执行重载
                 table.reload('indent', {
-                    url : '/api/getAllUserByFilter',
+                    url : '/api/getAllTeacherByFilter',
                     method:'post',
                     page: {
                         curr: 1
                     }
                     ,where: {
                         username: username,
-                        userClass: userClass,
+                        userEmail: userEmail,
                         userPhone: userPhone,
                         beginTime:beginTime,
                         endTime:endTime,
@@ -268,11 +264,24 @@
         };
         $('#query').on('click', function(){
             var type = $(this).data('type');
-            if($('#username').val() == "" && $('#userClass').val()=="" && $('#userPhone').val()=="" && $('#beginTime').val()==""  && $('#endTime').val()=="" && $('#userNum').val()==""){
+            if($('#username').val() == "" && $('#userEmail').val()=="" && $('#userPhone').val()=="" && $('#beginTime').val()==""  && $('#endTime').val()=="" && $('#userNum').val()==""){
                 layer.msg('查询条件不能为空');
                 return false;
             }
             active[type] ? active[type].call(this) : '';
+        });
+        $('#insertData').on('click', function(){
+            $.ajax({
+                dataType: "json",
+                contentType: "application/json",
+                url: "/api/addTeacher",
+                success: function (res) {
+                    if(res.code == "ok"){
+                        window.location.href = "addTeacher"
+                    }
+                },
+                type: "post"
+            })
         });
     });
 </script>

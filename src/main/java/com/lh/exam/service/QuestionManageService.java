@@ -17,4 +17,6 @@ public interface QuestionManageService {
 
     Result2Vo insertQuestion(QuestionAddVo questionAddVo);
 
+    int deleteQuestion(String questionId);
+
 }

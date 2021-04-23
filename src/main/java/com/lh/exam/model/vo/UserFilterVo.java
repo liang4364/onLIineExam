@@ -9,10 +9,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserFilterVo {
     String username;
-    String userEmail;
+    String userClass;
+    String userNum;
     String userPhone;
     String beginTime;
     String endTime;
     Integer page;
     Integer limit;
+    String userEmail;
+    String userRole;
+    int roleId;
 }

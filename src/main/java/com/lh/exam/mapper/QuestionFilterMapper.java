@@ -5,10 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lh.exam.model.entity.QuestionInfoEntity;
 import com.lh.exam.model.entity.SingleChoiceEntity;
 import com.lh.exam.model.vo.QuestionFilterVo;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -75,4 +72,7 @@ public interface QuestionFilterMapper extends BaseMapper<QuestionInfoEntity> {
 
     @Insert("INSERT INTO question_filter  ( id, course_name, type_id, type, creator,question, optionA, optionB, optionC, optionD, analysis )  VALUES  ( #{id}, #{courseName},#{typeId}, #{type},#{creator},#{question}, #{optionA}, #{optionB},  #{optionC}, #{optionD},#{analysis} )")
     int insertQuestion(QuestionInfoEntity questionInfoEntity);
+
+    @Delete("delete from question_filter where type_id = #{questionId}")
+    int deleteQuestion(String questionId);
 }

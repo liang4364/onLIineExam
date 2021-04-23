@@ -5,7 +5,7 @@ import com.lh.exam.mapper.UserInfoMapper;
 import com.lh.exam.model.dto.UserDto;
 import com.lh.exam.model.entity.UserEntity;
 import com.lh.exam.model.vo.UserFilterVo;
-import com.lh.exam.service.UserManageService;
+import com.lh.exam.service.TeacherManageService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,23 +15,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class UserManageServiceImpl implements UserManageService {
+public class TeacherManageServiceImpl implements TeacherManageService {
 
     @Autowired
     UserInfoMapper userInfoMapper;
 
     @Override
-    public Page<UserDto> getAllUser(Integer page,Integer limit) {
+    public Page<UserDto> getAllTeacher(Integer page, Integer limit) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Page<UserEntity> page1 = new Page<>(page,limit);
         Page<UserDto> page2 = new Page<>(page,limit);
-        page1.setRecords(userInfoMapper.getAllUsers(page1));
+        page1.setRecords(userInfoMapper.getAllTeacher(page1));
         List<UserDto> userDtos = new ArrayList<>();
         for(UserEntity userEntity : page1.getRecords()){
             UserDto userDto = new UserDto();
             BeanUtils.copyProperties(userEntity,userDto);
-            if(userEntity.getUserRoleId() == 2){
-                userDto.setUserRole("学生");
+            if(userEntity.getUserRoleId() == 1){
+                userDto.setUserRole("教师");
             }
             userDto.setCreateTime(sdf.format(userEntity.getCreateTime()));
             userDtos.add(userDto);
@@ -42,7 +42,7 @@ public class UserManageServiceImpl implements UserManageService {
     }
 
     @Override
-    public Page<UserDto> getAllUserByFilter(UserFilterVo userFilterVo) {
+    public Page<UserDto> getAllTeacherByFilter(UserFilterVo userFilterVo) {
         if (!"".equals(userFilterVo.getBeginTime())) {
             userFilterVo.setBeginTime(userFilterVo.getBeginTime() + " 00:00:00");
         }
@@ -58,7 +58,7 @@ public class UserManageServiceImpl implements UserManageService {
         }else if("教师".equals(userFilterVo.getUserRole())){
             userFilterVo.setRoleId(1);
         }
-        userFilterVo.setUserEmail("");
+        userFilterVo.setUserClass("");
         page1.setRecords(userInfoMapper.getUserByFilter(page1,userFilterVo));
         for (UserEntity userEntity : page1.getRecords()) {
             UserDto userDto = new UserDto();
@@ -69,25 +69,5 @@ public class UserManageServiceImpl implements UserManageService {
         BeanUtils.copyProperties(page1, page2);
         page2.setRecords(resList);
         return page2;
-    }
-
-    @Override
-    public int updateUserLock(boolean lock,String username) {
-        int count = -1;
-        if(lock){
-            count = userInfoMapper.updateUserLock(0,username);
-        }else {
-            count = userInfoMapper.updateUserLock(1,username);
-        }
-        return count;
-    }
-
-    @Override
-    public int deleteStu(String username) {
-        int count = userInfoMapper.deleteStu(username);
-        if(count != -1){
-            return count;
-        }
-        return count;
     }
 }

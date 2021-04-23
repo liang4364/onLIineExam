@@ -110,8 +110,8 @@
                         <div class='input-group date' id='datetimepicker1'>
                             <input type='text' class="form-control" id="beginTime" />
                             <span class="input-group-addon">
-                                                 <span class="glyphicon glyphicon-calendar"></span>
-                                            </span>
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -120,12 +120,11 @@
                         <div class='input-group date' id='datetimepicker2'>
                             <input type='text' class="form-control" id="endTime" />
                             <span class="input-group-addon">
-                                                  <span class="glyphicon glyphicon-calendar"></span>
-                                            </span>
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
                         </div>
                     </div>
                 </div>
-
             </div>
             <div class="form-group" style="margin-top:15px">
                 <label class="control-label col-sm-1" for="courseName">科目名称</label>
@@ -142,8 +141,8 @@
                         <div class='input-group date' id='datetimepicker3'>
                             <input type='text' class="form-control" id="updateBeginTime" />
                             <span class="input-group-addon">
-                                                 <span class="glyphicon glyphicon-calendar"></span>
-                                            </span>
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -152,8 +151,8 @@
                         <div class='input-group date' id='datetimepicker4'>
                             <input type='text' class="form-control" id="updateEndTime" />
                             <span class="input-group-addon">
-                                                  <span class="glyphicon glyphicon-calendar"></span>
-                                            </span>
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -234,10 +233,21 @@
         //监听行工具事件
         table.on('tool(test)', function(obj){
             var data = obj.data;
-            //console.log(obj)
+            console.log(obj)
             if(obj.event === 'del'){
                 layer.confirm('确定删除吗？', function(index){
                     obj.del();
+                    $.ajax({
+                        dataType: "json",
+                        contentType: "application/json",
+                        url: "deleteQuestion?questionId="+data.id,
+                        success: function (res) {
+                            if(res.code === "ok"){
+                                layer.msg("删除成功！")
+                            }
+                        },
+                        type: "post"
+                    });
                     layer.close(index);
                 });
             } else if(obj.event === 'edit'){

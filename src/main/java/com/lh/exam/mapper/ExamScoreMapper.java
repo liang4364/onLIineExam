@@ -155,6 +155,9 @@ public interface ExamScoreMapper extends BaseMapper<ExamScoreEntity> {
             "\t<if test=\"examFilterVo.examEndTime != ''\">\n" +
             " \t\tand e.create_time &lt; #{examFilterVo.examEndTime}\n" +
             "\t</if>\n" +
+            "\t<if test=\"examFilterVo.page != ''\">\n" +
+            " \t\tand u.user_lock = 1\n" +
+            "\t</if>\n" +
             "\t</where>\n" +
             "order by e.score desc"+
             "</script>")

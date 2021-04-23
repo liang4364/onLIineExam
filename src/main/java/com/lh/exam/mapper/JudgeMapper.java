@@ -7,10 +7,7 @@ import com.lh.exam.model.dto.SingleChoiceDto;
 import com.lh.exam.model.entity.JudgeEntity;
 import com.lh.exam.model.entity.MultiplyChoiceEntity;
 import com.lh.exam.model.entity.SingleChoiceEntity;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -72,4 +69,7 @@ public interface JudgeMapper extends BaseMapper<JudgeEntity> {
 
     @Insert("INSERT INTO single_choice  ( id, course_id, type, creator, question, optionA, optionB, answer, analysis )  VALUES  ( #{id}, #{courseId},#{type},#{creator}, #{question}, #{optionA}, #{optionB}, #{answer},#{analysis} )")
     int insertQuestion(JudgeEntity judgeEntity);
+
+    @Delete("delete from judge where id = #{questionId}")
+    int deleteQuestion(String questionId);
 }

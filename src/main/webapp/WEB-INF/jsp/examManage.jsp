@@ -200,8 +200,8 @@
                 ,{field:'singleScore', title:'单选题得分', width:130, sort: true}
                 ,{field:'multiplyScore', title:'多选题得分', width:130, sort: true}
                 ,{field:'judgeScore', title:'判断题得分', width:130, sort: true}
-                ,{field:'score', title:'总分数', width:130}
-                ,{field:'examTime', title:'考试时长', width:130, sort: true}
+                ,{field:'score', title:'总分数', width:100}
+                ,{field:'examTime', title:'考试时长', width:100, sort: true}
                 ,{field:'examBeginTime', title:'考试开始时间', width:180, sort: true}
                 ,{field:'examEndTime', title:'考试结束时间', width:180, sort: true}
                 ,{field:'userCreateTime', title:'用户创建时间', width:180, sort: true}

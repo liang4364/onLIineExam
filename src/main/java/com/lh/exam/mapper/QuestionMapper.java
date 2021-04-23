@@ -3,6 +3,7 @@ package com.lh.exam.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lh.exam.model.entity.QuestionEntity;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Service;
@@ -27,4 +28,7 @@ public interface QuestionMapper extends BaseMapper<QuestionEntity> {
             "\t</if>\n" +
             "</script>")
     List<String> getIdsByFilter(String type);
+
+    @Delete("delete from question where type_id = #{questionId}")
+    int deleteQuestion(String questionId);
 }

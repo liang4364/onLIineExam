@@ -58,7 +58,7 @@
                                 window.location.href = "teacherList?username="+$("#username").val();
                             }
                             else if(dataRes.roleId == 0){
-                                window.location.href = "adminList?username="+$("#username").val();
+                                window.location.href = "stuManage?username="+$("#username").val();
                             }
 
                         }

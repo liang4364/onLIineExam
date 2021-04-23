@@ -285,4 +285,24 @@ public class QuestionManageServiceImpl implements QuestionManageService {
         return ResultVoUtil.successResult2Vo(count);
     }
 
+    @Override
+    public int deleteQuestion(String questionId) {
+        String type = questionMapper.getTypeById(questionId);
+        int typeCount = -1;
+        int questionCount = -1;
+        int questionFilterCount = -1;
+        if("single".equals(type)){
+            typeCount = singleChoiceMapper.deleteQuestion(questionId);
+        }else if("multiply".equals(type)){
+            typeCount = multiplyMapper.deleteQuestion(questionId);
+        }else if("judge".equals(type)){
+            typeCount = judgeMapper.deleteQuestion(questionId);
+        }
+        questionCount = questionMapper.deleteQuestion(questionId);
+        questionFilterCount = questionInfoMapper.deleteQuestion(questionId);
+        if(typeCount != -1 && questionCount != -1 && questionFilterCount != -1){
+            return typeCount+questionCount+questionFilterCount;
+        }
+        return -1;
+    }
 }
