@@ -38,11 +38,12 @@ public class ExamManageServiceImpl implements ExamManageService {
         Page<ExamManageDto> page2 = new Page<>(page, limit);
         List<ExamManageDto> resList = new ArrayList<>();
         page1.setRecords(examScoreMapper.getAll(page1));
-        for (ExamScoreEntity examScoreEntity : page1.getRecords()) {
+        List<ExamScoreEntity> list = page1.getRecords();
+        for (ExamScoreEntity examScoreEntity : list) {
             ExamManageDto examManageDto = new ExamManageDto();
             UserEntity userEntity = userInfoMapper.getUserById(examScoreEntity.getUserId());
             if(userInfoMapper.getLock(userEntity.getUsername()) == 0){
-                break;
+                continue;
             }
             BeanUtils.copyProperties(examScoreEntity, examManageDto);
             examManageDto.setUserName(userEntity.getUsername());
@@ -53,6 +54,7 @@ public class ExamManageServiceImpl implements ExamManageService {
             examManageDto.setCourseName(courseMapper.getCourseName(examScoreEntity.getCourseId()));
             examManageDto.setExamEndTime(sdf.format(examScoreEntity.getCreateTime()));
             examManageDto.setExamBeginTime(examScoreEntity.getBeginTime());
+            examManageDto.setShortScore(examScoreEntity.getShortScore());
             if(examScoreEntity.getBeginTime() != null && examScoreEntity.getCreateTime() != null){
                 try {
                     examManageDto.setExamTime(ExamUtil.dateDiff(examScoreEntity.getBeginTime(),sdf.format(examScoreEntity.getCreateTime())));

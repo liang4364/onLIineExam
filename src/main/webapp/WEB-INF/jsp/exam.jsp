@@ -16,7 +16,7 @@
     <script type="text/javascript" src="static/js/md5.js"></script>
 
     <script type="text/javascript">
-        var SysSecond;
+    var SysSecond;
         var InterValObj;
         var answerJson = null;
         //将时间减去1秒，计算天、时、分、秒
@@ -75,7 +75,88 @@
             $('#collapseTwo').collapse('show');
             let obj = JSON.stringify(${resMap});
             let json = JSON.parse(obj);
-            console.log(json)
+            //console.log(json);
+            $("#n1l").click(function(){
+                $("#2").trigger('click');
+            });
+            $("#n2l").click(function(){
+                $("#1").trigger('click');
+            });
+            $("#n2r").click(function(){
+                $("#3").trigger('click');
+            });
+            $("#n3l").click(function(){
+                $("#2").trigger('click');
+            })
+            $("#n3r").click(function(){
+                $("#4").trigger('click');
+            })
+            $("#n4l").click(function(){
+                $("#3").trigger('click');
+            })
+            $("#n4r").click(function(){
+                $("#5").trigger('click');
+            })
+            $("#n4r").click(function(){
+                $("#5").trigger('click');
+            })
+            $("#n5l").click(function(){
+                $("#4").trigger('click');
+            })
+            $("#n5r").click(function(){
+                $("#6").trigger('click');
+            })
+            $("#n6l").click(function(){
+                $("#5").trigger('click');
+            })
+            $("#n6r").click(function(){
+                $("#7").trigger('click');
+            })
+            $("#n7l").click(function(){
+                $("#6").trigger('click');
+            })
+            $("#n7r").click(function(){
+                $("#8").trigger('click');
+            })
+            $("#n8l").click(function(){
+                $("#7").trigger('click');
+            })
+            $("#n8r").click(function(){
+                $("#9").trigger('click');
+            })
+            $("#n9l").click(function(){
+                $("#8").trigger('click');
+            })
+            $("#n9r").click(function(){
+                $("#10").trigger('click');
+            })
+            $("#n10l").click(function(){
+                $("#9").trigger('click');
+            })
+            $("#n10r").click(function(){
+                $("#11").trigger('click');
+            })
+            $("#n11l").click(function(){
+                $("#10").trigger('click');
+            })
+            $("#n11r").click(function(){
+                $("#12").trigger('click');
+            })
+            $("#n12l").click(function(){
+                $("#11").trigger('click');
+            })
+            $("#n12r").click(function(){
+                $("#13").trigger('click');
+            })
+            $("#n13l").click(function(){
+                $("#12").trigger('click');
+            })
+            $("#n13r").click(function(){
+                $("#14").trigger('click');
+            })
+            $("#n14l").click(function(){
+                $("#13").trigger('click');
+            })
             $('#1').click(function () {
                 $("#t1 :radio").click(function(){
                     $("#1ok").attr("class","glyphicon glyphicon-ok")
@@ -94,6 +175,7 @@
                 $('#t11').attr("style","display:none");
                 $('#t12').attr("style","display:none");
                 $('#t13').attr("style","display:none");
+                $('#t14').attr("style","display:none");
                 $('#type').html(json.单选题[0].type);
                 $('#question').html(json.单选题[0].question);
                 $('#t1optionA').html(json.单选题[0].optionA);
@@ -119,6 +201,7 @@
                 $('#t11').attr("style","display:none");
                 $('#t12').attr("style","display:none");
                 $('#t13').attr("style","display:none");
+                $('#t14').attr("style","display:none");
                 $('#type').html(json.单选题[1].type);
                 $('#question').html(json.单选题[1].question);
                 $('#t2optionA').html(json.单选题[1].optionA);
@@ -144,6 +227,7 @@
                 $('#t11').attr("style","display:none");
                 $('#t12').attr("style","display:none");
                 $('#t13').attr("style","display:none");
+                $('#t14').attr("style","display:none");
                 $('#type').html(json.单选题[2].type);
                 $('#question').html(json.单选题[2].question);
                 $('#t3optionA').html(json.单选题[2].optionA);
@@ -169,6 +253,7 @@
                 $('#t11').attr("style","display:none");
                 $('#t12').attr("style","display:none");
                 $('#t13').attr("style","display:none");
+                $('#t14').attr("style","display:none");
                 $('#type').html(json.单选题[3].type);
                 $('#question').html(json.单选题[3].question);
                 $('#t4optionA').html(json.单选题[3].optionA);
@@ -194,6 +279,7 @@
                 $('#t11').attr("style","display:none");
                 $('#t12').attr("style","display:none");
                 $('#t13').attr("style","display:none");
+                $('#t14').attr("style","display:none");
                 $('#type').html(json.单选题[4].type);
                 $('#question').html(json.单选题[4].question);
                 $('#t5optionA').html(json.单选题[4].optionA);
@@ -219,6 +305,7 @@
                 $('#t11').attr("style","display:none");
                 $('#t12').attr("style","display:none");
                 $('#t13').attr("style","display:none");
+                $('#t14').attr("style","display:none");
                 $('#type').html(json.多选题[0].type);
                 $('#question').html(json.多选题[0].question);
                 $('#t6optionA').html(json.多选题[0].optionA);
@@ -244,6 +331,7 @@
                 $('#t11').attr("style","display:none");
                 $('#t12').attr("style","display:none");
                 $('#t13').attr("style","display:none");
+                $('#t14').attr("style","display:none");
                 $('#type').html(json.多选题[1].type);
                 $('#question').html(json.多选题[1].question);
                 $('#t7optionA').html(json.多选题[1].optionA);
@@ -269,6 +357,7 @@
                 $('#t11').attr("style","display:none");
                 $('#t12').attr("style","display:none");
                 $('#t13').attr("style","display:none");
+                $('#t14').attr("style","display:none");
                 $('#type').html(json.多选题[2].type);
                 $('#question').html(json.多选题[2].question);
                 $('#t8optionA').html(json.多选题[2].optionA);
@@ -294,6 +383,7 @@
                 $('#t11').attr("style","display:none");
                 $('#t12').attr("style","display:none");
                 $('#t13').attr("style","display:none");
+                $('#t14').attr("style","display:none");
                 $('#type').html(json.多选题[3].type);
                 $('#question').html(json.多选题[3].question);
                 $('#t9optionA').html(json.多选题[3].optionA);
@@ -319,6 +409,7 @@
                 $('#t11').attr("style","display:none");
                 $('#t12').attr("style","display:none");
                 $('#t13').attr("style","display:none");
+                $('#t14').attr("style","display:none");
                 $('#type').html(json.多选题[4].type);
                 $('#question').html(json.多选题[4].question);
                 $('#t10optionA').html(json.多选题[4].optionA);
@@ -344,6 +435,7 @@
                 $('#t11').attr("style","display:block");
                 $('#t12').attr("style","display:none");
                 $('#t13').attr("style","display:none");
+                $('#t14').attr("style","display:none");
                 $('#type').html(json.判断题[0].type);
                 $('#question').html(json.判断题[0].question);
                 $('#t11optionA').html(json.判断题[0].optionA);
@@ -367,6 +459,8 @@
                 $('#t10').attr("style","display:none");
                 $('#t11').attr("style","display:none");
                 $('#t12').attr("style","display:block");
+                $('#t13').attr("style","display:none");
+                $('#t14').attr("style","display:none");
                 $('#type').html(json.判断题[1].type);
                 $('#question').html(json.判断题[1].question);
                 $('#t12optionA').html(json.判断题[1].optionA);
@@ -390,12 +484,36 @@
                 $('#t11').attr("style","display:none");
                 $('#t12').attr("style","display:none");
                 $('#t13').attr("style","display:block");
+                $('#t14').attr("style","display:none");
                 $('#type').html(json.判断题[2].type);
                 $('#question').html(json.判断题[2].question);
                 $('#t13optionA').html(json.判断题[2].optionA);
                 $('#t13optionB').html(json.判断题[2].optionB);
             });
+            $('#14').click(function () {
+                $("#t14").keyup(function(){
+                    $("#14ok").attr("class","glyphicon glyphicon-ok")
+                });
+                $('#index').attr("style", "display:none");
+                $('#t1').attr("style","display:none");
+                $('#t2').attr("style","display:none");
+                $('#t3').attr("style","display:none");
+                $('#t4').attr("style","display:none");
+                $('#t5').attr("style","display:none");
+                $('#t6').attr("style","display:none");
+                $('#t7').attr("style","display:none");
+                $('#t8').attr("style","display:none");
+                $('#t9').attr("style","display:none");
+                $('#t10').attr("style","display:none");
+                $('#t11').attr("style","display:none");
+                $('#t12').attr("style","display:none");
+                $('#t13').attr("style","display:none");
+                $('#t14').attr("style","display:block");
+                $('#type').html(json.简答题[0].type);
+                $('#question').html(json.简答题[0].question);
+            });
         });
+
         function confirmSubmit() {
             var msg = "您确定提交当前试卷吗？";
             if (confirm(msg)==true){
@@ -425,6 +543,9 @@
                     "${resMap["判断题"][0].id}":getSingleAnswer('${resMap["判断题"][0].id}'),
                     "${resMap["判断题"][1].id}":getSingleAnswer('${resMap["判断题"][1].id}'),
                     "${resMap["判断题"][2].id}":getSingleAnswer('${resMap["判断题"][2].id}')
+                },
+                "short" : {
+                    "${resMap["简答题"][0].id}": $('#name').val()
                 }
             };
             $.ajax({
@@ -581,6 +702,27 @@
                             </div>
                         </div>
                     </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion"
+                                   href="#collapseOne">
+                                    简答题(每题20分)
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseOne" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <ol>
+                                    <li>
+                                        <button type="button" id="14"
+                                                style="border: none;font-size: 17px;color:#8A6D3B" >第1题<span id = "14ok"></span>
+                                        </button>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <!--主体左右-->
@@ -615,8 +757,11 @@
                                     <input type="radio" name="${resMap["单选题"][0].id}"  value="D"><span  id="t1optionD"></span>
                                 </label>
                             </div>
+                            <button  class="btn btn-info btn-lg" id="n1l">
+                                <span class="glyphicon glyphicon-chevron-right"></span>下一题
+                            </button>
                         </div>
-                        <div data-v-94cd13fa="" class="ant-radio-group ant-radio-group-outline ant-radio-group-default" style="display: none" id="t2">
+                        <div data-v-94cd13fa="" class="ant-radio-group ant-radio-group-outline ant-radio-group-default" style="display: none"  id="t2">
                             <div class="radio">
                                 <label>
                                     <input type="radio" name="${resMap["单选题"][1].id}"  value="A"><span id="t2optionA"></span>
@@ -637,6 +782,12 @@
                                     <input type="radio" name="${resMap["单选题"][1].id}" value="D"><span  id="t2optionD"></span>
                                 </label>
                             </div>
+                            <button class="btn btn-info btn-lg" id="n2l">
+                                <span class="	glyphicon glyphicon-chevron-left">上一题</span>
+                            </button>
+                            <button  class="btn btn-info btn-lg" id="n2r">
+                                <span class="glyphicon glyphicon-chevron-right"></span>下一题
+                            </button>
                         </div>
                         <div data-v-94cd13fa="" class="ant-radio-group ant-radio-group-outline ant-radio-group-default" style="display: none" id="t3">
                             <div class="radio">
@@ -659,6 +810,12 @@
                                     <input type="radio" name="${resMap["单选题"][2].id}" value="D"><span  id="t3optionD"></span>
                                 </label>
                             </div>
+                            <button class="btn btn-info btn-lg" id="n3l">
+                                <span class="	glyphicon glyphicon-chevron-left">上一题</span>
+                            </button>
+                            <button  class="btn btn-info btn-lg" id="n3r">
+                                <span class="glyphicon glyphicon-chevron-right"></span>下一题
+                            </button>
                         </div>
                         <div data-v-94cd13fa="" class="ant-radio-group ant-radio-group-outline ant-radio-group-default" style="display: none" id="t4">
                             <div class="radio">
@@ -681,6 +838,12 @@
                                     <input type="radio" name="${resMap["单选题"][3].id}" value="D"><span  id="t4optionD"></span>
                                 </label>
                             </div>
+                            <button class="btn btn-info btn-lg" id="n4l">
+                                <span class="	glyphicon glyphicon-chevron-left">上一题</span>
+                            </button>
+                            <button  class="btn btn-info btn-lg" id="n4r">
+                                <span class="glyphicon glyphicon-chevron-right"></span>下一题
+                            </button>
                         </div>
                         <div data-v-94cd13fa="" class="ant-radio-group ant-radio-group-outline ant-radio-group-default" style="display: none" id="t5">
                             <div class="radio">
@@ -703,6 +866,12 @@
                                     <input type="radio" name="${resMap["单选题"][4].id}" value="D"><span  id="t5optionD"></span>
                                 </label>
                             </div>
+                            <button class="btn btn-info btn-lg" id="n5l">
+                                <span class="	glyphicon glyphicon-chevron-left">上一题</span>
+                            </button>
+                            <button  class="btn btn-info btn-lg" id="n5r">
+                                <span class="glyphicon glyphicon-chevron-right"></span>下一题
+                            </button>
                         </div>
                         <div data-v-94cd13fa="" class="ant-radio-group ant-radio-group-outline ant-radio-group-default" style="display: none" id="t6">
                             <div class="check-box">
@@ -725,6 +894,12 @@
                                     <input type="checkbox" name="${resMap["多选题"][0].id}" value="D"><span  id="t6optionD"></span>
                                 </label>
                             </div>
+                            <button class="btn btn-info btn-lg" id="n6l">
+                                <span class="	glyphicon glyphicon-chevron-left">上一题</span>
+                            </button>
+                            <button  class="btn btn-info btn-lg" id="n6r">
+                                <span class="glyphicon glyphicon-chevron-right"></span>下一题
+                            </button>
                         </div>
                         <div data-v-94cd13fa="" class="ant-radio-group ant-radio-group-outline ant-radio-group-default" style="display: none" id="t7">
                             <div class="check-box">
@@ -747,6 +922,12 @@
                                     <input type="checkbox" name="${resMap["多选题"][1].id}" value="D"><span  id="t7optionD"></span>
                                 </label>
                             </div>
+                            <button class="btn btn-info btn-lg" id="n7l">
+                                <span class="	glyphicon glyphicon-chevron-left">上一题</span>
+                            </button>
+                            <button  class="btn btn-info btn-lg" id="n7r">
+                                <span class="glyphicon glyphicon-chevron-right"></span>下一题
+                            </button>
                         </div>
                         <div data-v-94cd13fa="" class="ant-radio-group ant-radio-group-outline ant-radio-group-default" style="display: none" id="t8">
                             <div class="check-box">
@@ -769,6 +950,12 @@
                                     <input type="checkbox" name="${resMap["多选题"][2].id}" value="D"><span  id="t8optionD"></span>
                                 </label>
                             </div>
+                            <button class="btn btn-info btn-lg" id="n8l">
+                                <span class="	glyphicon glyphicon-chevron-left">上一题</span>
+                            </button>
+                            <button  class="btn btn-info btn-lg" id="n8r">
+                                <span class="glyphicon glyphicon-chevron-right"></span>下一题
+                            </button>
                         </div>
                         <div data-v-94cd13fa="" class="ant-radio-group ant-radio-group-outline ant-radio-group-default" style="display: none" id="t9">
                             <div class="check-box">
@@ -791,6 +978,12 @@
                                     <input type="checkbox" name="${resMap["多选题"][3].id}" value="D"><span  id="t9optionD"></span>
                                 </label>
                             </div>
+                            <button class="btn btn-info btn-lg" id="n9l">
+                                <span class="	glyphicon glyphicon-chevron-left">上一题</span>
+                            </button>
+                            <button  class="btn btn-info btn-lg" id="n9r">
+                                <span class="glyphicon glyphicon-chevron-right"></span>下一题
+                            </button>
                         </div>
                         <div data-v-94cd13fa="" class="ant-radio-group ant-radio-group-outline ant-radio-group-default" style="display: none" id="t10">
                             <div class="check-box">
@@ -813,6 +1006,12 @@
                                     <input type="checkbox" name="${resMap["多选题"][4].id}" value="D"><span  id="t10optionD"></span>
                                 </label>
                             </div>
+                            <button class="btn btn-info btn-lg" id="n10l">
+                                <span class="	glyphicon glyphicon-chevron-left">上一题</span>
+                            </button>
+                            <button  class="btn btn-info btn-lg" id="n10r">
+                                <span class="glyphicon glyphicon-chevron-right"></span>下一题
+                            </button>
                         </div>
                         <div data-v-94cd13fa="" class="ant-radio-group ant-radio-group-outline ant-radio-group-default" style="display: none" id="t11">
                             <div class="radio">
@@ -825,6 +1024,12 @@
                                     <input type="radio" name="${resMap["判断题"][0].id}" value="B"><span  id="t11optionB"></span>
                                 </label>
                             </div>
+                            <button class="btn btn-info btn-lg" id="n11l">
+                                <span class="	glyphicon glyphicon-chevron-left">上一题</span>
+                            </button>
+                            <button  class="btn btn-info btn-lg" id="n11r">
+                                <span class="glyphicon glyphicon-chevron-right"></span>下一题
+                            </button>
                         </div>
                         <div data-v-94cd13fa="" class="ant-radio-group ant-radio-group-outline ant-radio-group-default" style="display: none" id="t12">
                             <div class="radio">
@@ -837,6 +1042,12 @@
                                     <input type="radio" name="${resMap["判断题"][1].id}" value="B"><span  id="t12optionB"></span>
                                 </label>
                             </div>
+                            <button class="btn btn-info btn-lg" id="n12l">
+                                <span class="	glyphicon glyphicon-chevron-left">上一题</span>
+                            </button>
+                            <button  class="btn btn-info btn-lg" id="n12r">
+                                <span class="glyphicon glyphicon-chevron-right"></span>下一题
+                            </button>
                         </div>
                         <div data-v-94cd13fa="" class="ant-radio-group ant-radio-group-outline ant-radio-group-default" style="display: none" id="t13">
                             <div class="radio">
@@ -849,9 +1060,25 @@
                                     <input type="radio" name="${resMap["判断题"][2].id}" value="B"><span  id="t13optionB"></span>
                                 </label>
                             </div>
+                            <button class="btn btn-info btn-lg" id="n13l">
+                                <span class="glyphicon glyphicon-chevron-left">上一题</span>
+                            </button>
+                            <button  class="btn btn-info btn-lg" id="n13r">
+                                <span class="glyphicon glyphicon-chevron-right"></span>下一题
+                            </button>
+                        </div>
+                        <div data-v-94cd13fa=""  style="display: none" id="t14">
+                            <form role="form">
+                                <div class="form-group">
+                                    <label for="name">请在下面方框中输入你的答案（根据关键字得分）：</label>
+                                    <textarea class="form-control" rows="3" id="name"></textarea>
+                                </div>
+                            </form>
+                            <button class="btn btn-info btn-lg" id="n14l">
+                                <span class="glyphicon glyphicon-chevron-left">上一题</span>
+                            </button>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>

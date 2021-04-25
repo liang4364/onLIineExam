@@ -62,10 +62,10 @@ public interface ExamScoreMapper extends BaseMapper<ExamScoreEntity> {
 
 
 
-    @Select("select id,user_id,course_id,score,single_score,multiply_score,judge_score,create_time,begin_time from exam_score where user_id = #{userId}")
+    @Select("select id,user_id,course_id,score,single_score,multiply_score,judge_score,short_score,create_time,begin_time from exam_score where user_id = #{userId}")
     List<ExamScoreEntity> getExamDetail1(Page page, String userId);
 
-    @Select("<script>select id,user_id,course_id,score,create_time from exam_score " +
+    @Select("<script>select id,user_id,course_id,score,single_score,multiply_score,judge_score,short_score,create_time,user_college,user_class,begin_time from exam_score " +
             "<where>\n" +
             "\t<if test=\"userId != null\">\n" +
             "\t\tuser_id = #{userId}\n" +
@@ -90,7 +90,7 @@ public interface ExamScoreMapper extends BaseMapper<ExamScoreEntity> {
             "</script>")
     List<ExamScoreEntity> getExamDetailByFilter22(Page page,String userId,String courseId,Integer score,String beginTime,String endTime);
 
-    @Select("<script>select id,user_id,course_id,score,single_score,multiply_score,judge_score,create_time from exam_score " +
+    @Select("<script>select id,user_id,course_id,score,single_score,multiply_score,judge_score,short_score,create_time,user_college,user_class,begin_time from exam_score " +
             "<where>\n" +
             "\t<if test=\"userId != null\">\n" +
             "\t\tuser_id = #{userId}\n" +
@@ -125,6 +125,7 @@ public interface ExamScoreMapper extends BaseMapper<ExamScoreEntity> {
             "\te.single_score AS singleScore,\n" +
             "\te.multiply_score AS multiplyScore,\n" +
             "\te.judge_score AS judgeScore,\n" +
+            "\te.short_score AS shortScore,\n" +
             "\te.create_time AS examEndTime,\n" +
             "\te.begin_time AS examBeginTime\n" +
             "FROM\n" +
@@ -168,6 +169,7 @@ public interface ExamScoreMapper extends BaseMapper<ExamScoreEntity> {
             "\tavg( score ) AS avgScore,\n" +
             "\tavg( single_score ) AS avgSingleScore,\n" +
             "\tavg( multiply_score ) AS avgMultiplyScore,\n" +
+            "\tavg( short_score ) AS avgShortScore,\n" +
             "\tavg( judge_score ) AS avgJudgeScore,\n" +
             "\tmax( score ) AS maxScore,\n" +
             "\tmin( score ) AS minScore \n" +
@@ -184,6 +186,7 @@ public interface ExamScoreMapper extends BaseMapper<ExamScoreEntity> {
             "\tavg( single_score ) AS avgSingleScore,\n" +
             "\tavg( multiply_score ) AS avgMultiplyScore,\n" +
             "\tavg( judge_score ) AS avgJudgeScore,\n" +
+            "\tavg( short_score ) AS avgShortScore,\n" +
             "\tmax( score ) AS maxScore,\n" +
             "\tmin( score ) AS minScore \n" +
             "FROM\n" +

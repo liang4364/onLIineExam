@@ -345,10 +345,17 @@
                 ,data = obj.data //得到所在行所有键值
                 ,field = obj.field//得到字段
                 ,typeId = data.id;
-            if(field === "difficult"){
-                if(value != "难" || value != "中" || value!="易"){
-                    layer.msg("难易程度设置只能为难或易或中其中一个！");
+            console.log(data.type);
+            if(data.type === "简答题"){
+                if(field === "difficult" || field === "optionA" || field === "optionB" || field === "optionC" || field === "optionD"){
+                    layer.msg("简答题不可更改此项！");
                     return;
+                }
+            }
+            if(field === "difficult"){
+                if(value === "难" || value === "中" || value === "易"){
+                }else {
+                    layer.msg("难易程度设置只能为难或易或中其中一个！");
                 }
             }
             $.ajax({

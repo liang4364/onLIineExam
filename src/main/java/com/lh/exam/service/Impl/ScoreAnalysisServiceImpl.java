@@ -44,9 +44,9 @@ public class ScoreAnalysisServiceImpl implements ScoreAnalysisService {
             map.put("avgSingleScore",String.valueOf(scoreAnalysisDto.getAvgSingleScore()));
             map.put("avgMultiplyScore",String.valueOf(scoreAnalysisDto.getAvgMultiplyScore()));
             map.put("avgJudgeScore",String.valueOf(scoreAnalysisDto.getAvgJudgeScore()));
+            map.put("avgShortScore",String.valueOf(scoreAnalysisDto.getAvgShortScore()));
             list.add(map);
         }
-
         return list;
     }
 

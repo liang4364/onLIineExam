@@ -12,19 +12,14 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("exam_score")
-public class ExamScoreEntity {
+@TableName("user_short")
+public class UserShortEntity {
     @TableId(value = "id", type = IdType.UUID)
     String id;
+    String examId;
+    String shortId;
     String userId;
-    String userClass;
-    String userCollege;
     String courseId;
-    int score;
+    String userAnswer;
     Date createTime;
-    String beginTime;
-    int singleScore;
-    int multiplyScore;
-    int judgeScore;
-    int shortScore;
 }

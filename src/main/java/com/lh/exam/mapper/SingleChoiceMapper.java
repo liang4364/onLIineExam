@@ -62,6 +62,9 @@ public interface SingleChoiceMapper  extends BaseMapper<SingleChoiceEntity> {
             "\t<if test=\"field == 'type'\">\n" +
             " \t\ttype = #{value},\n" +
             "\t</if>\n" +
+            "\t<if test=\"field == 'single_difficult'\">\n" +
+            " \t\tsingle_difficult = #{value},\n" +
+            "\t</if>\n" +
             "\t<if test=\"updateTime != '' \">\n" +
             " \t\tupdate_time = #{updateTime}\n" +
             "\t</if>\n" +

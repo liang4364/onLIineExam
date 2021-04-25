@@ -43,12 +43,16 @@ public class QuestionManageServiceImpl implements QuestionManageService {
     @Autowired
     CourseMapper courseMapper;
 
+    @Autowired
+    ShortAnswerMapper shortAnswerMapper;
+
     @Override
     public Page<QuestionDto> getAllQuestion(Integer page,Integer limit) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         List<QuestionDto> singleChoiceDtos = new ArrayList<>();
-        List<QuestionDto> multiplyDtos = new ArrayList<>();;
-        List<QuestionDto> judgeDtos = new ArrayList<>();;
+        List<QuestionDto> multiplyDtos = new ArrayList<>();
+        List<QuestionDto> judgeDtos = new ArrayList<>();
+        List<QuestionDto> shortDtos = new ArrayList<>();
         Page<QuestionEntity> page1 = new Page<>(page,limit);
         Page<QuestionDto> resPage = new Page<>(page,limit);
         Page<QuestionEntity> page2 = page1.setRecords(questionMapper.getAll(page1));
@@ -78,6 +82,14 @@ public class QuestionManageServiceImpl implements QuestionManageService {
                 }
                 judgeDtos.add(questionDto);
             }
+            else if("short".equals(type)){
+                questionDto = shortAnswerMapper.getQuestionById(questionEntity.getTypeId());
+                questionDto.setCourseName(courseMapper.getCourseName(questionDto.getCourseId()));
+                if(questionDto.getCreateTime() != null){
+                    questionDto.setCreateTime1(sdf.format(questionDto.getCreateTime()));
+                }
+                shortDtos.add(questionDto);
+            }
         }
         if(multiplyDtos.size()>0){
             for(QuestionDto multiplyDto : multiplyDtos){
@@ -91,7 +103,7 @@ public class QuestionManageServiceImpl implements QuestionManageService {
                 multiplyDto.setAnswer(multiplyAnswer);
             }
         }
-        List<QuestionDto> questionDtoList = ExamUtil.mergeLists(singleChoiceDtos, multiplyDtos, judgeDtos);
+        List<QuestionDto> questionDtoList = ExamUtil.mergeLists(singleChoiceDtos, multiplyDtos, judgeDtos,shortDtos);
         BeanUtils.copyProperties(page1,resPage);
         resPage.setRecords(questionDtoList);
         return resPage;
@@ -127,16 +139,20 @@ public class QuestionManageServiceImpl implements QuestionManageService {
             field = "analysis";
             value = questionVo.getAnalysis();
         }else if(questionVo.getDifficult() != null){
-            field = "difficult";
+            if("single".equals(type)){
+                field = "single_difficult";
+            }else if("multiply".equals(type)){
+                field = "multiply_difficult";
+            }else if("judge".equals(type)){
+                field = "judge_difficult";
+            }
+            value = questionVo.getDifficult();
         }
         if("single".equals(type)){
-            value = "single_difficult";
             count = singleChoiceMapper.updateSingle(field,value,questionVo.getTypeId(),sdf.format(date));
         }else if("judge".equals(type)){
-            value = "judge_difficult";
             count = judgeMapper.updateJudge(field,value,questionVo.getTypeId(),sdf.format(date));
         }else if("multiply".equals(type)){
-            value = "multiply_difficult";
             if(!"answer".equals(field)){
                 count =  multiplyMapper.updateMultiply(field,value,questionVo.getTypeId(),sdf.format(date));
             }else{
@@ -151,6 +167,8 @@ public class QuestionManageServiceImpl implements QuestionManageService {
                     }
                 }
             }
+        }else if("short".equals(type)){
+            count = shortAnswerMapper.updateShort(field,value,questionVo.getTypeId(),sdf.format(date));
         }
         questionInfoMapper.updateQuestionFilter(field,value,questionVo.getTypeId(),sdf.format(date));
         return count;
@@ -196,6 +214,8 @@ public class QuestionManageServiceImpl implements QuestionManageService {
                 questionDto.setAnswer(singleChoiceMapper.getAnswer(questionInfoEntity.getTypeId()));
             }else if("判断题".equals(questionInfoEntity.getType())){
                 questionDto.setAnswer(judgeMapper.getAnswer(questionInfoEntity.getTypeId()));
+            }else if("简答题".equals(questionInfoEntity.getType())){
+                questionDto.setAnswer(shortAnswerMapper.getAnswer(questionInfoEntity.getTypeId()));
             }
             res.add(questionDto);
         }

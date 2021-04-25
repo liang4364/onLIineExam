@@ -1,6 +1,7 @@
 package com.lh.exam.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.lh.exam.mapper.ShortAnswerMapper;
 import com.lh.exam.model.dto.*;
 import com.lh.exam.service.ExamService;
 import com.lh.exam.service.JudgeService;
@@ -28,6 +29,8 @@ public class IndexController {
     MultiplyChoiceService multiplyChoiceService;
     @Autowired
     JudgeService judgeService;
+    @Autowired
+    ShortAnswerMapper shortAnswerMapper;
 
     @RequestMapping("/index")
     public String index(){
@@ -46,10 +49,12 @@ public class IndexController {
         List<SingleChoiceDto> singleChoiceDtos = singleChoiceService.querySingleChoice(ExamUtil.getCourseId(courseDto.getCourseName()));
         List<MultiplyDto> multiplyDtos = multiplyChoiceService.query(ExamUtil.getCourseId(courseDto.getCourseName()));
         List<JudgeDto> judgeDtos = judgeService.queryAll(ExamUtil.getCourseId(courseDto.getCourseName()));
+        List<ShortAnswerDto> shortAnswerDtos = shortAnswerMapper.queryShortAnswer(ExamUtil.getCourseId(courseDto.getCourseName()));
         Map<String,List> resMap = new HashMap<>();
         resMap.put("单选题",singleChoiceDtos);
         resMap.put("多选题",multiplyDtos);
         resMap.put("判断题",judgeDtos);
+        resMap.put("简答题",shortAnswerDtos);
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(resMap);
         session.setAttribute("resMap",jsonObject);
         session.setAttribute("courseMsg",courseDto);
@@ -99,11 +104,6 @@ public class IndexController {
         System.out.println(request.getParameter("username"));
         session.setAttribute("username",request.getParameter("username"));
         return "questionAdd";
-    }
-
-    @RequestMapping("/test")
-    public  String test(){
-        return "test2";
     }
 
     @RequestMapping("/stuManage")

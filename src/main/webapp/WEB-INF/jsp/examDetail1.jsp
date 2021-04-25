@@ -183,10 +183,12 @@
                         ,{field:'singleScore', title:'单选题得分', width:130, sort: true}
                         ,{field:'multiplyScore', title:'多选题得分', width:130, sort: true}
                         ,{field:'judgeScore', title:'判断题得分', width:130, sort: true}
-                        ,{field:'score', title:'考试总成绩', width:450, sort: true}
+                        ,{field:'shortScore', title:'简答题得分', width:130, sort: true}
+                        ,{field:'score', title:'考试总成绩', width:220, sort: true}
                         ,{field:'examTime', title:'考试时长', width:120, sort: true}
                         ,{field:'beginTime', title:'考试开始时间', width:180, sort: true}
                         ,{field:'createTime', title:'考试结束时间', width:180, sort: true}
+                        ,{title:'操作', toolbar: '#barDemo', width:280}
                     ]]
                     ,page: true
 
@@ -223,7 +225,6 @@
                             var score = $('#grade').val();
                             var beginTime = $('#beginTime').val();
                             var endTime = $('#endTime').val();
-
                         //执行重载
                         table.reload('indent', {
                             url : '/api/queryByFilter1',

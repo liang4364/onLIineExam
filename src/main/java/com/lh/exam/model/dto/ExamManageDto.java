@@ -20,6 +20,7 @@ public class ExamManageDto {
     int singleScore;
     int multiplyScore;
     int judgeScore;
+    int shortScore;
     String examBeginTime;
     String examEndTime;
     String examTime;

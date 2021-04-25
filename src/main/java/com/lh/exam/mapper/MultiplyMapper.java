@@ -60,6 +60,9 @@ public interface MultiplyMapper extends BaseMapper<MultiplyChoiceEntity> {
             "\t<if test=\"field == 'type'\">\n" +
             " \t\ttype = #{value},\n" +
             "\t</if>\n" +
+            "\t<if test=\"field == 'multiply_difficult'\">\n" +
+            " \t\tmultiply_difficult = #{value},\n" +
+            "\t</if>\n" +
             "\t<if test=\"updateTime != '' \">\n" +
             " \t\tupdate_time = #{updateTime}\n" +
             "\t</if>\n" +

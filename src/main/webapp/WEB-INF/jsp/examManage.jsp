@@ -9,7 +9,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>问题管理</title>
+    <title>学生考试管理</title>
     <link rel="stylesheet" href="static/css/layui.css"  media="all">
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
@@ -199,6 +199,7 @@
                 ,{field:'courseName', title:'考试科目', width:120, sort: true}
                 ,{field:'singleScore', title:'单选题得分', width:130, sort: true}
                 ,{field:'multiplyScore', title:'多选题得分', width:130, sort: true}
+                ,{field:'shortScore', title:'简答题得分', width:130, sort: true}
                 ,{field:'judgeScore', title:'判断题得分', width:130, sort: true}
                 ,{field:'score', title:'总分数', width:100}
                 ,{field:'examTime', title:'考试时长', width:100, sort: true}

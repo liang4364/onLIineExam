@@ -236,6 +236,14 @@
             }else {
                 $("#13ok").attr("class","glyphicon glyphicon-ok")
             }
+
+            $("#name").val(json.简答题[0].userAnswer);
+            $("#name").attr("disabled","disabled");
+            if(json.简答题[0].userAnswer.indexOf(json.简答题[0].answer) === -1){
+                $("#14ok").attr("class","glyphicon glyphicon-remove")
+            }else {
+                $("#14ok").attr("class","glyphicon glyphicon-ok")
+            }
             $('#1').click(function () {
                 $('#index').attr("style", "display:none");
                 $('#t1').attr("style","display:block");
@@ -251,6 +259,7 @@
                 $('#t11').attr("style","display:none");
                 $('#t12').attr("style","display:none");
                 $('#t13').attr("style","display:none");
+                $('#t14').attr("style","display:none");
                 $('#type').html(json.单选题[0].type);
                 $('#question').html(json.单选题[0].question);
                 $('#t1optionA').html(json.单选题[0].optionA);
@@ -273,6 +282,7 @@
                 $('#t11').attr("style","display:none");
                 $('#t12').attr("style","display:none");
                 $('#t13').attr("style","display:none");
+                $('#t14').attr("style","display:none");
                 $('#type').html(json.单选题[1].type);
                 $('#question').html(json.单选题[1].question);
                 $('#t2optionA').html(json.单选题[1].optionA);
@@ -295,6 +305,7 @@
                 $('#t11').attr("style","display:none");
                 $('#t12').attr("style","display:none");
                 $('#t13').attr("style","display:none");
+                $('#t14').attr("style","display:none");
                 $('#type').html(json.单选题[2].type);
                 $('#question').html(json.单选题[2].question);
                 $('#t3optionA').html(json.单选题[2].optionA);
@@ -317,6 +328,7 @@
                 $('#t11').attr("style","display:none");
                 $('#t12').attr("style","display:none");
                 $('#t13').attr("style","display:none");
+                $('#t14').attr("style","display:none");
                 $('#type').html(json.单选题[3].type);
                 $('#question').html(json.单选题[3].question);
                 $('#t4optionA').html(json.单选题[3].optionA);
@@ -339,6 +351,7 @@
                 $('#t11').attr("style","display:none");
                 $('#t12').attr("style","display:none");
                 $('#t13').attr("style","display:none");
+                $('#t14').attr("style","display:none");
                 $('#type').html(json.单选题[4].type);
                 $('#question').html(json.单选题[4].question);
                 $('#t5optionA').html(json.单选题[4].optionA);
@@ -361,6 +374,7 @@
                 $('#t11').attr("style","display:none");
                 $('#t12').attr("style","display:none");
                 $('#t13').attr("style","display:none");
+                $('#t14').attr("style","display:none");
                 $('#type').html(json.多选题[0].type);
                 $('#question').html(json.多选题[0].question);
                 $('#t6optionA').html(json.多选题[0].optionA);
@@ -383,6 +397,7 @@
                 $('#t11').attr("style","display:none");
                 $('#t12').attr("style","display:none");
                 $('#t13').attr("style","display:none");
+                $('#t14').attr("style","display:none");
                 $('#type').html(json.多选题[1].type);
                 $('#question').html(json.多选题[1].question);
                 $('#t7optionA').html(json.多选题[1].optionA);
@@ -405,6 +420,7 @@
                 $('#t11').attr("style","display:none");
                 $('#t12').attr("style","display:none");
                 $('#t13').attr("style","display:none");
+                $('#t14').attr("style","display:none");
                 $('#type').html(json.多选题[2].type);
                 $('#question').html(json.多选题[2].question);
                 $('#t8optionA').html(json.多选题[2].optionA);
@@ -427,6 +443,7 @@
                 $('#t11').attr("style","display:none");
                 $('#t12').attr("style","display:none");
                 $('#t13').attr("style","display:none");
+                $('#t14').attr("style","display:none");
                 $('#type').html(json.多选题[3].type);
                 $('#question').html(json.多选题[3].question);
                 $('#t9optionA').html(json.多选题[3].optionA);
@@ -449,6 +466,7 @@
                 $('#t11').attr("style","display:none");
                 $('#t12').attr("style","display:none");
                 $('#t13').attr("style","display:none");
+                $('#t14').attr("style","display:none");
                 $('#type').html(json.多选题[4].type);
                 $('#question').html(json.多选题[4].question);
                 $('#t10optionA').html(json.多选题[4].optionA);
@@ -471,6 +489,7 @@
                 $('#t11').attr("style","display:block");
                 $('#t12').attr("style","display:none");
                 $('#t13').attr("style","display:none");
+                $('#t14').attr("style","display:none");
                 $('#type').html(json.判断题[0].type);
                 $('#question').html(json.判断题[0].question);
                 $('#t11optionA').html(json.判断题[0].optionA);
@@ -492,6 +511,7 @@
                 $('#t11').attr("style","display:none");
                 $('#t12').attr("style","display:block");
                 $('#t13').attr("style","display:none");
+                $('#t14').attr("style","display:none");
                 $('#type').html(json.判断题[1].type);
                 $('#question').html(json.判断题[1].question);
                 $('#t12optionA').html(json.判断题[1].optionA);
@@ -513,10 +533,30 @@
                 $('#t11').attr("style","display:none");
                 $('#t12').attr("style","display:none");
                 $('#t13').attr("style","display:block");
+                $('#t14').attr("style","display:none");
                 $('#type').html(json.判断题[2].type);
                 $('#question').html(json.判断题[2].question);
                 $('#t12optionA').html(json.判断题[2].optionA);
                 $('#t12optionB').html(json.判断题[2].optionB);
+            });
+            $('#14').click(function () {
+                $('#index').attr("style", "display:none");
+                $('#t1').attr("style","display:none");
+                $('#t2').attr("style","display:none");
+                $('#t3').attr("style","display:none");
+                $('#t4').attr("style","display:none");
+                $('#t5').attr("style","display:none");
+                $('#t6').attr("style","display:none");
+                $('#t7').attr("style","display:none");
+                $('#t8').attr("style","display:none");
+                $('#t9').attr("style","display:none");
+                $('#t10').attr("style","display:none");
+                $('#t11').attr("style","display:none");
+                $('#t12').attr("style","display:none");
+                $('#t13').attr("style","display:none");
+                $('#t14').attr("style","display:block");
+                $('#type').html(json.简答题[0].type);
+                $('#question').html(json.简答题[0].question);
             });
         });
     </script>
@@ -643,6 +683,27 @@
                                     <li>
                                         <button type="button" id="13"
                                                 style="border: none;color:#8A6D3B;font-size: 17px" >第3题<span id = "13ok"></span>
+                                        </button>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion"
+                                   href="#collapseOne">
+                                    简答题(每题20分)
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseOne" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <ol>
+                                    <li>
+                                        <button type="button" id="14"
+                                                style="border: none;font-size: 17px;color:#8A6D3B" >第1题<span id = "14ok"></span>
                                         </button>
                                     </li>
                                 </ol>
@@ -1160,6 +1221,33 @@
                                             <td>${resMap["判断题"][2].userAnswer}</td>
                                             <td>${resMap["判断题"][2].answer}</td>
                                             <td>${resMap["判断题"][2].analysis}</td>
+                                        <tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div data-v-94cd13fa="" style="display: none" id="t14">
+                            <form role="form">
+                                <div class="form-group">
+                                    <label for="name">你的答案：</label>
+                                    <textarea class="form-control" rows="3" id="name"></textarea>
+                                </div>
+                            </form>
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">解析</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <table class="table">
+                                        <tr>
+                                            <th>您的答案</th>
+                                            <th>正确答案</th>
+                                            <th>解析</th>
+                                        </tr>
+                                        <tr>
+                                            <td>${resMap["简答题"][0].userAnswer}</td>
+                                            <td>${resMap["简答题"][0].answer}</td>
+                                            <td>${resMap["简答题"][0].analysis}</td>
                                         <tr>
                                     </table>
                                 </div>

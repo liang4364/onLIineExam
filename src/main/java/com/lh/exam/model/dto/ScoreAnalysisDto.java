@@ -16,6 +16,7 @@ public class ScoreAnalysisDto {
     int avgSingleScore;
     int avgMultiplyScore;
     int avgJudgeScore;
+    int avgShortScore;
     String collegeName;
     String className;
 

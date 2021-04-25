@@ -12,6 +12,7 @@ import com.lh.exam.service.ExamScoreService;
 import com.lh.exam.utils.ExamUtil;
 import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.NoUniqueBeanDefinitionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -77,6 +78,7 @@ public class ExamScoreServiceImpl extends ServiceImpl<ExamScoreMapper,ExamScoreE
             scoreDto.setCourseName(courseMapper.getCourseName(examScoreEntity.getCourseId()));
             scoreDto.setCreateTime(sdf.format(examScoreEntity.getCreateTime()));
             scoreDto.setBeginTime(examScoreEntity.getBeginTime());
+            scoreDto.setShortScore(examScoreEntity.getShortScore());
             try {
                 if(examScoreEntity.getBeginTime() != null &&examScoreEntity.getCreateTime() != null)
                 scoreDto.setExamTime(ExamUtil.dateDiff(examScoreEntity.getBeginTime(),sdf.format(examScoreEntity.getCreateTime())));
@@ -151,10 +153,25 @@ public class ExamScoreServiceImpl extends ServiceImpl<ExamScoreMapper,ExamScoreE
             scoreDto.setSingleScore(examScoreEntity.getSingleScore());
             scoreDto.setMultiplyScore(examScoreEntity.getMultiplyScore());
             scoreDto.setJudgeScore(examScoreEntity.getJudgeScore());
+            scoreDto.setUserClass(examScoreEntity.getUserClass());
+            scoreDto.setUserCollege(examScoreEntity.getUserCollege());
+            scoreDto.setBeginTime(examScoreEntity.getBeginTime());
+            scoreDto.setShortScore(examScoreEntity.getShortScore());
+            if(examScoreEntity.getBeginTime() != null && examScoreEntity.getCreateTime() != null){
+                try {
+                    scoreDto.setExamTime(ExamUtil.dateDiff(examScoreEntity.getBeginTime(),sdf.format(examScoreEntity.getCreateTime())));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
             resRecords.add(scoreDto);
         }
         resPage.setTotal(resRecords.size());
         resPage.setRecords(resRecords);
         return resPage;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(IdUtil.simpleUUID());
     }
 }

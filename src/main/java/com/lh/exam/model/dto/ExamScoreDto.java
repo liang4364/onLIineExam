@@ -16,6 +16,7 @@ public class ExamScoreDto {
     int score;
     int singleScore;
     int multiplyScore;
+    int shortScore;
     int judgeScore;
     String examTime;
     String beginTime;

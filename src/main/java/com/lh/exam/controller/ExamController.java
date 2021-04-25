@@ -2,10 +2,7 @@ package com.lh.exam.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
-import com.lh.exam.model.dto.CourseDto;
-import com.lh.exam.model.dto.UserJudgeDto;
-import com.lh.exam.model.dto.UserMultiplyDto;
-import com.lh.exam.model.dto.UserSingleDto;
+import com.lh.exam.model.dto.*;
 import com.lh.exam.model.vo.Result2Vo;
 import com.lh.exam.service.ExamService;
 import com.lh.exam.utils.ResultVoUtil;
@@ -39,10 +36,12 @@ public class ExamController {
         List<UserSingleDto> userSingleDtos = examService.getUserSingleMsg(examId,userName,courseName);
         List<UserMultiplyDto> userMultiplyDtos = examService.getUserMultiplyMsg(examId,userName,courseName);
         List<UserJudgeDto> userJudgeDtos = examService.getUserJudgeMsg(examId,userName,courseName);
+        List<UserShortDto> userShortDtos = examService.getUserShortMsg(examId, userName, courseName);
         Map<String,List> resMap = new HashMap<>();
         resMap.put("单选题",userSingleDtos);
         resMap.put("多选题",userMultiplyDtos);
         resMap.put("判断题",userJudgeDtos);
+        resMap.put("简答题",userShortDtos);
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(resMap);
         session.setAttribute("resMap",jsonObject);
         session.setAttribute("courseMsg",courseDto);

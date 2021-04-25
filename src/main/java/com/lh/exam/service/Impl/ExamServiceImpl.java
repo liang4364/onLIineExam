@@ -8,11 +8,11 @@ import com.lh.exam.model.dto.*;
 import com.lh.exam.model.entity.*;
 import com.lh.exam.service.ExamService;
 import com.lh.exam.utils.ExamUtil;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -46,6 +46,13 @@ public class ExamServiceImpl implements ExamService {
     @Autowired
     JudgeMapper judgeMapper;
 
+    @Autowired
+    ShortAnswerMapper shortAnswerMapper;
+
+    @Autowired
+    UserShortMapper userShortMapper;
+
+
     @Override
     public CourseDto queryCourse(String courseName) {
         return courseMapper.queryCourse(courseName);
@@ -61,14 +68,17 @@ public class ExamServiceImpl implements ExamService {
         JSONArray singleJsonArray = (JSONArray) resMap.get("单选题");
         JSONArray multiplyJsonArray = (JSONArray) resMap.get("多选题");
         JSONArray judgeJsonArray = (JSONArray) resMap.get("判断题");
+        JSONArray shortJsonArray = (JSONArray) resMap.get("简答题");
         //用户答案
         List<SingleChoiceDto> singleAnswer = singleJsonArray.toJavaList(SingleChoiceDto.class);
         List<MultiplyDto> multiplyAnswer = multiplyJsonArray.toJavaList(MultiplyDto.class);
         List<JudgeDto> judgeAnswer = judgeJsonArray.toJavaList(JudgeDto.class);
+        List<ShortAnswerDto> shortAnswer = shortJsonArray.toJavaList(ShortAnswerDto.class);
         int score = 0;
         int singleScore = 0;
         int multiplyScore = 0;
         int judgeScore = 0;
+        int shortScore = 0;
         String examId = IdUtil.simpleUUID();
         CourseDto courseDto = (CourseDto) session.getAttribute("courseMsg");
         String userId = userInfoMapper.getIdByUsername((String) session.getAttribute("username"));
@@ -169,20 +179,51 @@ public class ExamServiceImpl implements ExamService {
                 }
             }
         }
+
+        //简答题评分逻辑
+        JSONObject userShortAnswer = (JSONObject) jsonObject.get("short");
+        Set<String> userShortQuestionId = userShortAnswer.keySet();
+        Iterator<String> shortIterator = userShortQuestionId.iterator();
+        while (shortIterator.hasNext()){
+            String questionId = shortIterator.next();
+            UserShortEntity userShortEntity = new UserShortEntity();
+            userShortEntity.setId(IdUtil.simpleUUID());
+            userShortEntity.setExamId(examId);
+            userShortEntity.setShortId(questionId);
+            userShortEntity.setUserId(userId);
+            userShortEntity.setCourseId(courseDto.getId());
+            userShortEntity.setUserAnswer((String) userShortAnswer.get(questionId));
+            userShortMapper.insert(userShortEntity);
+            for(ShortAnswerDto shortDto : shortAnswer){
+                if(userShortAnswer.get(questionId) != null && questionId.equals(shortDto.getId())){
+                    String[] answer = shortDto.getAnswer().split(",");
+                    for(int i = 0;i<answer.length;i++){
+                        if(((String) userShortAnswer.get(questionId)).contains(answer[i])){
+                            shortScore = shortScore + 8;
+                            score = score+8;
+                        }
+                    }
+                }
+            }
+        }
+
         //插入数据（exam_score）
         ExamScoreEntity examScoreEntity = new ExamScoreEntity();
         examScoreEntity.setCourseId(courseDto.getId());
         examScoreEntity.setId(examId);
+        UserEntity userEntity = userInfoMapper.getUserById(userId);
+        examScoreEntity.setUserCollege(userEntity.getUserCollege());
+        examScoreEntity.setUserClass(userEntity.getUserClass());
         examScoreEntity.setUserId(userId);
         examScoreEntity.setScore(score);
         examScoreEntity.setSingleScore(singleScore);
         examScoreEntity.setMultiplyScore(multiplyScore);
         examScoreEntity.setJudgeScore(judgeScore);
+        examScoreEntity.setShortScore(shortScore);
         examScoreEntity.setBeginTime(sdf.format(beginTime));
         examScoreMapper.insert(examScoreEntity);
         return score;
     }
-
 
     @Override
     public List<UserSingleDto> getUserSingleMsg(String examId,String userName,String courseName) {
@@ -253,5 +294,18 @@ public class ExamServiceImpl implements ExamService {
             userJudgeDtos.add(userJudgeDto);
         }
         return userJudgeDtos;
+    }
+
+    @Override
+    public List<UserShortDto> getUserShortMsg(String examId, String userName, String courseName) {
+        List<UserShortDto> userShortList = new ArrayList<>();
+        String userShortQuestionId = userShortMapper.getShortQuestions(examId,userInfoMapper.getIdByUsername(userName),courseMapper.getCourseIdByName(courseName));
+            UserShortDto userShortDto = new UserShortDto();
+            ShortAnswerDto shortAnswerDto = shortAnswerMapper.getShortQuestionById(userShortQuestionId);
+            BeanUtils.copyProperties(shortAnswerDto,userShortDto);
+            userShortDto.setQuestionId(shortAnswerDto.getId());
+            userShortDto.setUserAnswer(userShortMapper.getUserAnswerById(shortAnswerDto.getId(),examId));
+            userShortList.add(userShortDto);
+        return userShortList;
     }
 }

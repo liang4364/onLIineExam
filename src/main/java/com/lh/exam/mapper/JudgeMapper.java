@@ -60,6 +60,9 @@ public interface JudgeMapper extends BaseMapper<JudgeEntity> {
             "\t<if test=\"field == 'type'\">\n" +
             " \t\ttype = #{value},\n" +
             "\t</if>\n" +
+            "\t<if test=\"field == 'judge_difficult'\">\n" +
+            " \t\tjudge_difficult = #{value},\n" +
+            "\t</if>\n" +
             "\t<if test=\"updateTime != '' \">\n" +
             " \t\tupdate_time = #{updateTime}\n" +
             "\t</if>\n" +

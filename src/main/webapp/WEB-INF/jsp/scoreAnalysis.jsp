@@ -9,7 +9,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>学生管理</title>
+    <title>成绩分析</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -116,6 +116,15 @@
                         },
                         data: []
                     },
+                    {
+                        name: '简答题平均成绩',
+                        type: 'bar',
+                        stack: '题型',
+                        emphasis: {
+                            focus: 'series'
+                        },
+                        data: []
+                    }
                 ]
             };
             $.ajax({
@@ -129,6 +138,7 @@
                     var avgJudgeScore = [];
                     var maxScore = [];
                     var minScore = [];
+                    var avgShortScore = [];
                     for(var i = 0;i<result.length;i++){
                         courseName.push(result[i].courseName);
                         avgScore.push(result[i].avgScore);
@@ -137,6 +147,7 @@
                         avgJudgeScore.push(result[i].avgJudgeScore);
                         maxScore.push(result[i].maxScore);
                         minScore.push(result[i].minScore);
+                        avgShortScore.push(result[i].avgShortScore);
                     }
                     myChart.setOption({
                         xAxis:
@@ -168,6 +179,10 @@
                                 name: '判断题平均成绩',
                                 data:avgJudgeScore
                             },
+                            {
+                                name: '简答题平均成绩',
+                                data:avgShortScore
+                            }
                         ]
                     })
                 },
@@ -314,7 +329,8 @@
                 ,{field:'minScore', title:'最低成绩', width:130, sort: true}
                 ,{field:'avgSingleScore', title:'平均单选题成绩', width:130, sort: true}
                 ,{field:'avgMultiplyScore', title:'平均多选题成绩', width:130, sort: true}
-                ,{field:'avgJudgeScore', title:'平均判断题成绩', width:700, sort: true}
+                ,{field:'avgJudgeScore', title:'平均判断题成绩', width:130, sort: true}
+                ,{field:'avgShortScore', title:'平均简答题成绩', width:500, sort: true}
                 ,{title:'操作', toolbar: '#barDemo', width:280}
             ]]
             ,page: true
